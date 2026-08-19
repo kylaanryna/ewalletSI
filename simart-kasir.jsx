@@ -12,7 +12,7 @@ import {
   Wallet,
   Lock,
   User,
-  ReceiptText,
+  Receipt,
   TrendingUp,
   Search,
   SlidersHorizontal,
@@ -79,7 +79,7 @@ const NAV_TABS = [
   { key: "home", label: "Home", icon: HomeIcon },
   { key: "payment", label: "Bayar", icon: ShoppingBasket },
   { key: "topup", label: "Top Up", icon: Wallet },
-  { key: "history", label: "Riwayat", icon: ReceiptText },
+  { key: "history", label: "Riwayat", icon: Receipt },
 ];
 
 const rupiah = (n) =>
@@ -328,7 +328,7 @@ function LoginScreen({ onLogin, desktop }) {
             className="absolute -bottom-5 right-6 rounded-2xl px-3.5 py-2.5 flex items-center gap-2"
             style={{ background: "#fff", boxShadow: "0 10px 24px -10px rgba(24,26,20,0.25)" }}
           >
-            <ReceiptText size={14} color={C.orange} />
+            <Receipt size={14} color={C.orange} />
             <div>
               <p className="text-[11px] font-extrabold leading-none" style={{ color: C.ink }}>
                 Real-time
@@ -350,7 +350,7 @@ function LoginScreen({ onLogin, desktop }) {
             </p>
           </div>
           <div className="rounded-2xl px-3.5 py-2.5 flex items-center gap-2" style={{ background: "#fff" }}>
-            <ReceiptText size={14} color={C.orange} />
+            <Receipt size={14} color={C.orange} />
             <p className="text-[11px] font-extrabold" style={{ color: C.ink }}>
               Real-time
             </p>
@@ -528,7 +528,7 @@ function HomeScreen({ adminName, stats, onPick, onLogout, desktop }) {
       </p>
       <div className="grid grid-cols-2 gap-3 pb-2">
         <div className="relative rounded-3xl p-4 pb-7" style={{ background: C.goldTint }}>
-          <ReceiptText size={18} color={C.gold} />
+          <Receipt size={18} color={C.gold} />
           <p className="text-[17px] font-extrabold mt-3" style={{ color: C.ink }}>
             {stats.transaksi}
           </p>
@@ -1201,7 +1201,7 @@ function HistoryScreen({ history, desktop }) {
       {history.length === 0 ? (
         <div className="pt-16 text-center">
           <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3" style={{ background: C.inkTint }}>
-            <ReceiptText size={22} color={C.muted} />
+            <Receipt size={22} color={C.muted} />
           </div>
           <p className="text-[12.5px]" style={{ color: C.muted }}>
             Belum ada transaksi hari ini.
