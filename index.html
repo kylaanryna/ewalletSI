@@ -6,22 +6,27 @@
   <title>SIMART Kasir</title>
   <style>
     :root {
-      --bg: #fafaf6;
-      --surface: #ffffff;
-      --ink: #1b1d17;
-      --ink2: #4a4c42;
-      --muted: #8b8d80;
-      --line: rgba(24, 26, 20, 0.08);
-      --line-soft: rgba(24, 26, 20, 0.05);
-      --mint: #57c9a3;
-      --mint-tint: #e6f6ef;
-      --gold: #e3a93f;
-      --gold-tint: #fbf1de;
-      --orange: #e07b3f;
-      --orange-tint: #fcebdd;
-      --ink-tint: #eeefe9;
-      --danger: #c24d4d;
-      --shadow: 0 24px 60px -36px rgba(24, 26, 20, 0.32);
+      --bg: #fce9ab;
+      --surface: #fff7dc;
+      --ink: #7d1028;
+      --ink2: #9e3146;
+      --muted: #9f6a2b;
+      --line: rgba(196, 43, 52, 0.18);
+      --line-soft: rgba(252, 143, 45, 0.14);
+      --mint: #9f9820;
+      --mint-tint: #ece8b8;
+      --gold: #fc8f2d;
+      --gold-tint: #ffe1b6;
+      --orange: #dc417c;
+      --orange-tint: #f9c6d7;
+      --ink-tint: #f5d6d9;
+      --danger: #c42b34;
+      --shadow: 0 24px 60px -36px rgba(120, 26, 41, 0.36);
+      --blush: #dc417c;
+      --tomato: #c42b34;
+      --vanilla: #fce9ab;
+      --princeton: #fc8f2d;
+      --olive: #9f9820;
       --radius: 28px;
       --radius-lg: 36px;
       --radius-md: 22px;
@@ -41,8 +46,8 @@
       position: relative;
       overflow: hidden;
       background:
-        radial-gradient(circle at top left, rgba(87, 201, 163, 0.18), transparent 34%),
-        radial-gradient(circle at bottom right, rgba(224, 123, 63, 0.16), transparent 30%),
+        radial-gradient(circle at top left, rgba(220, 65, 124, 0.28), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(159, 152, 32, 0.2), transparent 30%),
         var(--bg);
     }
     .bg-orb {
@@ -52,8 +57,26 @@
       filter: blur(110px);
       opacity: 0.55;
     }
-    .orb-a { width: 420px; height: 420px; top: -130px; left: -140px; background: rgba(87, 201, 163, 0.28); }
-    .orb-b { width: 380px; height: 380px; bottom: -150px; right: -90px; background: rgba(224, 123, 63, 0.22); }
+    .orb-a {
+      width: 420px;
+      height: 420px;
+      top: -130px;
+      left: -140px;
+      background: rgba(220, 65, 124, 0.34);
+      animation: floatOrb 18s ease-in-out infinite alternate;
+    }
+    .orb-b {
+      width: 380px;
+      height: 380px;
+      bottom: -150px;
+      right: -90px;
+      background: rgba(159, 152, 32, 0.24);
+      animation: floatOrb 20s ease-in-out infinite alternate-reverse;
+    }
+    @keyframes floatOrb {
+      0% { transform: translate3d(0, 0, 0) scale(1); }
+      100% { transform: translate3d(8px, -8px, 0) scale(1.02); }
+    }
     .root {
       position: relative;
       z-index: 1;
@@ -72,30 +95,49 @@
       max-width: 1180px;
       border-radius: 34px;
       overflow: hidden;
-      background: rgba(255,255,255,0.78);
-      border: 1px solid rgba(24, 26, 20, 0.08);
+      background: rgba(255, 247, 220, 0.82);
+      border: 1px solid rgba(196, 43, 52, 0.14);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(10px);
+      animation: none;
     }
     .login-grid {
       display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
+      grid-template-columns: 1.14fr 0.86fr;
       min-height: 680px;
     }
     .hero {
-      padding: 40px;
-      background: linear-gradient(155deg, var(--mint-tint), var(--gold-tint));
+      padding: 42px 44px 36px;
+      background: linear-gradient(135deg, #d63d6a 0%, #c72c4f 24%, #d65d56 52%, #e9844a 100%);
       display: flex;
       flex-direction: column;
       justify-content: center;
       position: relative;
+      overflow: hidden;
+      animation: none;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -70px;
+      bottom: -90px;
+      width: 320px;
+      height: 320px;
+      border-radius: 999px;
+      background: rgba(255, 247, 220, 0.10);
+      filter: blur(8px);
+      pointer-events: none;
     }
     .brand {
       display: flex;
       align-items: center;
       gap: 12px;
       font-weight: 800;
+      font-size: 20px;
+      line-height: 1;
       letter-spacing: 0.04em;
+      position: relative;
+      z-index: 1;
     }
     .logo {
       width: 42px;
@@ -103,61 +145,88 @@
       border-radius: 14px;
       overflow: hidden;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
+      place-items: center;
+      background: #fff;
       box-shadow: 0 0 0 1px rgba(24, 26, 20, 0.08);
       flex: 0 0 auto;
     }
-    .logo div:nth-child(1) { background: var(--mint); }
-    .logo div:nth-child(2) { background: var(--gold); }
-    .logo div:nth-child(3) { background: var(--orange); }
-    .logo div:nth-child(4) { background: var(--ink); }
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .profile-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      object-fit: contain;
+      background: #fff;
+      padding: 2px;
+      box-sizing: border-box;
+      box-shadow: 0 0 0 1px rgba(24, 26, 20, 0.08);
+      display: block;
+      flex: 0 0 auto;
+    }
     h1, h2, h3, p { margin: 0; }
     .hero h1 {
-      margin-top: 28px;
-      font-size: clamp(2rem, 4vw, 3.3rem);
-      line-height: 1.02;
-      letter-spacing: -0.04em;
+      margin-top: 34px;
+      font-size: clamp(2.4rem, 4vw, 4.1rem);
+      line-height: 0.96;
+      letter-spacing: -0.06em;
+      position: relative;
+      z-index: 1;
+      max-width: 420px;
+      color: #fffaf0;
     }
     .hero p.lead {
-      margin-top: 14px;
-      max-width: 440px;
-      color: var(--ink2);
+      margin-top: 18px;
+      max-width: 460px;
+      color: rgba(255, 247, 220, 0.9);
       font-size: 15px;
       line-height: 1.6;
+      position: relative;
+      z-index: 1;
     }
     .hero-badges {
       display: flex;
       gap: 12px;
       margin-top: 28px;
       flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
     }
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 10px 14px;
+      padding: 10px 16px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.88);
-      border: 1px solid rgba(24, 26, 20, 0.06);
-      box-shadow: 0 12px 24px -18px rgba(24, 26, 20, 0.4);
-      color: var(--ink);
+      background: rgba(255, 247, 220, 0.14);
+      border: 1px solid rgba(255, 247, 220, 0.20);
+      box-shadow: 0 12px 24px -18px rgba(120, 26, 41, 0.45);
+      color: #fff7dc;
       font-weight: 700;
       font-size: 13px;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      backdrop-filter: blur(2px);
     }
-    .badge small { display: block; color: var(--muted); font-weight: 600; font-size: 11px; margin-top: 2px; }
+    .badge:hover { transform: translateY(-1px); box-shadow: 0 14px 22px -20px rgba(24, 26, 20, 0.5); }
+    .badge small { display: block; color: rgba(255, 247, 220, 0.78); font-weight: 600; font-size: 11px; margin-top: 2px; }
     .login-form {
-      padding: 44px 38px;
+      padding: 54px 56px 44px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       gap: 20px;
-      background: rgba(255,255,255,0.92);
+      background: linear-gradient(180deg, #f8f2dd 0%, #f4ead1 100%);
     }
     .title {
-      font-size: clamp(1.7rem, 2.6vw, 2.5rem);
-      letter-spacing: -0.04em;
+      font-size: clamp(2.2rem, 3vw, 3rem);
+      letter-spacing: -0.06em;
       line-height: 1.05;
+      color: var(--ink);
+      font-weight: 800;
     }
     .muted {
       color: var(--muted);
@@ -167,7 +236,8 @@
     .field {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
+      margin-top: 8px;
     }
     .field label {
       font-size: 12px;
@@ -177,17 +247,24 @@
     .input-shell, .select-shell {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 14px 16px;
-      border-radius: 20px;
-      background: var(--bg);
-      border: 1.5px solid var(--line);
+      gap: 12px;
+      padding: 15px 16px;
+      border-radius: 18px;
+      background: rgba(252, 233, 171, 0.42);
+      border: 1.5px solid rgba(196, 43, 52, 0.12);
+      transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+    }
+    .input-shell:focus-within {
+      border-color: rgba(196, 43, 52, 0.26);
+      box-shadow: 0 0 0 3px rgba(196, 43, 52, 0.07);
     }
     .input-shell input, .select-shell select {
       width: 100%;
       border: 0;
       background: transparent;
       color: var(--ink);
+      font-size: 15px;
+      font-weight: 600;
     }
     .input-icon {
       width: 18px;
@@ -199,20 +276,23 @@
     .btn {
       border: 0;
       border-radius: 999px;
-      padding: 13px 18px;
+      padding: 15px 18px;
       font-weight: 800;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      transition: transform 0.16s ease, opacity 0.16s ease, box-shadow 0.16s ease;
+      transition: transform 0.14s ease, opacity 0.14s ease, box-shadow 0.14s ease;
       text-decoration: none;
       white-space: nowrap;
+      will-change: transform;
+      font-size: 15px;
     }
-    .btn:active { transform: scale(0.98); }
-    .btn-dark { background: var(--ink); color: white; box-shadow: 0 16px 26px -18px rgba(27, 29, 23, 0.7); }
-    .btn-mint { background: var(--mint); color: white; box-shadow: 0 16px 26px -18px rgba(87, 201, 163, 0.8); }
-    .btn-orange { background: var(--orange); color: white; box-shadow: 0 16px 26px -18px rgba(224, 123, 63, 0.75); }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:active { transform: scale(0.99) translateY(0); }
+    .btn-dark { background: linear-gradient(135deg, #c94062, #b81e44); color: white; box-shadow: 0 16px 26px -18px rgba(196, 43, 52, 0.82); }
+    .btn-mint { background: linear-gradient(135deg, #b9bd4f, #9b9b20); color: white; box-shadow: 0 16px 26px -18px rgba(159, 152, 32, 0.82); }
+    .btn-orange { background: linear-gradient(135deg, #f7b15d, #ea8d39); color: white; box-shadow: 0 16px 26px -18px rgba(252, 143, 45, 0.82); }
     .btn-ghost { background: transparent; color: var(--ink2); border: 1px solid var(--line); }
     .helper {
       margin-top: 8px;
@@ -224,7 +304,7 @@
     .sidebar {
       width: 280px;
       flex: 0 0 auto;
-      background: rgba(255,255,255,0.85);
+      background: linear-gradient(180deg, #fff9e4 0%, #ffe8bd 100%);
       border-right: 1px solid var(--line);
       display: flex;
       flex-direction: column;
@@ -252,8 +332,15 @@
       text-align: left;
     }
     .nav-btn.active {
-      background: var(--ink);
+      background: var(--tomato);
       color: #fff;
+      box-shadow: 0 14px 24px -20px rgba(196, 43, 52, 0.72);
+    }
+    .nav-btn {
+      transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+    }
+    .nav-btn:hover {
+      transform: translateX(3px);
     }
     .nav-pill {
       width: 12px;
@@ -276,10 +363,24 @@
       overflow: auto;
     }
     .panel {
-      background: rgba(255,255,255,0.82);
+      background: rgba(255, 250, 236, 0.84);
       border: 1px solid var(--line);
       border-radius: var(--radius-lg);
-      box-shadow: 0 18px 40px -32px rgba(24, 26, 20, 0.24);
+      box-shadow: 0 18px 40px -32px rgba(120, 26, 41, 0.22);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      animation: none;
+    }
+    .panel:hover,
+    .quick-card:hover,
+    .student-card:hover,
+    .product:hover,
+    .history-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 28px -22px rgba(24, 26, 20, 0.28);
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     .page-grid {
       display: grid;
@@ -292,6 +393,70 @@
       letter-spacing: -0.02em;
       margin-bottom: 12px;
     }
+    .product-panel {
+      padding: 8px 10px 12px;
+      border-radius: 20px;
+      background: rgba(247, 238, 217, 0.9);
+      border: 2px solid rgba(124, 30, 46, 0.18);
+      box-shadow: 0 12px 22px -20px rgba(97, 44, 31, 0.38);
+    }
+    .product-panel .section-title {
+      margin: 0 0 8px;
+      font-size: clamp(1.2rem, 1.5vw, 1.6rem);
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      color: var(--ink);
+    }
+    .product-form {
+      display: grid;
+      grid-template-columns: 0.55fr 1.9fr 1.2fr 1fr;
+      gap: 5px;
+      align-items: stretch;
+    }
+    .product-field {
+      display: flex;
+      align-items: center;
+      min-height: 42px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(124, 30, 46, 0.2);
+      border-radius: 9px;
+      padding: 0 8px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
+    }
+    .product-field input {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+    .product-field input::placeholder {
+      color: rgba(124, 30, 46, 0.54);
+    }
+    .product-actions {
+      display: flex;
+      justify-content: flex-start;
+      margin-top: 8px;
+    }
+    .product-primary-btn {
+      min-width: 104px;
+      height: 42px;
+      padding: 0 18px;
+      border: none;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #c63b62 0%, #a61942 100%);
+      color: #fff8ef;
+      font-size: clamp(1.05rem, 1.2vw, 1.5rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      box-shadow: 0 10px 16px -16px rgba(140, 32, 54, 0.9);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+    }
+    .product-primary-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.02);
+      box-shadow: 0 20px 28px -18px rgba(140, 32, 54, 0.94);
+    }
     .home-hero {
       display: grid;
       grid-template-columns: 1.2fr 0.8fr;
@@ -300,10 +465,12 @@
     .hero-card {
       padding: 24px;
       border-radius: 28px;
-      background: linear-gradient(155deg, rgba(87, 201, 163, 0.16), rgba(251, 241, 222, 0.92));
+      background: linear-gradient(155deg, rgba(220, 65, 124, 0.96), rgba(196, 43, 52, 0.94), rgba(252, 143, 45, 0.92));
       position: relative;
       overflow: hidden;
       min-height: 180px;
+      animation: fadeUp 0.6s ease both;
+      color: #fff7dc;
     }
     .hero-card h2 {
       font-size: 30px;
@@ -314,7 +481,7 @@
     .hero-card p {
       margin-top: 10px;
       max-width: 420px;
-      color: var(--ink2);
+      color: rgba(255, 247, 220, 0.88);
       line-height: 1.6;
     }
     .hero-chip {
@@ -323,11 +490,12 @@
       gap: 8px;
       margin-top: 18px;
       padding: 10px 14px;
-      background: var(--ink);
-      color: #fff;
+      background: rgba(255, 247, 220, 0.95);
+      color: var(--tomato);
       border-radius: 999px;
       font-weight: 800;
       font-size: 13px;
+      animation: none;
     }
     .stat-grid {
       display: grid;
@@ -337,8 +505,9 @@
     .stat-card {
       padding: 18px;
       border-radius: 24px;
-      background: white;
+      background: linear-gradient(180deg, #fff9e8 0%, #ffe7bf 100%);
       border: 1px solid var(--line);
+      animation: fadeUp 0.55s ease both;
     }
     .stat-value {
       font-size: 26px;
@@ -365,6 +534,8 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      animation: none;
     }
     .quick-card strong { font-size: 16px; line-height: 1.35; }
     .student-row {
@@ -376,12 +547,15 @@
       border-radius: 24px;
       padding: 16px;
       border: 1.5px solid var(--line);
-      background: rgba(255,255,255,0.95);
+      background: rgba(255, 250, 236, 0.96);
       text-align: left;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      animation: none;
     }
     .student-card.active {
-      border-color: var(--mint);
-      box-shadow: 0 12px 28px -20px rgba(87, 201, 163, 0.85);
+      border-color: var(--blush);
+      box-shadow: 0 12px 28px -20px rgba(220, 65, 124, 0.8);
+      background: linear-gradient(180deg, #fff0cf 0%, #fff7dc 100%);
     }
     .student-name {
       font-weight: 800;
@@ -406,8 +580,10 @@
     .product {
       padding: 16px;
       border-radius: 22px;
-      background: white;
+      background: linear-gradient(180deg, #fff9ea 0%, #ffe7bb 100%);
       border: 1px solid var(--line);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      animation: none;
     }
     .product-top {
       display: flex;
@@ -439,10 +615,67 @@
     .cart {
       padding: 18px;
       border-radius: 28px;
-      background: white;
+      background: #fff9e8;
       border: 1px solid var(--line);
       position: sticky;
       top: 18px;
+      animation: fadeUp 0.6s ease both;
+    }
+    /* New: compact cart icon and dropdown */
+    .cart-root { position: relative; }
+    .cart-icon {
+      position: fixed;
+      right: 34px;
+      top: 34px;
+      z-index: 1200;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(180deg,#fff,#fff9e8);
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      border-radius: 999px;
+      box-shadow: 0 12px 28px -18px rgba(24,26,20,0.28);
+    }
+    .cart-badge {
+      display: inline-flex;
+      min-width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      align-items: center;
+      justify-content: center;
+      background: var(--tomato);
+      color: white;
+      font-weight: 900;
+      padding: 0 8px;
+      box-shadow: 0 8px 18px -10px rgba(196,43,52,0.6);
+    }
+    .cart-dropdown {
+      position: absolute;
+      right: 0;
+      top: 56px;
+      width: 320px;
+      background: rgba(255,255,255,0.98);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      box-shadow: 0 22px 40px -28px rgba(24,26,20,0.36);
+    }
+    .cart-dropdown .muted { font-size: 13px; }
+    .floating-cta {
+      position: sticky;
+      top: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 999px;
+      background: linear-gradient(90deg,#f7b15d,#ea8d39);
+      color: white;
+      font-weight: 900;
+      box-shadow: 0 12px 28px -18px rgba(252,143,45,0.6);
+      border: 0;
     }
     .cart-row {
       display: flex;
@@ -457,7 +690,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: var(--bg);
+      background: rgba(252, 233, 171, 0.58);
       border-radius: 999px;
       padding: 4px;
       border: 1px solid var(--line);
@@ -467,7 +700,7 @@
       width: 28px;
       height: 28px;
       border-radius: 999px;
-      background: white;
+      background: #fff9e8;
       color: var(--ink);
       font-weight: 900;
     }
@@ -483,39 +716,138 @@
     }
     .topup-grid {
       display: grid;
-      grid-template-columns: 0.95fr 1.05fr;
+      grid-template-columns: 0.96fr 1.04fr;
       gap: 18px;
-      align-items: start;
+      align-items: stretch;
     }
     .topup-hero {
-      padding: 22px;
-      border-radius: 28px;
-      background: linear-gradient(155deg, rgba(87, 201, 163, 0.16), rgba(251, 241, 222, 0.95));
+      padding: 24px 22px 20px;
+      border-radius: 30px;
+      background: linear-gradient(135deg, #f0b25c 0%, #e9985c 24%, #e27967 54%, #d95d7a 100%);
+      color: #fff7dc;
+      box-shadow: 0 24px 40px -28px rgba(141, 34, 50, 0.42);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+    .topup-hero::before {
+      content: "";
+      position: absolute;
+      inset: auto -40px -48px auto;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      filter: blur(10px);
+    }
+    .topup-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.85;
+      position: relative;
+      z-index: 1;
     }
     .topup-value {
-      margin-top: 16px;
-      font-size: 34px;
+      margin-top: 18px;
+      font-size: clamp(2.2rem, 3vw, 3.1rem);
       font-weight: 900;
-      letter-spacing: -0.05em;
-      color: var(--mint);
+      letter-spacing: -0.06em;
+      color: #fff7dc;
+      line-height: 1;
+      position: relative;
+      z-index: 1;
+    }
+    .topup-note {
+      margin-top: 10px;
+      font-size: 12px;
+      color: rgba(255,247,220,0.92);
+      font-weight: 600;
+      position: relative;
+      z-index: 1;
+    }
+    .topup-card {
+      background: linear-gradient(180deg, rgba(255,252,244,0.98), rgba(255,245,225,0.92));
+      border: 1px solid rgba(196, 43, 52, 0.1);
+      border-radius: 28px;
+      padding: 20px 18px 18px;
+      box-shadow: 0 20px 36px -30px rgba(24, 26, 20, 0.3);
+    }
+    .topup-card .section-title {
+      font-size: 14px;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
     }
     .chip-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
+      margin-top: 10px;
     }
     .chip {
-      border: 1px solid var(--line);
-      background: var(--bg);
+      border: 1px solid rgba(24,26,20,0.08);
+      background: linear-gradient(180deg, rgba(220, 65, 124, 0.08), rgba(255,255,255,0.8));
       border-radius: 18px;
-      padding: 13px 12px;
+      padding: 14px 10px;
       font-weight: 800;
       color: var(--ink2);
+      transition: transform 0.18s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
+    }
+    .chip:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 20px -16px rgba(24,26,20,0.35);
     }
     .chip.active {
-      background: var(--ink);
+      background: linear-gradient(135deg, #df6a8e 0%, #c63d65 100%);
       color: white;
-      border-color: var(--ink);
+      border-color: transparent;
+      box-shadow: 0 16px 26px -18px rgba(196, 43, 52, 0.78);
+    }
+    .custom-topup {
+      margin-top: 18px;
+    }
+    .custom-topup-label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .input-shell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 14px;
+      border-radius: 18px;
+      background: rgba(252,233,171,0.38);
+      border: 1.5px solid rgba(24,26,20,0.08);
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+    .input-shell:focus-within {
+      border-color: rgba(196,43,52,0.22);
+      box-shadow: 0 0 0 3px rgba(196,43,52,0.08);
+    }
+    .topup-cta {
+      width: 100%;
+      margin-top: 20px;
+      border: 0;
+      border-radius: 999px;
+      padding: 16px 18px;
+      background: linear-gradient(135deg, #c9c147 0%, #9d9a1d 100%);
+      color: #fffdf7;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      box-shadow: 0 18px 26px -18px rgba(122, 110, 20, 0.8);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .topup-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 21px 28px -18px rgba(122, 110, 20, 0.82);
     }
     .history-grid {
       display: grid;
@@ -526,10 +858,12 @@
       padding: 16px;
       border-radius: 24px;
       border: 1px solid var(--line);
-      background: white;
+      background: linear-gradient(180deg, #fff8e8 0%, #ffe7bf 100%);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      animation: none;
     }
-    .history-card.payment { background: linear-gradient(180deg, rgba(251, 241, 222, 0.92), white); }
-    .history-card.topup { background: linear-gradient(180deg, rgba(230, 246, 239, 0.92), white); }
+    .history-card.payment { background: linear-gradient(180deg, rgba(220, 65, 124, 0.18), #fff7dc); }
+    .history-card.topup { background: linear-gradient(180deg, rgba(159, 152, 32, 0.18), #fff7dc); }
     .history-top {
       display: flex;
       justify-content: space-between;
@@ -542,7 +876,7 @@
       justify-content: center;
       border-radius: 999px;
       padding: 6px 10px;
-      background: white;
+      background: #fff9e8;
       border: 1px solid var(--line);
       font-size: 12px;
       font-weight: 800;
@@ -553,15 +887,146 @@
       border-radius: 18px;
       font-weight: 700;
       border: 1px solid transparent;
+      animation: none;
     }
-    .flash.ok { background: rgba(87, 201, 163, 0.12); border-color: rgba(87, 201, 163, 0.25); color: #0f5b47; }
-    .flash.err { background: rgba(194, 77, 77, 0.1); border-color: rgba(194, 77, 77, 0.24); color: var(--danger); }
+    .flash.ok { background: rgba(159, 152, 32, 0.15); border-color: rgba(159, 152, 32, 0.3); color: #6d6513; }
+    .flash.err { background: rgba(196, 43, 52, 0.12); border-color: rgba(196, 43, 52, 0.26); color: var(--danger); }
+
+    .pin-panel {
+      padding: 24px;
+      background: linear-gradient(180deg, rgba(255,249,232,0.96), rgba(255,241,214,0.94));
+      border-radius: 30px;
+    }
+    .pin-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .pin-summary {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid var(--line);
+    }
+    .pin-icon {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(220,65,124,0.18), rgba(252,143,45,0.22));
+      font-size: 24px;
+    }
+    .pin-total {
+      margin: 18px 0 10px;
+      text-align: center;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      color: var(--tomato);
+    }
+    .pin-display {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 10px 0 18px;
+    }
+    .pin-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      background: rgba(24,26,20,0.12);
+      transition: transform 0.18s ease, background 0.18s ease;
+    }
+    .pin-dot.filled {
+      background: var(--tomato);
+      transform: scale(1.08);
+    }
+    .pin-pad {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      max-width: 320px;
+      margin: 18px auto 0;
+    }
+    .pin-key {
+      border: 0;
+      border-radius: 18px;
+      background: rgba(252,233,171,0.6);
+      color: var(--ink);
+      font-size: 1.05rem;
+      font-weight: 800;
+      min-height: 56px;
+      box-shadow: inset 0 0 0 1px rgba(24,26,20,0.04);
+      transition: transform 0.12s ease, background 0.12s ease;
+    }
+    .pin-key:hover { transform: translateY(-1px); }
+    .pin-key:active { transform: scale(0.98); }
+    .pin-del {
+      background: rgba(220,65,124,0.12);
+      color: var(--tomato);
+    }
+    .pin-actions {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .success-panel {
+      padding: 28px 20px;
+      text-align: center;
+      border-radius: 30px;
+      background: linear-gradient(180deg, rgba(255,249,232,0.96), rgba(240,246,224,0.9));
+    }
+    .success-badge {
+      width: 82px;
+      height: 82px;
+      margin: 0 auto 18px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(159,152,32,0.16), rgba(220,65,124,0.14));
+      color: var(--olive);
+      font-size: 2.2rem;
+      font-weight: 900;
+    }
+    .success-title {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      margin-bottom: 10px;
+      color: var(--ink);
+    }
+    .success-box {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.68);
+    }
+    .success-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 8px 0;
+      color: var(--ink2);
+      font-size: 12.5px;
+    }
+    .success-row + .success-row {
+      border-top: 1px dashed rgba(24,26,20,0.12);
+    }
     .bottom-nav {
       display: none;
       position: sticky;
       bottom: 0;
       padding: 14px 14px 18px;
-      background: linear-gradient(180deg, transparent, rgba(250,250,246,0.98) 20%);
+      background: linear-gradient(180deg, transparent, rgba(252, 233, 171, 0.98) 20%);
     }
     .bottom-bar {
       display: flex;
@@ -570,17 +1035,41 @@
       gap: 8px;
       padding: 10px;
       border-radius: 999px;
-      background: var(--ink);
+      background: var(--tomato);
     }
     .bottom-bar .nav-btn {
-      color: rgba(255,255,255,0.56);
+      color: rgba(255,247,220,0.75);
       justify-content: center;
       padding: 11px 12px;
       flex: 1 1 0;
     }
     .bottom-bar .nav-btn.active {
       color: white;
-      background: rgba(255,255,255,0.14);
+      background: rgba(255,247,220,0.16);
+    }
+    .bottom-bar .nav-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .hero h1,
+    .title,
+    .section-title,
+    .stat-value,
+    .product-name,
+    .student-name {
+      text-wrap: balance;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .bg-orb, .hero::after {
+        animation: none !important;
+      }
     }
 
     @media (max-width: 1024px) {
@@ -633,8 +1122,19 @@
       selectedStudentId: 1,
       cart: {},
       topupAmount: 0,
+      cartOpen: false,
+      lastOrder: null,
+      editingProductId: null,
+      productForm: { id: null, name: "", price: 0, emoji: "", cat: "" },
       notice: "",
       noticeType: "ok",
+      paymentPhase: "none",
+      paymentTotal: 0,
+      pinValue: "",
+      pinError: "",
+      topupPhase: "none",
+      topupPinValue: "",
+      topupPinError: "",
       students: [
         { id: 1, name: "Ahmad Fauzan", kelas: "VII A - Ibnu Sina", saldo: 85000 },
         { id: 2, name: "Siti Aisyah", kelas: "VIII A - Az-Zahra", saldo: 42500 },
@@ -673,6 +1173,23 @@
     }).filter(Boolean);
     const cartTotal = () => cartItems().reduce((sum, item) => sum + item.price * item.qty, 0);
 
+    function cartWidget() {
+      const items = cartItems();
+      const total = cartTotal();
+      const qty = items.reduce((s, it) => s + it.qty, 0);
+      const last = state.lastOrder;
+      if (qty === 0) return "";
+
+      return `
+        <div class="cart-root" aria-hidden="false">
+          <button class="cart-icon" data-action="proceed-payment" aria-label="Berikut">
+            <div class="cart-badge">${qty}</div>
+            <div style="font-weight:800;">Berikut</div>
+          </button>
+        </div>
+      `;
+    }
+
     function flash(message, type = "ok") {
       state.notice = message;
       state.noticeType = type;
@@ -696,6 +1213,112 @@
       ];
     }
 
+    function openPaymentPin() {
+      const student = selectedStudent();
+      const total = cartTotal();
+      if (total <= 0) {
+        flash("Keranjang masih kosong.", "err");
+        return;
+      }
+      if (student.saldo < total) {
+        state.topupAmount = total - student.saldo;
+        state.paymentPhase = "none";
+        state.pinValue = "";
+        state.pinError = "";
+        state.notice = "Saldo tidak mencukupi. Silakan top up saldo terlebih dahulu.";
+        state.noticeType = "err";
+        state.activeTab = "topup";
+        render();
+        return;
+      }
+      state.paymentTotal = total;
+      state.pinValue = "";
+      state.pinError = "";
+      state.paymentPhase = "pin";
+      render();
+    }
+
+    function submitPinPayment() {
+      const student = selectedStudent();
+      const pin = state.pinValue;
+
+      if (pin.length < 6) {
+        state.pinError = "Masukkan PIN 6 digit terlebih dahulu.";
+        render();
+        return;
+      }
+
+      if (pin !== "123456") {
+        state.pinError = "PIN salah. Silakan coba lagi.";
+        state.pinValue = "";
+        render();
+        return;
+      }
+
+      state.pinError = "";
+      // save last order details so cart icon can show it
+      state.lastOrder = {
+        studentName: student.name,
+        items: cartItems(),
+        total: state.paymentTotal,
+        time: new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })
+      };
+      student.saldo -= state.paymentTotal;
+      state.stats.transaksi += 1;
+      pushHistory({ type: "payment", name: student.name, amount: state.paymentTotal });
+      state.cart = {};
+      state.cartOpen = false;
+      state.paymentPhase = "success";
+      state.activeTab = "history";
+      render();
+    }
+
+    function openTopupPin() {
+      const custom = document.getElementById("customTopup");
+      const customAmount = custom ? Number(String(custom.value || "").replace(/[^\d]/g, "")) : 0;
+      const amount = state.topupAmount || customAmount;
+      const student = selectedStudent();
+      if (!amount || amount <= 0) {
+        flash("Pilih nominal top up dulu.", "err");
+        return;
+      }
+      if (!student) {
+        flash("Pilih santri terlebih dahulu.", "err");
+        return;
+      }
+      state.topupPinValue = "";
+      state.topupPinError = "";
+      state.topupAmount = amount;
+      state.topupPhase = "pin";
+      render();
+    }
+
+    function submitTopupPin() {
+      const student = selectedStudent();
+      const pin = state.topupPinValue;
+
+      if (pin.length < 6) {
+        state.topupPinError = "Masukkan PIN 6 digit terlebih dahulu.";
+        render();
+        return;
+      }
+
+      if (pin !== "123456") {
+        state.topupPinError = "PIN salah. Silakan coba lagi.";
+        state.topupPinValue = "";
+        render();
+        return;
+      }
+
+      student.saldo += state.topupAmount;
+      state.stats.topupTotal += state.topupAmount;
+      pushHistory({ type: "topup", name: student.name, amount: state.topupAmount });
+      state.topupAmount = 0;
+      state.topupPhase = "success";
+      state.activeTab = "history";
+      render();
+    }
+
     function loginView() {
       return `
         <div class="login-wrap">
@@ -704,17 +1327,17 @@
               <section class="hero">
                 <div class="brand">
                   <div class="logo" aria-hidden="true">
-                    <div></div><div></div><div></div><div></div>
+                    <img src="assets/simart-logo.png" alt="SIMART" />
                   </div>
                   <div>SIMART</div>
                 </div>
-                <h1>Kelola SIMART<br/>Jadi Lebih Mudah</h1>
+                <h1>Kelola SIMART<br/></h1>
                 <p class="lead">
-                  Satu aplikasi kasir untuk pembayaran dan top up saldo santri, dirancang biar enak dibuka langsung dari file HTML.
+                  Mulia di Dunia dengan Teknologi, Bisnis dan Dakwah.
                 </p>
                 <div class="hero-badges">
-                  <div class="badge">PIN Terenkripsi <small>Transaksi aman</small></div>
-                  <div class="badge">Real-time <small>Catat otomatis</small></div>
+                  <div class="badge">Pembayaran <small>Jadi lebih mudah</small></div>
+                  <div class="badge">Transaksi <small>Aman</small></div>
                 </div>
               </section>
               <section class="login-form">
@@ -751,6 +1374,7 @@
         ["home", "Home"],
         ["payment", "Bayar"],
         ["topup", "Top Up"],
+        ["products", "Produk"],
         ["history", "Riwayat"]
       ];
       return `
@@ -758,7 +1382,7 @@
           <div>
             <div class="brand">
               <div class="logo" aria-hidden="true" style="width:38px;height:38px;border-radius:12px;">
-                <div></div><div></div><div></div><div></div>
+                <img src="assets/simart-logo.png" alt="SIMART" />
               </div>
               <div>SIMART</div>
             </div>
@@ -773,7 +1397,7 @@
           </div>
           <div>
             <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
-              <div style="width:38px;height:38px;border-radius:999px;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:900;">A</div>
+              <img class="profile-avatar" src="assets/simart-logo.png" alt="Profil SIMART" />
               <div>
                 <div style="font-weight:800;">Admin</div>
                 <div style="font-size:12px;color:var(--muted);">Kasir SIMART</div>
@@ -790,6 +1414,7 @@
         ["home", "Home"],
         ["payment", "Bayar"],
         ["topup", "Top Up"],
+        ["products", "Produk"],
         ["history", "Riwayat"]
       ];
       return `
@@ -824,12 +1449,12 @@
               <div class="hero-chip">Top Up Sekarang</div>
             </section>
             <section class="stat-grid">
-              <div class="stat-card">
+              <div class="stat-card" style="animation-delay:0.08s;">
                 <div style="font-size:12px;color:var(--muted);font-weight:700;">Transaksi</div>
                 <div class="stat-value">${state.stats.transaksi}</div>
                 <div class="stat-label">Hari ini</div>
               </div>
-              <div class="stat-card">
+              <div class="stat-card" style="animation-delay:0.16s;">
                 <div style="font-size:12px;color:var(--muted);font-weight:700;">Top Up</div>
                 <div class="stat-value">${rupiah(state.stats.topupTotal)}</div>
                 <div class="stat-label">Total top up</div>
@@ -838,11 +1463,11 @@
           </div>
 
           <div class="quick-actions">
-            <button class="quick-card panel" data-action="nav" data-tab="payment">
+            <button class="quick-card panel" data-action="nav" data-tab="payment" style="animation-delay:0.12s;">
               <strong>Pembayaran belanja santri</strong>
               <p class="muted">Pilih santri, tambah produk, lalu konfirmasi dengan PIN.</p>
             </button>
-            <button class="quick-card panel" data-action="nav" data-tab="topup">
+            <button class="quick-card panel" data-action="nav" data-tab="topup" style="animation-delay:0.2s;">
               <strong>Top up saldo cepat</strong>
               <p class="muted">Pilih nominal tetap atau isi nominal lain secara manual.</p>
             </button>
@@ -851,8 +1476,8 @@
           <div>
             <div class="section-title">Santri</div>
             <div class="student-row">
-              ${state.students.map((s) => `
-                <button class="student-card ${state.selectedStudentId === s.id ? "active" : ""}" data-action="select-student" data-id="${s.id}">
+              ${state.students.map((s, i) => `
+                <button class="student-card ${state.selectedStudentId === s.id ? "active" : ""}" data-action="select-student" data-id="${s.id}" style="animation-delay:${(i + 1) * 0.08}s;">
                   <div class="student-name">${esc(s.name)}</div>
                   <div class="student-sub">${esc(s.kelas)}</div>
                   <div style="margin-top:12px;font-weight:800;color:var(--ink);">${rupiah(s.saldo)}</div>
@@ -882,8 +1507,8 @@
           <div class="field">
             <label>Santri</label>
             <div class="student-row">
-              ${state.students.map((s) => `
-                <button class="student-card ${state.selectedStudentId === s.id ? "active" : ""}" data-action="select-student" data-id="${s.id}">
+              ${state.students.map((s, i) => `
+                <button class="student-card ${state.selectedStudentId === s.id ? "active" : ""}" data-action="select-student" data-id="${s.id}" style="animation-delay:${(i + 1) * 0.08}s;">
                   <div class="student-name">${esc(s.name)}</div>
                   <div class="student-sub">${esc(s.kelas)}</div>
                   <div style="margin-top:12px;font-weight:800;color:var(--ink);">${rupiah(s.saldo)}</div>
@@ -892,55 +1517,143 @@
             </div>
           </div>
 
-          <div class="two-col">
+          <div>
             <section class="panel" style="padding:18px;">
-              <div class="section-title">Produk</div>
-              <div class="catalog-grid">
-                ${state.products.map((p) => `
-                  <div class="product">
-                    <div class="product-top">
-                      <div>
-                        <div class="emoji-dot">${p.emoji}</div>
-                      </div>
-                      <div class="pill">${rupiah(p.price)}</div>
+              <div class="section-title">Produk Tersedia</div>
+              ${(() => {
+                const cats = [...new Set(state.products.map(p => p.cat))];
+                return cats.map(cat => `
+                  <div style="margin-top:12px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-weight:800;">${esc(cat)}</div></div>
+                    <div class="catalog-grid">
+                      ${state.products.filter(p => p.cat === cat).map((p, i) => `
+                        <div class="product" style="animation-delay:${(i + 1) * 0.04}s;">
+                          <div class="product-top">
+                            <div>
+                              <div class="emoji-dot">${esc(p.emoji)}</div>
+                            </div>
+                            <div class="pill">${rupiah(p.price)}</div>
+                          </div>
+                          <div class="product-name">${esc(p.name)}</div>
+                          <div class="product-cat">${esc(p.cat)}</div>
+                          <button class="btn btn-dark" style="width:100%;margin-top:14px;" data-action="add-product" data-id="${p.id}">Tambah</button>
+                        </div>
+                      `).join("")}
                     </div>
-                    <div class="product-name">${esc(p.name)}</div>
-                    <div class="product-cat">${esc(p.cat)}</div>
-                    <button class="btn btn-dark" style="width:100%;margin-top:14px;" data-action="add-product" data-id="${p.id}">Tambah</button>
                   </div>
-                `).join("")}
-              </div>
+                `).join("");
+              })()}
             </section>
+          </div>
+        </div>
+      `;
+    }
 
-            <aside class="cart">
-              <div class="section-title">Keranjang</div>
-              <div class="muted">${esc(student.name)} | Saldo: ${rupiah(student.saldo)}</div>
-              ${items.length === 0 ? `<div style="padding:20px 0;color:var(--muted);">Keranjang masih kosong.</div>` : items.map((item) => `
-                <div class="cart-row">
-                  <div>
-                    <div style="font-weight:800;">${esc(item.name)}</div>
-                    <div class="muted">${item.qty} x ${rupiah(item.price)}</div>
+    function productsView() {
+      return `
+        <div class="page-grid">
+          ${state.notice ? `<div class="flash ${state.noticeType === "err" ? "err" : "ok"}">${esc(state.notice)}</div>` : ""}
+
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;">
+            <div>
+              <div class="muted">Admin</div>
+              <h2 style="font-size:24px;letter-spacing:-0.04em;margin-top:4px;">Dashboard Produk</h2>
+            </div>
+            <div>
+              <button class="btn btn-ghost" data-action="nav" data-tab="home">Kembali</button>
+            </div>
+          </div>
+
+          <div class="panel product-panel">
+            <div class="section-title">Tambah / Edit Produk</div>
+            <form id="productForm" class="product-form">
+              <div class="product-field">
+                <input name="pemoji" placeholder="Emoji" value="${esc(state.productForm.emoji)}" aria-label="Emoji produk" />
+              </div>
+              <div class="product-field">
+                <input name="pname" placeholder="Nama produk" value="${esc(state.productForm.name)}" aria-label="Nama produk" />
+              </div>
+              <div class="product-field">
+                <input name="pcat" placeholder="Kategori" value="${esc(state.productForm.cat)}" aria-label="Kategori produk" />
+              </div>
+              <div class="product-field">
+                <input name="pprice" inputmode="numeric" placeholder="Harga" value="${state.productForm.price || ""}" aria-label="Harga produk" />
+              </div>
+              <div class="product-actions" style="grid-column:1/-1;">
+                <button class="product-primary-btn" type="submit">${state.editingProductId ? "Simpan" : "Tambah"}</button>
+                ${state.editingProductId ? `<button class="btn btn-ghost" type="button" data-action="cancel-edit-product">Batal</button>` : ""}
+              </div>
+            </form>
+          </div>
+
+          <div style="margin-top:12px;">
+            <div class="section-title">Daftar Produk</div>
+            <div class="catalog-grid" style="margin-top:12px;">
+              ${state.products.map((p) => `
+                <div class="product">
+                  <div class="product-top">
+                    <div><div class="emoji-dot">${esc(p.emoji)}</div></div>
+                    <div class="pill">${rupiah(p.price)}</div>
                   </div>
-                  <div style="text-align:right;">
-                    <div style="font-weight:900;">${rupiah(item.qty * item.price)}</div>
-                    <div class="qty" style="margin-top:8px;">
-                      <button data-action="cart-dec" data-id="${item.id}">-</button>
-                      <span style="min-width:18px;text-align:center;font-weight:800;">${item.qty}</span>
-                      <button data-action="cart-inc" data-id="${item.id}">+</button>
-                      <button data-action="cart-remove" data-id="${item.id}" style="margin-left:4px;background:var(--orange-tint);color:var(--orange);">x</button>
-                    </div>
+                  <div class="product-name">${esc(p.name)}</div>
+                  <div class="product-cat">${esc(p.cat)}</div>
+                  <div style="display:flex;gap:8px;margin-top:12px;">
+                    <button class="btn btn-mint" data-action="edit-product" data-id="${p.id}">Edit</button>
+                    <button class="btn btn-ghost" data-action="delete-product" data-id="${p.id}">Hapus</button>
                   </div>
                 </div>
               `).join("")}
-              <div class="cart-total">
-                <span>Total</span>
-                <span>${rupiah(total)}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function cartView() {
+      const student = selectedStudent();
+      const items = cartItems();
+      const total = cartTotal();
+      const remaining = student.saldo - total;
+      return `
+        <div class="page-grid">
+          ${state.notice ? `<div class="flash ${state.noticeType === "err" ? "err" : "ok"}">${esc(state.notice)}</div>` : ""}
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;">
+            <div>
+              <div class="muted">Keranjang</div>
+              <h2 style="font-size:24px;letter-spacing:-0.04em;margin-top:4px;">Rincian Pesanan</h2>
+            </div>
+            <button class="btn btn-ghost" data-action="nav" data-tab="payment">Kembali</button>
+          </div>
+
+          <div class="panel" style="padding:18px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-weight:900;">${esc(student.name)}</div>
+                <div class="muted">${esc(student.kelas)}</div>
               </div>
-              <button class="btn btn-orange" data-action="confirm-payment" style="width:100%;margin-top:16px;" ${total <= 0 ? "disabled" : ""}>
-                Konfirmasi Pembayaran
-              </button>
-              <div class="muted" style="margin-top:10px;">Demo PIN: 123456</div>
-            </aside>
+              <div style="font-weight:900;">Saldo: ${rupiah(student.saldo)}</div>
+            </div>
+
+            <div style="margin-top:14px;">
+              ${items.length === 0 ? `<div class="muted">Keranjang masih kosong.</div>` : items.map(it => `
+                <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px dashed rgba(24,26,20,0.06);">
+                  <div style="font-weight:800;">${esc(it.name)} <span class="muted">x ${it.qty}</span></div>
+                  <div style="font-weight:900;">${rupiah(it.qty * it.price)}</div>
+                </div>
+              `).join("")}
+            </div>
+
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px;font-weight:900;">
+              <div>Total</div>
+              <div>${rupiah(total)}</div>
+            </div>
+
+            <div style="margin-top:8px;color:var(--muted);">Sisa saldo setelah bayar: <strong>${rupiah(remaining)}</strong></div>
+
+            <div style="display:flex;gap:10px;margin-top:18px;">
+              <button class="btn btn-ghost" data-action="nav" data-tab="payment">Tambah lagi</button>
+              <button class="btn btn-orange" data-action="open-payment-pin" ${items.length === 0 ? "disabled" : ""}>Bayar Sekarang</button>
+            </div>
           </div>
         </div>
       `;
@@ -952,6 +1665,7 @@
       return `
         <div class="page-grid">
           ${state.notice ? `<div class="flash ${state.noticeType === "err" ? "err" : "ok"}">${esc(state.notice)}</div>` : ""}
+
           <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;">
             <div>
               <div class="muted">Top Up</div>
@@ -962,32 +1676,33 @@
 
           <div class="topup-grid">
             <section class="topup-hero">
-              <div class="section-title" style="margin-bottom:6px;">Santri dipilih</div>
-              <div style="font-size:22px;font-weight:900;letter-spacing:-0.03em;">${esc(student.name)}</div>
-              <div class="muted" style="margin-top:4px;">${esc(student.kelas)}</div>
-              <div style="margin-top:18px;color:var(--ink2);font-size:12px;font-weight:700;">Saldo sekarang</div>
+              <div class="topup-label">Santri dipilih</div>
+              <div style="font-size:22px;font-weight:900;letter-spacing:-0.03em;margin-top:8px;">${esc(student.name)}</div>
+              <div class="muted" style="margin-top:6px;color:rgba(255,247,220,0.86);">${esc(student.kelas)}</div>
+
+              <div style="margin-top:24px;color:rgba(255,247,220,0.88);font-size:12px;font-weight:700;">Saldo sekarang</div>
               <div class="topup-value">${rupiah(student.saldo)}</div>
-              <div class="muted" style="margin-top:6px;">Nominal top up dipilih</div>
-              <div style="margin-top:18px;" class="pill">${rupiah(amount)}</div>
+              <div class="topup-note">Nominal top up dipilih</div>
+              <div style="display:inline-flex; margin-top:16px; padding:10px 16px; border-radius:999px; background:rgba(255,255,255,0.16); border:1px solid rgba(255,255,255,0.2); font-weight:800;">${rupiah(amount)}</div>
             </section>
 
-            <section class="panel" style="padding:18px;">
-              <div class="section-title">Pilih nominal</div>
+            <section class="topup-card">
+              <div class="section-title" style="margin-bottom:6px;">Pilih nominal</div>
               <div class="chip-grid">
-                ${state.chips.map((v) => `
-                  <button class="chip ${state.topupAmount === v ? "active" : ""}" data-action="pick-topup" data-amount="${v}">${rupiah(v)}</button>
+                ${state.chips.map((v, i) => `
+                  <button class="chip ${state.topupAmount === v ? "active" : ""}" data-action="pick-topup" data-amount="${v}" style="animation-delay:${(i + 1) * 0.05}s;">${rupiah(v)}</button>
                 `).join("")}
               </div>
 
-              <div style="margin-top:16px;" class="field">
-                <label>Atau nominal lain</label>
+              <div class="custom-topup field">
+                <label class="custom-topup-label">Atau nominal lain</label>
                 <div class="input-shell">
                   <span class="input-icon">Rp</span>
                   <input id="customTopup" inputmode="numeric" placeholder="0" />
                 </div>
               </div>
 
-              <button class="btn btn-mint" data-action="confirm-topup" style="width:100%;margin-top:18px;">Top Up</button>
+              <button class="topup-cta" data-action="open-topup-pin">Top Up</button>
             </section>
           </div>
         </div>
@@ -1009,8 +1724,8 @@
           <div class="history-grid">
             ${state.history.length === 0 ? `
               <div class="panel" style="padding:28px;text-align:center;color:var(--muted);grid-column:1/-1;">Belum ada transaksi hari ini.</div>
-            ` : state.history.map((h) => `
-              <div class="history-card ${h.type}">
+            ` : state.history.map((h, i) => `
+              <div class="history-card ${h.type}" style="animation-delay:${(i + 1) * 0.05}s;">
                 <div class="history-top">
                   <div>
                     <div class="pill" style="margin-bottom:12px;">${h.type === "topup" ? "Top Up" : "Pembayaran"}</div>
@@ -1026,6 +1741,170 @@
       `;
     }
 
+    function pinView() {
+      const student = selectedStudent();
+      const pinDots = Array.from({ length: 6 }, (_, idx) => `
+        <span class="pin-dot ${idx < state.pinValue.length ? "filled" : ""}"></span>
+      `).join("");
+
+      return `
+        <div class="page-grid">
+          <div class="panel pin-panel">
+            <div class="pin-header">
+              <button class="btn btn-ghost" data-action="cancel-pin">Batal</button>
+              <div class="muted">Checkout aman</div>
+            </div>
+
+            <div class="pin-summary">
+              <div class="pin-icon">💳</div>
+              <div>
+                <div class="muted" style="font-size:11px;">Pembayaran untuk</div>
+                <div style="font-weight:900;font-size:22px;letter-spacing:-0.03em;">${esc(student.name)}</div>
+              </div>
+            </div>
+
+            <div class="pin-total">${rupiah(state.paymentTotal)}</div>
+
+            <div class="pin-display">
+              ${pinDots}
+            </div>
+
+            ${state.pinError ? `<div class="flash err">${esc(state.pinError)}</div>` : ""}
+
+            <div class="pin-pad">
+              ${["1","2","3","4","5","6","7","8","9"].map((d) => `
+                <button class="pin-key" data-action="pin-key" data-digit="${d}">${d}</button>
+              `).join("")}
+              <div></div>
+              <button class="pin-key" data-action="pin-key" data-digit="0">0</button>
+              <button class="pin-key pin-del" data-action="pin-del">⌫</button>
+            </div>
+
+            <div class="pin-actions">
+              <button class="btn btn-ghost" data-action="cancel-pin">Batalkan</button>
+              <button class="btn btn-orange" data-action="pin-submit" ${state.pinValue.length !== 6 ? "disabled" : ""}>Bayar Sekarang</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function paymentSuccessView() {
+      const student = selectedStudent();
+      return `
+        <div class="page-grid">
+          <div class="panel success-panel">
+            <div class="success-badge">✓</div>
+            <div class="success-title">Pembayaran Berhasil</div>
+            <p class="muted" style="text-align:center;line-height:1.6;">
+              Transaksi untuk <strong>${esc(student.name)}</strong> sudah diproses dengan aman.
+            </p>
+
+            <div class="success-box">
+              <div class="success-row">
+                <span>Nama Santri</span>
+                <strong>${esc(student.name)}</strong>
+              </div>
+              <div class="success-row">
+                <span>Total Bayar</span>
+                <strong>${rupiah(state.paymentTotal)}</strong>
+              </div>
+              <div class="success-row">
+                <span>Sisa Saldo</span>
+                <strong>${rupiah(student.saldo)}</strong>
+              </div>
+            </div>
+
+            <button class="btn btn-dark" data-action="payment-success-done" style="width:100%;margin-top:18px;">
+              Kembali ke Menu
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function topupPinView() {
+      const student = selectedStudent();
+      const pinDots = Array.from({ length: 6 }, (_, idx) => `
+        <span class="pin-dot ${idx < state.topupPinValue.length ? "filled" : ""}"></span>
+      `).join("");
+
+      return `
+        <div class="page-grid">
+          <div class="panel pin-panel" style="padding:24px;">
+            <div class="pin-header">
+              <button class="btn btn-ghost" data-action="cancel-topup-pin">Batal</button>
+              <div class="muted">Verifikasi aman</div>
+            </div>
+
+            <div class="pin-summary">
+              <div class="pin-icon">🔒</div>
+              <div>
+                <div class="muted" style="font-size:11px;">Top Up untuk</div>
+                <div style="font-weight:900;font-size:22px;letter-spacing:-0.03em;">${esc(student.name)}</div>
+              </div>
+            </div>
+
+            <div class="pin-total">${rupiah(state.topupAmount)}</div>
+
+            <div class="pin-display">
+              ${pinDots}
+            </div>
+
+            ${state.topupPinError ? `<div class="flash err">${esc(state.topupPinError)}</div>` : ""}
+
+            <div class="pin-pad">
+              ${["1","2","3","4","5","6","7","8","9"].map((d) => `
+                <button class="pin-key" data-action="topup-pin-key" data-digit="${d}">${d}</button>
+              `).join("")}
+              <div></div>
+              <button class="pin-key" data-action="topup-pin-key" data-digit="0">0</button>
+              <button class="pin-key pin-del" data-action="topup-pin-del">⌫</button>
+            </div>
+
+            <div class="pin-actions">
+              <button class="btn btn-ghost" data-action="cancel-topup-pin">Batalkan</button>
+              <button class="btn btn-orange" data-action="topup-pin-submit" ${state.topupPinValue.length !== 6 ? "disabled" : ""}>Konfirmasi Top Up</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function topupSuccessView() {
+      const student = selectedStudent();
+      return `
+        <div class="page-grid">
+          <div class="panel success-panel">
+            <div class="success-badge">✓</div>
+            <div class="success-title">Top Up Berhasil</div>
+            <p class="muted" style="text-align:center;line-height:1.6;">
+              Saldo <strong>${esc(student.name)}</strong> berhasil ditambahkan.
+            </p>
+
+            <div class="success-box">
+              <div class="success-row">
+                <span>Nama Santri</span>
+                <strong>${esc(student.name)}</strong>
+              </div>
+              <div class="success-row">
+                <span>Nominal</span>
+                <strong>${rupiah(state.topupAmount)}</strong>
+              </div>
+              <div class="success-row">
+                <span>Saldo Baru</span>
+                <strong>${rupiah(student.saldo)}</strong>
+              </div>
+            </div>
+
+            <button class="btn btn-dark" data-action="topup-success-done" style="width:100%;margin-top:18px;">
+              Kembali ke Menu
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
     function appView() {
       return `
         <div class="main-wrap">
@@ -1033,13 +1912,20 @@
             ${sidebar()}
             <main class="main">
               <div class="main-scroll">
-                ${state.activeTab === "home" ? homeView() : ""}
-                ${state.activeTab === "payment" ? paymentView() : ""}
-                ${state.activeTab === "topup" ? topupView() : ""}
-                ${state.activeTab === "history" ? historyView() : ""}
+                ${state.paymentPhase === "pin" ? pinView() : ""}
+                ${state.paymentPhase === "success" ? paymentSuccessView() : ""}
+                ${state.topupPhase === "pin" ? topupPinView() : ""}
+                ${state.topupPhase === "success" ? topupSuccessView() : ""}
+                ${state.paymentPhase === "none" && state.topupPhase === "none" && state.activeTab === "home" ? homeView() : ""}
+                ${state.paymentPhase === "none" && state.topupPhase === "none" && state.activeTab === "payment" ? paymentView() : ""}
+                ${state.paymentPhase === "none" && state.topupPhase === "none" && state.activeTab === "cart" ? cartView() : ""}
+                ${state.paymentPhase === "none" && state.topupPhase === "none" && state.activeTab === "products" ? productsView() : ""}
+                ${state.paymentPhase === "none" && state.topupPhase === "none" && state.activeTab === "topup" ? topupView() : ""}
+                ${state.paymentPhase === "none" && state.topupPhase === "none" && state.activeTab === "history" ? historyView() : ""}
               </div>
               ${bottomNav()}
             </main>
+            ${cartWidget()}
           </div>
         </div>
       `;
@@ -1065,6 +1951,40 @@
           flash("Username atau kata sandi salah.", "err");
         }
       }
+
+      // product form submit (add / save)
+      if (e.target && e.target.id === "productForm") {
+        e.preventDefault();
+        const fd = new FormData(e.target);
+        const emoji = String(fd.get("pemoji") || "").trim();
+        const name = String(fd.get("pname") || "").trim();
+        const cat = String(fd.get("pcat") || "").trim() || "Umum";
+        const price = Number(String(fd.get("pprice") || "0").replace(/[^0-9]/g, "")) || 0;
+        if (!name || price <= 0) {
+          flash("Nama dan harga produk harus diisi.", "err");
+          return;
+        }
+
+        if (state.editingProductId) {
+          // update
+          const idx = state.products.findIndex(p => p.id === state.editingProductId);
+          if (idx >= 0) {
+            state.products[idx] = { ...state.products[idx], emoji, name, cat, price };
+            flash("Produk diperbarui.", "ok");
+          }
+          state.editingProductId = null;
+          state.productForm = { id: null, name: "", price: 0, emoji: "", cat: "" };
+          render();
+          return;
+        }
+
+        // add new
+        const id = Date.now();
+        state.products.push({ id, name, price, emoji: emoji || "•", cat });
+        flash("Produk ditambahkan.", "ok");
+        state.productForm = { id: null, name: "", price: 0, emoji: "", cat: "" };
+        render();
+      }
     });
 
     root.addEventListener("click", (e) => {
@@ -1076,13 +1996,40 @@
         state.loggedIn = false;
         state.cart = {};
         state.topupAmount = 0;
+        state.paymentPhase = "none";
+        state.paymentTotal = 0;
+        state.pinValue = "";
+        state.pinError = "";
         state.notice = "";
         render();
         return;
       }
 
+      if (action === "toggle-cart") {
+        state.cartOpen = !state.cartOpen;
+        render();
+        return;
+      }
+
+      if (action === "proceed-payment") {
+        state.activeTab = 'cart';
+        state.cartOpen = false;
+        render();
+        return;
+      }
+
+      if (action === "open-payment-pin") {
+        // from cart page: open PIN to confirm payment
+        openPaymentPin();
+        return;
+      }
+
       if (action === "nav") {
         state.activeTab = el.dataset.tab;
+        state.paymentPhase = "none";
+        state.paymentTotal = 0;
+        state.pinValue = "";
+        state.pinError = "";
         state.notice = "";
         render();
         return;
@@ -1122,6 +2069,33 @@
         return;
       }
 
+      if (action === "edit-product") {
+        const id = Number(el.dataset.id);
+        const p = state.products.find(x => x.id === id);
+        if (!p) return;
+        state.editingProductId = id;
+        state.productForm = { id: p.id, name: p.name, price: p.price, emoji: p.emoji, cat: p.cat };
+        render();
+        return;
+      }
+
+      if (action === "delete-product") {
+        const id = Number(el.dataset.id);
+        state.products = state.products.filter(x => x.id !== id);
+        // remove from cart if present
+        if (state.cart[id]) delete state.cart[id];
+        flash("Produk dihapus.", "ok");
+        render();
+        return;
+      }
+
+      if (action === "cancel-edit-product") {
+        state.editingProductId = null;
+        state.productForm = { id: null, name: "", price: 0, emoji: "", cat: "" };
+        render();
+        return;
+      }
+
       if (action === "pick-topup") {
         state.topupAmount = Number(el.dataset.amount);
         render();
@@ -1129,41 +2103,106 @@
       }
 
       if (action === "confirm-payment") {
-        const total = cartTotal();
-        const student = selectedStudent();
-        if (total <= 0) {
-          flash("Keranjang masih kosong.", "err");
-          return;
-        }
-        if (student.saldo < total) {
-          flash("Saldo tidak mencukupi.", "err");
-          return;
-        }
-        student.saldo -= total;
-        state.stats.transaksi += 1;
-        pushHistory({ type: "payment", name: student.name, amount: total });
-        state.cart = {};
-        state.activeTab = "history";
-        flash("Pembayaran berhasil.", "ok");
+        openPaymentPin();
+        return;
+      }
+
+      if (action === "cancel-pin") {
+        state.paymentPhase = "none";
+        state.pinValue = "";
+        state.pinError = "";
+        render();
+        return;
+      }
+
+      if (action === "pin-key") {
+        const digit = el.dataset.digit;
+        if (state.pinValue.length >= 6) return;
+        state.pinValue += digit;
+        state.pinError = "";
+        render();
+        return;
+      }
+
+      if (action === "pin-del") {
+        state.pinValue = state.pinValue.slice(0, -1);
+        state.pinError = "";
+        render();
+        return;
+      }
+
+      if (action === "pin-submit") {
+        submitPinPayment();
+        return;
+      }
+
+      if (action === "payment-success-done") {
+        state.paymentPhase = "none";
+        state.pinValue = "";
+        state.pinError = "";
+        state.paymentTotal = 0;
+        state.activeTab = "home";
+        state.notice = "Pembayaran berhasil.";
+        state.noticeType = "ok";
+        render();
+        return;
+      }
+
+      if (action === "open-topup-pin") {
+        openTopupPin();
+        return;
+      }
+
+      if (action === "cancel-topup-pin") {
+        state.topupPhase = "none";
+        state.topupPinValue = "";
+        state.topupPinError = "";
+        render();
+        return;
+      }
+
+      if (action === "topup-pin-key") {
+        const digit = el.dataset.digit;
+        if (state.topupPinValue.length >= 6) return;
+        state.topupPinValue += digit;
+        state.topupPinError = "";
+        render();
+        return;
+      }
+
+      if (action === "topup-pin-del") {
+        state.topupPinValue = state.topupPinValue.slice(0, -1);
+        state.topupPinError = "";
+        render();
+        return;
+      }
+
+      if (action === "topup-pin-submit") {
+        submitTopupPin();
+        return;
+      }
+
+      if (action === "topup-success-done") {
+        state.topupPhase = "none";
+        state.topupPinValue = "";
+        state.topupPinError = "";
+        state.topupAmount = 0;
+        state.activeTab = "home";
+        state.notice = "Top up berhasil.";
+        state.noticeType = "ok";
         render();
         return;
       }
 
       if (action === "confirm-topup") {
-        const custom = document.getElementById("customTopup");
-        const customAmount = custom ? Number(String(custom.value || "").replace(/[^\d]/g, "")) : 0;
-        const amount = state.topupAmount || customAmount;
-        const student = selectedStudent();
-        if (!amount || amount <= 0) {
-          flash("Pilih nominal top up dulu.", "err");
-          return;
-        }
-        student.saldo += amount;
-        state.stats.topupTotal += amount;
-        pushHistory({ type: "topup", name: student.name, amount });
-        state.topupAmount = 0;
-        state.activeTab = "history";
-        flash("Top up berhasil.", "ok");
+        openTopupPin();
+      }
+    });
+
+    // close cart dropdown when clicking outside
+    window.addEventListener("click", (e) => {
+      if (state.cartOpen && !e.target.closest('.cart-root')) {
+        state.cartOpen = false;
         render();
       }
     });
