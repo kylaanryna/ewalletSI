@@ -1,129 +1,136 @@
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
+const mysql = require('mysql2');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const DB_PATH = path.join(__dirname, 'data.sqlite');
+
+const DB_CONFIG = {
+  host: process.env.DB_HOST || 'localhost',
+  port: Number(process.env.DB_PORT || 3306),
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || '',
+  database: process.env.DB_NAME || 'ewalletsi',
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+  multipleStatements: false
+};
+
+const pool = mysql.createPool(DB_CONFIG);
 
 app.use(cors());
 app.use(express.json());
 
-function initDb() {
-  const db = new sqlite3.Database(DB_PATH);
-
-  db.serialize(() => {
-    db.run(`
-      CREATE TABLE IF NOT EXISTS students (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        card_id TEXT UNIQUE NOT NULL,
-        name TEXT NOT NULL,
-        kelas TEXT NOT NULL,
-        saldo INTEGER DEFAULT 0
-      )
-    `);
-
-    db.run(`
-      CREATE TABLE IF NOT EXISTS payments (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        card_id TEXT NOT NULL,
-        name TEXT NOT NULL,
-        amount INTEGER NOT NULL,
-        note TEXT,
-        created_at TEXT DEFAULT CURRENT_TIMESTAMP
-      )
-    `);
-
-    const seed = [
-      { card_id: '212202211', name: 'Kayla Nuryana', kelas: 'VII-A', saldo: 120000 },
-      { card_id: '212202226', name: 'Zalfa Taher', kelas: 'VII-B', saldo: 95000 },
-      { card_id: '212202212', name: 'Kayyisah A', kelas: 'VIII-A', saldo: 140000 }
-    ];
-
-    db.get('SELECT COUNT(*) as total FROM students', (err, row) => {
-      if (err) {
-        db.close();
-        return;
-      }
-
-      if (row && row.total === 0) {
-        const stmt = db.prepare('INSERT INTO students (card_id, name, kelas, saldo) VALUES (?, ?, ?, ?)');
-        seed.forEach((student) => {
-          stmt.run(student.card_id, student.name, student.kelas, student.saldo);
-        });
-        stmt.finalize(() => db.close());
-        return;
-      }
-
-      db.close();
+function query(sql, params = []) {
+  return new Promise((resolve, reject) => {
+    pool.execute(sql, params, (err, results) => {
+      if (err) return reject(err);
+      resolve(results);
     });
   });
 }
 
-function openDb() {
-  return new sqlite3.Database(DB_PATH);
+async function initDb() {
+  try {
+    await query(`
+      CREATE TABLE IF NOT EXISTS students (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        card_id VARCHAR(50) NOT NULL UNIQUE,
+        name VARCHAR(255) NOT NULL,
+        kelas VARCHAR(100) NOT NULL,
+        saldo INT DEFAULT 0
+      ) ENGINE=InnoDB
+    `);
+
+    await query(`
+      CREATE TABLE IF NOT EXISTS payments (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        card_id VARCHAR(50) NOT NULL,
+        name VARCHAR(255) NOT NULL,
+        amount INT NOT NULL,
+        note TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      ) ENGINE=InnoDB
+    `);
+
+    const rows = await query('SELECT COUNT(*) AS total FROM students');
+    if (Number(rows[0].total) === 0) {
+      const seed = [
+        { card_id: '212202211', name: 'Kayla Nuryana', kelas: 'VII-A', saldo: 120000 },
+        { card_id: '212202226', name: 'Zalfa Taher', kelas: 'VII-B', saldo: 95000 },
+        { card_id: '212202212', name: 'Kayyisah A', kelas: 'VIII-A', saldo: 140000 }
+      ];
+
+      for (const student of seed) {
+        await query(
+          'INSERT INTO students (card_id, name, kelas, saldo) VALUES (?, ?, ?, ?)',
+          [student.card_id, student.name, student.kelas, student.saldo]
+        );
+      }
+    }
+
+    console.log('MySQL database initialized successfully');
+  } catch (error) {
+    console.error('Database initialization failed:', error.message);
+  }
 }
 
-app.get('/api/health', (req, res) => {
-  res.json({ ok: true, message: 'RFID API ready' });
+app.get('/api/health', async (req, res) => {
+  try {
+    const rows = await query('SELECT 1 AS ok');
+    res.json({ ok: true, message: 'RFID API ready', db: 'mysql', test: rows[0] });
+  } catch (error) {
+    res.status(500).json({ ok: false, message: 'Database tidak terhubung', error: error.message });
+  }
 });
 
-app.get('/api/students', (req, res) => {
-  const db = openDb();
-
-  db.all('SELECT id, card_id, name, kelas, saldo FROM students ORDER BY name ASC', (err, rows) => {
-    db.close();
-    if (err) {
-      return res.status(500).json({ ok: false, message: 'Gagal mengambil data santri', error: err.message });
-    }
-
+app.get('/api/students', async (req, res) => {
+  try {
+    const rows = await query('SELECT id, card_id, name, kelas, saldo FROM students ORDER BY name ASC');
     res.json({ ok: true, data: rows });
-  });
+  } catch (error) {
+    res.status(500).json({ ok: false, message: 'Gagal mengambil data santri', error: error.message });
+  }
 });
 
-app.get('/api/students/:cardId', (req, res) => {
+app.get('/api/students/:cardId', async (req, res) => {
   const cardId = String(req.params.cardId).trim();
-  const db = openDb();
 
-  db.get('SELECT id, card_id, name, kelas, saldo FROM students WHERE card_id = ?', [cardId], (err, row) => {
-    db.close();
-    if (err) {
-      return res.status(500).json({ ok: false, message: 'Gagal mencari santri', error: err.message });
-    }
-
-    if (!row) {
+  try {
+    const rows = await query('SELECT id, card_id, name, kelas, saldo FROM students WHERE card_id = ?', [cardId]);
+    if (!rows.length) {
       return res.status(404).json({ ok: false, message: 'Kartu tidak terdaftar' });
     }
 
-    res.json({ ok: true, data: row });
-  });
+    res.json({ ok: true, data: rows[0] });
+  } catch (error) {
+    res.status(500).json({ ok: false, message: 'Gagal mencari santri', error: error.message });
+  }
 });
 
-app.post('/api/scan', (req, res) => {
+app.post('/api/scan', async (req, res) => {
   const cardId = String(req.body.cardId || '').trim();
 
   if (!cardId) {
     return res.status(400).json({ ok: false, message: 'cardId wajib diisi' });
   }
 
-  const db = openDb();
-
-  db.get('SELECT id, card_id, name, kelas, saldo FROM students WHERE card_id = ?', [cardId], (err, row) => {
-    db.close();
-    if (err) {
-      return res.status(500).json({ ok: false, message: 'Gagal memproses scan', error: err.message });
-    }
-
-    if (!row) {
+  try {
+    const rows = await query('SELECT id, card_id, name, kelas, saldo FROM students WHERE card_id = ?', [cardId]);
+    if (!rows.length) {
       return res.status(404).json({ ok: false, message: 'ID santri tidak ditemukan' });
     }
 
-    res.json({ ok: true, message: 'Scan berhasil', data: row });
-  });
+    return res.json({ ok: true, message: 'Scan berhasil', data: rows[0] });
+  } catch (error) {
+    return res.status(500).json({ ok: false, message: 'Gagal memproses scan', error: error.message });
+  }
 });
 
-app.post('/api/payments', (req, res) => {
+app.post('/api/payments', async (req, res) => {
   const { cardId, amount, note } = req.body;
   const safeCardId = String(cardId || '').trim();
   const safeAmount = Number(amount || 0);
@@ -132,58 +139,46 @@ app.post('/api/payments', (req, res) => {
     return res.status(400).json({ ok: false, message: 'cardId dan amount harus valid' });
   }
 
-  const db = openDb();
+  try {
+    const rows = await query('SELECT id, card_id, name, saldo FROM students WHERE card_id = ?', [safeCardId]);
 
-  db.get('SELECT id, card_id, name, saldo FROM students WHERE card_id = ?', [safeCardId], (err, row) => {
-    if (err) {
-      db.close();
-      return res.status(500).json({ ok: false, message: 'Gagal mengecek saldo', error: err.message });
-    }
-
-    if (!row) {
-      db.close();
+    if (!rows.length) {
       return res.status(404).json({ ok: false, message: 'Santri tidak ditemukan' });
     }
 
-    if (row.saldo < safeAmount) {
-      db.close();
-      return res.status(400).json({ ok: false, message: 'Saldo santri tidak mencukupi', saldo: row.saldo });
+    const student = rows[0];
+
+    if (Number(student.saldo) < safeAmount) {
+      return res.status(400).json({ ok: false, message: 'Saldo santri tidak mencukupi', saldo: student.saldo });
     }
 
-    const newSaldo = row.saldo - safeAmount;
+    const newSaldo = Number(student.saldo) - safeAmount;
 
-    db.run('UPDATE students SET saldo = ? WHERE card_id = ?', [newSaldo, safeCardId], (updateErr) => {
-      if (updateErr) {
-        db.close();
-        return res.status(500).json({ ok: false, message: 'Gagal update saldo', error: updateErr.message });
+    await query('UPDATE students SET saldo = ? WHERE card_id = ?', [newSaldo, safeCardId]);
+    await query('INSERT INTO payments (card_id, name, amount, note) VALUES (?, ?, ?, ?)', [safeCardId, student.name, safeAmount, note || 'Pembayaran produk']);
+
+    res.json({
+      ok: true,
+      message: 'Pembayaran berhasil',
+      data: {
+        cardId: safeCardId,
+        name: student.name,
+        amount: safeAmount,
+        saldoTerbaru: newSaldo
       }
-
-      db.run(
-        'INSERT INTO payments (card_id, name, amount, note) VALUES (?, ?, ?, ?)',
-        [safeCardId, row.name, safeAmount, note || 'Pembayaran produk'],
-        (insertErr) => {
-          db.close();
-          if (insertErr) {
-            return res.status(500).json({ ok: false, message: 'Gagal mencatat transaksi', error: insertErr.message });
-          }
-
-          res.json({
-            ok: true,
-            message: 'Pembayaran berhasil',
-            data: {
-              cardId: safeCardId,
-              name: row.name,
-              amount: safeAmount,
-              saldoTerbaru: newSaldo
-            }
-          });
-        }
-      );
     });
-  });
+  } catch (error) {
+    res.status(500).json({ ok: false, message: 'Gagal memproses pembayaran', error: error.message });
+  }
 });
 
-app.listen(PORT, () => {
-  initDb();
+app.listen(PORT, async () => {
+  await initDb();
   console.log(`RFID API running at http://localhost:${PORT}`);
+  console.log('Database config:', {
+    host: DB_CONFIG.host,
+    port: DB_CONFIG.port,
+    database: DB_CONFIG.database,
+    user: DB_CONFIG.user
+  });
 });
