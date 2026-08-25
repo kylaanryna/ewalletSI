@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SIMART Kasir</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
     :root {
       --bg: #fce9ab;
@@ -1265,6 +1266,21 @@
     }
     .flash.ok { background: rgba(159, 152, 32, 0.15); border-color: rgba(159, 152, 32, 0.3); color: #6d6513; }
     .flash.err { background: rgba(196, 43, 52, 0.12); border-color: rgba(196, 43, 52, 0.26); color: var(--danger); }
+    .simart-swal {
+      border-radius: 18px !important;
+      box-shadow: 0 24px 54px -28px rgba(110, 19, 35, 0.52) !important;
+      border: 1px solid rgba(196, 43, 52, 0.08) !important;
+      font-family: "Segoe UI", system-ui, sans-serif !important;
+    }
+    .simart-swal .swal2-title {
+      font-size: 1.1rem !important;
+      color: var(--ink) !important;
+      font-weight: 800 !important;
+    }
+    .simart-swal .swal2-html-container {
+      color: #5f3a2d !important;
+      font-weight: 600 !important;
+    }
 
     .pin-panel {
       padding: 24px;
@@ -1566,15 +1582,37 @@
       `;
     }
 
+    function showSweetAlert(message, type = "success", title = "Berhasil") {
+      if (!window.Swal) return;
+
+      const colorMap = {
+        success: { icon: "success", title: "Berhasil" },
+        error: { icon: "error", title: "Gagal" },
+        warning: { icon: "warning", title: "Perhatian" },
+        info: { icon: "info", title: "Informasi" }
+      };
+
+      const config = colorMap[type] || colorMap.success;
+      Swal.fire({
+        icon: config.icon,
+        title: title || config.title,
+        text: message,
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 2200,
+        timerProgressBar: true,
+        customClass: {
+          popup: "simart-swal"
+        }
+      });
+    }
+
     function flash(message, type = "ok") {
-      state.notice = message;
-      state.noticeType = type;
-      render();
-      clearTimeout(flash._t);
-      flash._t = setTimeout(() => {
-        state.notice = "";
-        render();
-      }, 2200);
+      if (window.Swal) {
+        const mapped = type === "err" ? "error" : "success";
+        showSweetAlert(message, mapped, type === "err" ? "Gagal" : "Berhasil");
+      }
     }
 
     function pushHistory(entry) {
@@ -1862,10 +1900,12 @@
         state.notice = `Santri terdeteksi: ${student.name}`;
         state.noticeType = "ok";
         state.scanAnimating = false;
+        showSweetAlert(`Santri terdeteksi: ${student.name}`, "success", "Scan berhasil");
         render();
       } catch (error) {
         state.scanAnimating = false;
         state.rfidInput = "";
+        showSweetAlert(error.message || "Gagal membaca kartu RFID.", "error", "Scan gagal");
         flash(error.message || "Gagal membaca kartu RFID.", "err");
       }
     }
@@ -1891,7 +1931,6 @@
       const ledClass = state.noticeType === "err" && state.notice ? "fail" : "";
       return `
         <div class="page-grid">
-          ${state.notice ? `<div class="flash ${state.noticeType === "err" ? "err" : "ok"}">${esc(state.notice)}</div>` : ""}
           <div class="panel scan-panel">
             <div class="rfid-machine">
               <div class="scan-topbar">
@@ -1969,7 +2008,6 @@
     function homeView() {
       return `
         <div class="page-grid">
-          ${state.notice ? `<div class="flash ${state.noticeType === "err" ? "err" : "ok"}">${esc(state.notice)}</div>` : ""}
           <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;">
             <div>
               <div class="muted">Selamat datang kembali</div>
@@ -2031,7 +2069,6 @@
       const items = cartItems();
       return `
         <div class="page-grid">
-          ${state.notice ? `<div class="flash ${state.noticeType === "err" ? "err" : "ok"}">${esc(state.notice)}</div>` : ""}
           <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;">
             <div>
               <div class="muted">Pembayaran</div>
@@ -2089,8 +2126,6 @@
     function productsView() {
       return `
         <div class="page-grid">
-          ${state.notice ? `<div class="flash ${state.noticeType === "err" ? "err" : "ok"}">${esc(state.notice)}</div>` : ""}
-
           <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;">
             <div>
               <div class="muted">Admin</div>
@@ -2153,7 +2188,6 @@
       const remaining = student.saldo - total;
       return `
         <div class="page-grid">
-          ${state.notice ? `<div class="flash ${state.noticeType === "err" ? "err" : "ok"}">${esc(state.notice)}</div>` : ""}
           <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;">
             <div>
               <div class="muted">Keranjang</div>
@@ -2201,8 +2235,6 @@
       const amount = state.topupAmount || 0;
       return `
         <div class="page-grid">
-          ${state.notice ? `<div class="flash ${state.noticeType === "err" ? "err" : "ok"}">${esc(state.notice)}</div>` : ""}
-
           <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;">
             <div>
               <div class="muted">Top Up</div>
@@ -2249,7 +2281,6 @@
     function historyView() {
       return `
         <div class="page-grid">
-          ${state.notice ? `<div class="flash ${state.noticeType === "err" ? "err" : "ok"}">${esc(state.notice)}</div>` : ""}
           <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;">
             <div>
               <div class="muted">Riwayat</div>
