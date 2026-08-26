@@ -24,6 +24,11 @@ const pool = mysql.createPool(DB_CONFIG);
 app.use(cors());
 app.use(express.json());
 
+// Menyimpan hasil scan RFID terakhir di memori, supaya web bisa polling
+// dan tahu ada kartu baru yang ditap oleh alat ESP32.
+let lastScan = null; // { cardId, scanId, student|null, message, ok, timestamp }
+let scanCounter = 0;
+
 function query(sql, params = []) {
   return new Promise((resolve, reject) => {
     pool.execute(sql, params, (err, results) => {
@@ -120,14 +125,43 @@ app.post('/api/scan', async (req, res) => {
 
   try {
     const rows = await query('SELECT id, card_id, name, kelas, saldo FROM students WHERE card_id = ?', [cardId]);
+
+    scanCounter += 1;
+
     if (!rows.length) {
+      lastScan = {
+        scanId: scanCounter,
+        cardId,
+        ok: false,
+        message: 'ID santri tidak ditemukan',
+        data: null,
+        timestamp: Date.now()
+      };
       return res.status(404).json({ ok: false, message: 'ID santri tidak ditemukan' });
     }
+
+    lastScan = {
+      scanId: scanCounter,
+      cardId,
+      ok: true,
+      message: 'Scan berhasil',
+      data: rows[0],
+      timestamp: Date.now()
+    };
 
     return res.json({ ok: true, message: 'Scan berhasil', data: rows[0] });
   } catch (error) {
     return res.status(500).json({ ok: false, message: 'Gagal memproses scan', error: error.message });
   }
+});
+
+// Dipanggil (polling) oleh web setiap beberapa detik untuk mengecek
+// apakah ada tap kartu baru yang masuk dari alat ESP32.
+app.get('/api/last-scan', (req, res) => {
+  if (!lastScan) {
+    return res.json({ ok: true, data: null });
+  }
+  res.json({ ok: true, data: lastScan });
 });
 
 app.post('/api/payments', async (req, res) => {

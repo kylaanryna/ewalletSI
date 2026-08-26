@@ -1910,6 +1910,58 @@
       }
     }
 
+    // ID scan terakhir yang sudah diproses, supaya tidak memproses ulang
+    // scan yang sama berkali-kali saat polling.
+    let lastHandledScanId = 0;
+    let scanPollTimer = null;
+
+    async function pollLastScan() {
+      // Hanya polling saat tab Scan aktif dan tidak sedang di tengah proses lain.
+      if (!state.loggedIn || state.activeTab !== "scan" || state.scanAnimating) return;
+
+      try {
+        const response = await fetch(`${API_BASE}/api/last-scan`);
+        const result = await response.json();
+
+        if (!result.ok || !result.data) return;
+
+        const scan = result.data;
+
+        // Scan baru dari ESP32 yang belum pernah diproses di web ini.
+        if (scan.scanId && scan.scanId !== lastHandledScanId) {
+          lastHandledScanId = scan.scanId;
+
+          if (scan.ok && scan.data) {
+            state.selectedStudentId = scan.data.id;
+            state.rfidScanned = true;
+            state.rfidInput = "";
+            state.activeTab = "payment";
+            state.notice = `Santri terdeteksi: ${scan.data.name}`;
+            state.noticeType = "ok";
+            render();
+            showSweetAlert(`Santri terdeteksi: ${scan.data.name}`, "success", "Scan berhasil");
+          } else {
+            flash(scan.message || "Kartu tidak dikenali.", "err");
+          }
+        }
+      } catch (error) {
+        // Diamkan saja kalau polling gagal (misal server sedang restart),
+        // biar tidak spam notifikasi error tiap 1.5 detik.
+      }
+    }
+
+    function startScanPolling() {
+      if (scanPollTimer) return;
+      scanPollTimer = setInterval(pollLastScan, 1500);
+    }
+
+    function stopScanPolling() {
+      if (scanPollTimer) {
+        clearInterval(scanPollTimer);
+        scanPollTimer = null;
+      }
+    }
+
     async function triggerAutoScan() {
       if (!state.students.length) {
         const loaded = await loadStudentsFromApi();
@@ -2800,8 +2852,27 @@
       }
     });
 
+    async function initScanBaseline() {
+      // Tandai scan yang sudah ada sebelum web ini dibuka sebagai "sudah
+      // ditangani", supaya saat pertama buka tab Scan tidak langsung
+      // memunculkan scan lama.
+      try {
+        const response = await fetch(`${API_BASE}/api/last-scan`);
+        const result = await response.json();
+        if (result.ok && result.data && result.data.scanId) {
+          lastHandledScanId = result.data.scanId;
+        }
+      } catch (error) {
+        // Server mungkin belum siap, tidak apa-apa, polling akan coba lagi.
+      }
+    }
+
     loadStudentsFromApi();
     render();
+    initScanBaseline();
+    // Polling berjalan terus di background; pollLastScan sendiri yang
+    // memutuskan kapan boleh memproses (hanya saat login & tab Scan aktif).
+    startScanPolling();
   </script>
 </body>
 </html>
