@@ -395,378 +395,353 @@
       margin-bottom: 12px;
     }
     .scan-panel {
-      padding: 14px 14px 16px;
-      border-radius: 26px;
-      background: linear-gradient(180deg, #1a1d22 0%, #232930 100%);
-      border: 2px solid rgba(255,255,255,0.08);
-      box-shadow: 0 25px 45px -28px rgba(8, 11, 14, 0.8);
+      padding: clamp(20px, 2.6vw, 34px);
+      border-radius: var(--radius-lg);
+      background: linear-gradient(180deg, #fffaf0 0%, #fff1d4 100%);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
     }
-    .rfid-machine {
-      display: grid;
-      gap: 12px;
-      padding: 12px 12px 14px;
-      border-radius: 20px;
-      background: linear-gradient(180deg, #2f373d 0%, #1d2328 100%);
-      border: 2px solid rgba(255,255,255,0.08);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -10px 18px rgba(0,0,0,0.18);
-    }
-    .scan-topbar {
+    .scan-head {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
-      gap: 12px;
-      padding-bottom: 6px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      gap: 16px;
+      flex-wrap: wrap;
     }
-    .terminal-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 28px;
-      padding: 0 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: #dfeef5;
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-    }
-    .status-led {
+    .status-pill {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 6px 10px 6px 8px;
+      margin-top: 6px;
+      padding: 8px 14px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: #dfeef5;
-      font-size: 0.7rem;
+      background: rgba(47, 158, 99, 0.12);
+      border: 1px solid rgba(47, 158, 99, 0.28);
+      color: #22744b;
+      font-size: 0.72rem;
       font-weight: 800;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.09em;
       text-transform: uppercase;
+      white-space: nowrap;
     }
-    .status-led-dot {
-      width: 10px;
-      height: 10px;
+    .status-pill .status-dot {
+      width: 9px;
+      height: 9px;
       border-radius: 50%;
-      background: #4fe08a;
-      box-shadow: 0 0 0 3px rgba(79, 224, 138, 0.18);
+      background: #2f9e63;
+      box-shadow: 0 0 0 3px rgba(47, 158, 99, 0.18);
       animation: ledBlink 1.8s ease-in-out infinite;
     }
-    .status-led-dot.fail {
-      background: #ff6a5d;
-      box-shadow: 0 0 0 3px rgba(255, 106, 93, 0.18);
-      animation: ledBlinkFail 1.5s ease-in-out infinite;
+    .status-pill.fail {
+      background: rgba(196, 43, 52, 0.09);
+      border-color: rgba(196, 43, 52, 0.3);
+      color: var(--danger);
+    }
+    .status-pill.fail .status-dot {
+      background: var(--danger);
+      box-shadow: 0 0 0 3px rgba(196, 43, 52, 0.16);
     }
     @keyframes ledBlink {
       0%, 100% { opacity: 1; transform: scale(1); }
       50% { opacity: 0.55; transform: scale(0.96); }
     }
-    @keyframes ledBlinkFail {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.9); }
-    }
     .scan-title {
       margin: 0;
-      color: #edf8ff;
-      font-size: clamp(1.8rem, 2.4vw, 2.7rem);
-      letter-spacing: -0.06em;
-      line-height: 1.06;
+      color: var(--ink);
+      font-size: clamp(1.5rem, 2vw, 2rem);
+      letter-spacing: -0.04em;
+      line-height: 1.15;
       font-weight: 800;
     }
     .scan-subtitle {
-      margin: 0;
-      color: rgba(223, 238, 245, 0.72);
-      font-size: 0.9rem;
+      margin: 8px 0 0;
+      max-width: 520px;
+      color: var(--muted);
+      font-size: 0.92rem;
       line-height: 1.65;
     }
-    .terminal-screen {
+    .scan-stage {
       position: relative;
+      margin-top: 20px;
       display: grid;
-      gap: 12px;
-      padding: 12px 12px 10px;
-      border-radius: 16px;
-      background: linear-gradient(180deg, rgba(7,11,14,0.7), rgba(13,18,23,0.8));
-      border: 1px solid rgba(255,255,255,0.06);
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04), inset 0 0 18px rgba(59, 175, 255, 0.08);
+      place-items: center;
+      gap: 14px;
+      padding: clamp(24px, 3.4vw, 40px) 20px;
+      border-radius: var(--radius-md);
+      background:
+        radial-gradient(circle at 18% 12%, rgba(252, 143, 45, 0.16), transparent 46%),
+        radial-gradient(circle at 84% 88%, rgba(220, 65, 124, 0.14), transparent 46%),
+        linear-gradient(160deg, #ffeccd 0%, #ffe3f0 100%);
+      border: 2px dashed rgba(196, 43, 52, 0.26);
       overflow: hidden;
+      transition: border-color 0.25s ease;
     }
-    .terminal-screen::before {
-      content: "";
+    .scan-stage.is-fail {
+      border-color: rgba(196, 43, 52, 0.45);
+      background:
+        radial-gradient(circle at 18% 12%, rgba(196, 43, 52, 0.1), transparent 46%),
+        radial-gradient(circle at 84% 88%, rgba(196, 43, 52, 0.12), transparent 46%),
+        linear-gradient(160deg, #ffe4e2 0%, #ffd6dc 100%);
+    }
+    .stage-ring {
       position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      height: 24px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.04), transparent);
+      top: 50%;
+      left: 50%;
+      width: 120px;
+      height: 120px;
+      margin: -60px 0 0 -60px;
+      border-radius: 999px;
+      border: 2px solid rgba(199, 44, 79, 0.35);
+      opacity: 0;
       pointer-events: none;
     }
-    .screen-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 0.68rem;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(223, 238, 245, 0.7);
+    .scan-stage.is-scanning .stage-ring {
+      animation: ringOut 1.6s ease-out infinite;
     }
-    .screen-scan-line {
+    .scan-stage.is-scanning .stage-ring.r2 {
+      animation-delay: 0.8s;
+    }
+    @keyframes ringOut {
+      0% { transform: scale(1); opacity: 0.7; }
+      100% { transform: scale(2.6); opacity: 0; }
+    }
+    @keyframes stageSweep {
+      0% { transform: translateY(-70px); }
+      50% { transform: translateY(70px); }
+      100% { transform: translateY(-70px); }
+    }
+    .scan-card-art {
       position: relative;
-      width: 100%;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, rgba(104, 222, 255, 0.7), transparent);
-      opacity: 0.9;
-      overflow: hidden;
+      z-index: 1;
+      width: min(300px, 78%);
+      aspect-ratio: 1.586;
+      border-radius: 18px;
+      padding: 18px;
+      background: linear-gradient(135deg, #d63d6a 0%, #c72c4f 45%, #e9844a 100%);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      box-shadow: 0 24px 40px -26px rgba(125, 16, 40, 0.55);
+      color: #fff7dc;
+      transition: transform 0.25s ease;
     }
-    .screen-scan-line::after {
-      content: "";
+    .scan-stage.is-scanning .scan-card-art {
+      animation: cardFloat 1.6s ease-in-out infinite;
+    }
+    .scan-stage.is-fail .scan-card-art {
+      filter: saturate(0.75);
+    }
+    @keyframes cardFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    .art-chip {
+      width: 38px;
+      height: 28px;
+      border-radius: 7px;
+      background: linear-gradient(135deg, #ffe1b6, #fc8f2d);
+      box-shadow: inset 0 0 0 1px rgba(125, 16, 40, 0.28);
+    }
+    .art-waves {
       position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent);
-      transform: translateX(-100%);
-      animation: scanSweep 2.2s ease-in-out infinite;
-    }
-    @keyframes scanSweep {
-      0% { transform: translateX(-100%); }
-      50% { transform: translateX(100%); }
-      100% { transform: translateX(100%); }
-    }
-    .scan-identity-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    .scan-card-frame {
-      position: relative;
-      padding: 9px 9px 10px;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.02);
-      border: 2px solid rgba(113, 160, 185, 0.7);
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
-    }
-    .scan-card-frame::before,
-    .scan-card-frame::after {
-      content: "";
-      position: absolute;
-      width: 16px;
-      height: 16px;
-      border: 2px solid rgba(113, 160, 185, 0.7);
-      background: transparent;
-    }
-    .scan-card-frame::before {
-      left: -7px;
-      top: -7px;
-      border-right: none;
-      border-bottom: none;
-    }
-    .scan-card-frame::after {
-      right: -7px;
-      bottom: -7px;
-      border-left: none;
-      border-top: none;
-    }
-    .scan-card {
-      position: relative;
-      border-radius: 12px;
-      overflow: hidden;
-      height: 144px;
-      background: linear-gradient(180deg, #dfeef4 0%, #cfe0e9 100%);
-      border: 1px solid rgba(17, 45, 52, 0.18);
-    }
-    .scan-card.front {
-      padding: 16px 14px;
-    }
-    .scan-card.back {
-      background: linear-gradient(180deg, #397791 0%, #2a5f71 100%);
-    }
-    .scan-card-header {
-      font-size: 0.68rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      font-weight: 800;
-      color: #294f62;
-      margin-bottom: 14px;
-    }
-    .scan-card-body {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .scan-avatar {
-      width: 62px;
-      height: 72px;
-      border-radius: 10px;
-      background: linear-gradient(180deg, #b7dfee, #8ec0d7);
-      position: relative;
-      overflow: hidden;
-    }
-    .scan-avatar::before {
-      content: "";
-      position: absolute;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: #f8fafb;
-      left: 50%;
       top: 16px;
-      transform: translateX(-50%);
-      box-shadow: 0 26px 0 8px #edf6fa;
+      right: 16px;
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
     }
-    .scan-card-info {
-      flex: 1;
-      display: grid;
-      gap: 8px;
-    }
-    .scan-card-row {
-      height: 10px;
+    .art-waves i {
+      width: 5px;
       border-radius: 999px;
-      background: rgba(50, 92, 111, 0.28);
+      background: rgba(255, 247, 220, 0.85);
     }
-    .scan-card-row.short { width: 62%; }
-    .scan-card-row.mid { width: 82%; }
-    .scan-card-row.long { width: 100%; }
-    .scan-back-header {
+    .art-waves i:nth-child(1) { height: 10px; opacity: 0.5; }
+    .art-waves i:nth-child(2) { height: 16px; opacity: 0.75; }
+    .art-waves i:nth-child(3) { height: 22px; }
+    .art-num {
       position: absolute;
-      inset: 0 0 auto 0;
-      height: 52%;
-      background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0));
+      left: 18px;
+      bottom: 15px;
+      font-weight: 800;
+      letter-spacing: 0.22em;
+      font-size: 0.92rem;
     }
-    .scan-barcode {
+    .stage-line {
       position: absolute;
-      left: 12px;
-      right: 12px;
-      bottom: 14px;
-      height: 54px;
-      padding: 6px 8px;
-      border-radius: 8px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04));
+      z-index: 2;
+      left: 8%;
+      right: 8%;
+      top: 50%;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, rgba(199, 44, 79, 0.55), transparent);
+      opacity: 0;
+      pointer-events: none;
     }
-    .scan-barcode-bars {
-      width: 100%;
-      height: 100%;
+    .scan-stage.is-scanning .stage-line {
+      opacity: 1;
+      animation: stageSweep 1.4s ease-in-out infinite;
+    }
+    .stage-hint {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--ink2);
+      background: rgba(255, 250, 236, 0.72);
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(196, 43, 52, 0.14);
+      backdrop-filter: blur(2px);
+    }
+    .scan-stage.is-fail .stage-hint {
+      color: var(--danger);
+      border-color: rgba(196, 43, 52, 0.3);
+    }
+    .scan-form {
+      margin-top: 20px;
       display: grid;
-      grid-template-columns: repeat(34, 1fr);
-      gap: 1px;
-      align-items: stretch;
+      gap: 10px;
     }
-    .scan-barcode-bars span {
-      display: block;
-      background: rgba(255,255,255,0.96);
-      border-radius: 1px;
-      opacity: 0.9;
+    .field-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink2);
     }
     .rfid-reader {
       position: relative;
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 16px 16px;
-      border-radius: 14px;
-      border: 2px solid rgba(255,255,255,0.08);
-      background: linear-gradient(180deg, rgba(9,12,14,0.7), rgba(16,21,25,0.8));
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
-      overflow: hidden;
+      padding: 8px 8px 8px 14px;
+      border-radius: 999px;
+      border: 2px solid var(--line);
+      background: #fffbf1;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
-    .rfid-reader::before {
-      content: "";
-      position: absolute;
-      left: 14px;
-      right: 14px;
-      top: 50%;
-      height: 2px;
-      background: rgba(127, 205, 255, 0.24);
-      transform: translateY(-50%);
+    .rfid-reader:focus-within {
+      border-color: rgba(199, 44, 79, 0.55);
+      box-shadow: 0 0 0 4px rgba(199, 44, 79, 0.1);
+    }
+    .rfid-reader.is-scanning {
+      border-color: rgba(252, 143, 45, 0.65);
+      box-shadow: 0 0 0 4px rgba(252, 143, 45, 0.14);
     }
     .scan-icon {
-      position: relative;
-      z-index: 1;
-      width: 42px;
-      height: 42px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       display: grid;
       place-items: center;
-      background: rgba(79, 224, 138, 0.12);
-      color: #8ff0bb;
+      background: rgba(220, 65, 124, 0.1);
+      color: #c72c4f;
       font-weight: 800;
-      font-size: 1rem;
+      font-size: 0.95rem;
       flex: 0 0 auto;
-      box-shadow: inset 0 0 0 1px rgba(143,240,187,0.25);
+      box-shadow: inset 0 0 0 1px rgba(199, 44, 79, 0.22);
     }
     .rfid-reader.is-scanning .scan-icon {
       animation: scanPulse 1s ease-in-out infinite;
     }
     .rfid-reader input {
-      position: relative;
-      z-index: 1;
       width: 100%;
-      color: #edf8ff;
+      min-width: 0;
+      border: 0;
+      outline: none;
       background: transparent;
+      color: var(--ink);
       font-size: 1rem;
+      font-weight: 600;
       letter-spacing: 0.04em;
+      padding: 10px 6px;
     }
     .rfid-reader input::placeholder {
-      color: rgba(223, 238, 245, 0.42);
+      color: rgba(159, 106, 43, 0.55);
+      font-weight: 500;
     }
     @keyframes scanPulse {
-      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(79, 224, 138, 0.35); }
-      70% { transform: scale(1.08); box-shadow: 0 0 0 12px rgba(79, 224, 138, 0); }
-      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(79, 224, 138, 0); }
+      0% { transform: scale(1); box-shadow: inset 0 0 0 1px rgba(199,44,79,.22), 0 0 0 0 rgba(199, 44, 79, 0.3); }
+      70% { transform: scale(1.06); box-shadow: inset 0 0 0 1px rgba(199,44,79,.22), 0 0 0 10px rgba(199, 44, 79, 0); }
+      100% { transform: scale(1); box-shadow: inset 0 0 0 1px rgba(199,44,79,.22), 0 0 0 0 rgba(199, 44, 79, 0); }
     }
     .scan-actions {
+      margin-top: 6px;
       display: flex;
-      gap: 10px;
+      gap: 12px;
       flex-wrap: wrap;
-      align-items: center;
+      align-items: stretch;
     }
     .scan-auto-btn {
+      flex: 1 1 220px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 190px;
-      height: 56px;
-      padding: 0 22px;
-      border: 2px solid rgba(255,255,255,0.08);
-      border-radius: 12px;
-      background: linear-gradient(180deg, #d7597b 0%, #a81d49 100%);
-      color: #fffaf3;
-      font-size: 1.02rem;
+      gap: 10px;
+      min-height: 54px;
+      padding: 0 24px;
+      border: 0;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #c94062, #b81e44);
+      color: #fff7dc;
+      font-size: 1rem;
       font-weight: 800;
-      letter-spacing: -0.04em;
-      box-shadow: inset 0 2px 0 rgba(255,255,255,0.16), 0 18px 24px -18px rgba(168, 29, 73, 0.9);
+      letter-spacing: -0.01em;
+      box-shadow: 0 16px 26px -18px rgba(196, 43, 52, 0.82);
       transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
     }
     .scan-auto-btn:hover {
       transform: translateY(-1px);
-      filter: brightness(1.03);
-      box-shadow: inset 0 2px 0 rgba(255,255,255,0.16), 0 20px 26px -18px rgba(168, 29, 73, 0.9);
+      filter: brightness(1.04);
     }
     .scan-auto-btn.is-active {
       animation: autoScanPulse 1s ease-in-out infinite;
+      pointer-events: none;
+      opacity: 0.85;
     }
     @keyframes autoScanPulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(215, 89, 123, 0.3), inset 0 2px 0 rgba(255,255,255,0.16); }
-      50% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(215,89,123,0), inset 0 2px 0 rgba(255,255,255,0.16); }
+      0%, 100% { transform: scale(1); box-shadow: 0 16px 26px -18px rgba(196,43,52,.82), 0 0 0 0 rgba(199, 44, 79, 0.35); }
+      50% { transform: scale(1.015); box-shadow: 0 16px 26px -18px rgba(196,43,52,.82), 0 0 0 12px rgba(199, 44, 79, 0); }
     }
     .scan-note {
-      margin-top: 2px;
-      color: rgba(223, 238, 245, 0.7);
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      color: var(--muted);
       font-size: 0.82rem;
-      line-height: 1.6;
+      font-weight: 600;
+    }
+    .demo-chip {
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: rgba(159, 152, 32, 0.12);
+      border: 1px solid rgba(159, 152, 32, 0.3);
+      color: #6f6c14;
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
     }
     .selected-student-box {
+      margin-top: 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      padding: 12px 14px;
-      border-radius: 14px;
-      background: rgba(198, 59, 98, 0.08);
-      border: 2px solid rgba(124, 30, 46, 0.18);
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+      background: rgba(47, 158, 99, 0.1);
+      border: 1px solid rgba(47, 158, 99, 0.28);
       color: var(--ink);
-      font-weight: 700;
+    }
+    .selected-student-box .student-box-label {
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #22744b;
+    }
+    .selected-student-box strong {
+      font-size: 1rem;
     }
     .product-panel {
       padding: 8px 10px 12px;
@@ -1025,6 +1000,70 @@
       padding: 0 8px;
       box-shadow: 0 8px 18px -10px rgba(196,43,52,0.6);
     }
+    /* Stepper +/- di kartu produk */
+    .qty-stepper {
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      padding: 5px;
+      border-radius: 999px;
+      background: #fffbf1;
+      border: 2px solid rgba(199, 44, 79, 0.32);
+      box-shadow: 0 12px 20px -16px rgba(196, 43, 52, 0.5);
+      animation: fadeUp 0.22s ease both;
+    }
+    .qty-btn {
+      width: 38px;
+      height: 38px;
+      border: 0;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: rgba(220, 65, 124, 0.09);
+      color: #b81e44;
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+    .qty-btn:hover {
+      background: rgba(220, 65, 124, 0.16);
+      transform: scale(1.07);
+    }
+    .qty-btn:active { transform: scale(0.92); }
+    .qty-btn.qty-plus {
+      background: linear-gradient(135deg, #c94062, #b81e44);
+      color: #fff7dc;
+      box-shadow: 0 10px 16px -10px rgba(196, 43, 52, 0.7);
+    }
+    .qty-val {
+      flex: 1;
+      text-align: center;
+      font-weight: 900;
+      font-size: 16px;
+      color: var(--ink);
+    }
+    /* Efek barang terlempar ke keranjang */
+    .fly-to-cart {
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 4000;
+      pointer-events: none;
+      font-size: 28px;
+      line-height: 1;
+      will-change: transform, opacity;
+      filter: drop-shadow(0 8px 12px rgba(120, 26, 41, 0.3));
+    }
+    @keyframes cartBump {
+      0% { transform: scale(1); }
+      35% { transform: scale(1.14) rotate(-3deg); }
+      70% { transform: scale(0.97); }
+      100% { transform: scale(1); }
+    }
+    .cart-icon.cart-bump { animation: cartBump 0.5s ease; }
     .cart-dropdown {
       position: absolute;
       right: 0;
@@ -1493,6 +1532,11 @@
         grid-template-columns: 1fr;
       }
       .stat-grid { grid-template-columns: 1fr 1fr; }
+      .scan-head { flex-direction: column; }
+      .status-pill { margin-top: 0; }
+      .scan-actions { flex-direction: column; }
+      .scan-actions .btn { width: 100%; }
+      .scan-card-art { width: min(260px, 88%); }
     }
   </style>
 </head>
@@ -1613,6 +1657,53 @@
         const mapped = type === "err" ? "error" : "success";
         showSweetAlert(message, mapped, type === "err" ? "Gagal" : "Berhasil");
       }
+    }
+
+    function flyToCart(startRect, emoji) {
+      if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const target = document.querySelector(".cart-icon");
+      let endX = window.innerWidth - 110;
+      let endY = 58;
+      if (target) {
+        const r = target.getBoundingClientRect();
+        endX = r.left + r.width / 2;
+        endY = r.top + r.height / 2;
+      }
+      const sx = startRect ? startRect.left + startRect.width / 2 : endX;
+      const sy = startRect ? startRect.top + startRect.height / 2 : endY;
+
+      const flyer = document.createElement("div");
+      flyer.className = "fly-to-cart";
+      flyer.textContent = emoji || "🛍️";
+      document.body.appendChild(flyer);
+
+      // Kurva Bezier: titik kontrol di atas agar jalannya melengkung seperti dilempar
+      const cx = (sx + endX) / 2;
+      const cy = Math.min(sy, endY) - 130;
+      const duration = 720;
+      const t0 = performance.now();
+
+      function step(now) {
+        const t = Math.min((now - t0) / duration, 1);
+        const inv = 1 - t;
+        const x = inv * inv * sx + 2 * inv * t * cx + t * t * endX;
+        const y = inv * inv * sy + 2 * inv * t * cy + t * t * endY;
+        const scale = Math.max(1 - 0.55 * t, 0.3);
+        flyer.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%) scale(${scale}) rotate(${t * 30}deg)`;
+        flyer.style.opacity = t > 0.85 ? String((1 - t) / 0.15) : "1";
+        if (t < 1) {
+          requestAnimationFrame(step);
+        } else {
+          flyer.remove();
+          const cart = document.querySelector(".cart-icon");
+          if (cart) {
+            cart.classList.remove("cart-bump");
+            void cart.offsetWidth;
+            cart.classList.add("cart-bump");
+          }
+        }
+      }
+      requestAnimationFrame(step);
     }
 
     function pushHistory(entry) {
@@ -1980,77 +2071,59 @@
 
     function scanView() {
       const detectedStudent = state.selectedStudentId ? selectedStudent() : null;
-      const ledClass = state.noticeType === "err" && state.notice ? "fail" : "";
+      const hasError = state.noticeType === "err" && state.notice;
+      const scanning = !!state.scanAnimating;
       return `
         <div class="page-grid">
           <div class="panel scan-panel">
-            <div class="rfid-machine">
-              <div class="scan-topbar">
+            <div class="scan-head">
+              <div>
                 <h2 class="scan-title">Scan Kartu Santri</h2>
-                <div class="status-led" aria-label="Status RFID">
-                  <span class="status-led-dot ${ledClass}"></span>
-                  <span style="font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink);">${state.noticeType === "err" && state.notice ? "Gagal baca" : "Tersambung"}</span>
-                </div>
+                <p class="scan-subtitle">Tempelkan kartu RFID santri pada perangkat pembaca untuk mengenali identitas dan lanjut ke pembayaran.</p>
               </div>
-              <p class="scan-subtitle">Tempel kartu RFID santri ke perangkat, atau klik tombol scan otomatis untuk membaca identitas santri dan masuk langsung ke pembayaran.</p>
+              <div class="status-pill ${hasError ? "fail" : ""}" aria-label="Status RFID">
+                <span class="status-dot"></span>
+                <span>${hasError ? "Gagal baca" : scanning ? "Membaca..." : "Tersambung"}</span>
+              </div>
+            </div>
 
-              <div class="terminal-screen">
-                <div class="screen-header">
-                  <span>Card Status</span>
-                  <span>RFID</span>
-                </div>
-                <div class="screen-scan-line"></div>
+            <div class="scan-stage ${scanning ? "is-scanning" : ""} ${hasError ? "is-fail" : ""}">
+              <span class="stage-ring r1"></span>
+              <span class="stage-ring r2"></span>
+              <span class="stage-line"></span>
+              <div class="scan-card-art" aria-hidden="true">
+                <div class="art-chip"></div>
+                <div class="art-waves"><i></i><i></i><i></i></div>
+                <div class="art-num">•••• 2201</div>
+              </div>
+              <p class="stage-hint">${scanning ? "Membaca kartu..." : hasError ? "Kartu tidak dikenali, coba lagi" : "Arahkan kartu ke area ini"}</p>
+            </div>
 
-                <div class="scan-identity-grid">
-                  <div class="scan-card-frame">
-                    <div class="scan-card front">
-                      <div class="scan-card-header">Driver's License</div>
-                      <div class="scan-card-body">
-                        <div class="scan-avatar" aria-hidden="true"></div>
-                        <div class="scan-card-info">
-                          <div class="scan-card-row long"></div>
-                          <div class="scan-card-row mid"></div>
-                          <div class="scan-card-row short"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="scan-card-frame">
-                    <div class="scan-card back">
-                      <div class="scan-back-header"></div>
-                      <div class="scan-barcode" aria-hidden="true">
-                        <div class="scan-barcode-bars">
-                          ${Array.from({ length: 34 }, (_, i) => `<span style="height:${(i % 5) * 8 + 18}px"></span>`).join("")}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+            <form id="rfidForm" class="scan-form">
+              <label class="field-label" for="rfidInput">ID Kartu RFID</label>
+              <div class="rfid-reader ${scanning ? "is-scanning" : ""}">
+                <span class="scan-icon">◉</span>
+                <input id="rfidInput" name="rfid" type="text" placeholder="Contoh: RFID-001" value="${esc(state.rfidInput)}" autocomplete="off" />
               </div>
 
-              <form id="rfidForm">
-                <div class="rfid-reader ${state.scanAnimating ? "is-scanning" : ""}">
-                  <div class="scan-icon">◉</div>
-                  <input name="rfid" type="text" placeholder="Masukkan ID kartu RFID" value="${esc(state.rfidInput)}" autocomplete="off" />
-                </div>
-
-                <div class="scan-actions" style="margin-top:16px;">
-                  <button class="scan-auto-btn ${state.scanAnimating ? "is-active" : ""}" type="button" data-action="scan-auto">${state.scanAnimating ? "Scanning..." : "Scan otomatis"}</button>
-                  <button class="btn btn-dark" type="submit">Scan Kartu</button>
-                </div>
-              </form>
-
-              ${detectedStudent ? `
-                <div class="selected-student-box">
-                  <span>Santri aktif</span>
-                  <strong>${esc(detectedStudent.name)}</strong>
-                </div>
-              ` : ""}
-
-              <div class="scan-note">
-                ID terdaftar demo: <strong>RFID-001</strong>, <strong>RFID-002</strong>, <strong>RFID-003</strong>
+              <div class="scan-actions">
+                <button class="scan-auto-btn ${scanning ? "is-active" : ""}" type="button" data-action="scan-auto">${scanning ? "Scanning..." : "Scan otomatis"}</button>
+                <button class="btn btn-dark" type="submit">Scan Kartu</button>
               </div>
+            </form>
+
+            ${detectedStudent ? `
+              <div class="selected-student-box">
+                <span class="student-box-label">Santri aktif</span>
+                <strong>${esc(detectedStudent.name)}</strong>
+              </div>
+            ` : ""}
+
+            <div class="scan-note">
+              ID demo:
+              <span class="demo-chip">RFID-001</span>
+              <span class="demo-chip">RFID-002</span>
+              <span class="demo-chip">RFID-003</span>
             </div>
           </div>
         </div>
@@ -2162,7 +2235,18 @@
                           </div>
                           <div class="product-name">${esc(p.name)}</div>
                           <div class="product-cat">${esc(p.cat)}</div>
-                          <button class="btn btn-dark" style="width:100%;margin-top:14px;" data-action="add-product" data-id="${p.id}">Tambah</button>
+                          ${(() => {
+                            const inCart = Number(state.cart[p.id] || 0);
+                            return inCart > 0 ? `
+                              <div class="qty-stepper">
+                                <button type="button" class="qty-btn" data-action="cart-dec" data-id="${p.id}" aria-label="Kurangi jumlah">−</button>
+                                <span class="qty-val">${inCart}</span>
+                                <button type="button" class="qty-btn qty-plus" data-action="cart-inc" data-id="${p.id}" aria-label="Tambah jumlah">+</button>
+                              </div>
+                            ` : `
+                              <button class="btn btn-dark" style="width:100%;margin-top:14px;" data-action="add-product" data-id="${p.id}">+ Tambah</button>
+                            `;
+                          })()}
                         </div>
                       `).join("")}
                     </div>
@@ -2688,15 +2772,25 @@
 
       if (action === "add-product") {
         const id = Number(el.dataset.id);
+        const product = state.products.find((p) => p.id === id);
+        const cardEl = el.closest(".product");
+        const dotEl = cardEl ? cardEl.querySelector(".emoji-dot") : null;
+        const startRect = dotEl ? dotEl.getBoundingClientRect() : null;
         state.cart[id] = (state.cart[id] || 0) + 1;
         render();
+        flyToCart(startRect, product ? product.emoji : "");
         return;
       }
 
       if (action === "cart-inc") {
         const id = Number(el.dataset.id);
+        const product = state.products.find((p) => p.id === id);
+        const cardEl = el.closest(".product");
+        const dotEl = cardEl ? cardEl.querySelector(".emoji-dot") : null;
+        const startRect = dotEl ? dotEl.getBoundingClientRect() : null;
         state.cart[id] = (state.cart[id] || 0) + 1;
         render();
+        flyToCart(startRect, product ? product.emoji : "");
         return;
       }
 
