@@ -2335,9 +2335,15 @@
                 <input name="pname" placeholder="Nama produk" value="${esc(state.productForm.name)}" aria-label="Nama produk" />
               </div>
               <div class="product-field">
-                <span class="field-ico">📁</span>
-                <input name="pcat" placeholder="Kategori" value="${esc(state.productForm.cat)}" aria-label="Kategori produk" />
-              </div>
+            <span class="field-ico">📁</span>
+            <select name="pcat" required style="width: 100%; padding: 8px; background: inherit; color: inherit; border: inherit; border-radius: inherit;">
+              <option value="" disabled selected>Pilih Kategori</option>
+              <option value="Makanan">Makanan</option>
+              <option value="Minuman">Minuman</option>
+              <option value="Alat tulis">Alat tulis</option>
+              <option value="Keperluan pribadi">Keperluan pribadi</option>
+            </select>
+            </div>
               <div class="product-field">
                 <span class="field-ico">💰</span>
                 <input name="pprice" inputmode="numeric" placeholder="Harga" value="${state.productForm.price || ""}" aria-label="Harga produk" />
