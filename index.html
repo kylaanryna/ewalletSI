@@ -2706,7 +2706,7 @@
       root.innerHTML = state.loggedIn ? appView() : loginView();
     }
 
-    root.addEventListener("submit", (e) => {
+    root.addEventListener("submit", async (e) => {
       if (e.target && e.target.id === "loginForm") {
         e.preventDefault();
         const fd = new FormData(e.target);
@@ -2714,7 +2714,7 @@
         const password = String(fd.get("password") || "");
         if (username === "admin" && password === "admin123") {
           state.loggedIn = true;
-          state.loginUsername = user;
+          state.loginUsername = username;
           state.notice = "Berhasil masuk sebagai admin.";
           state.noticeType = "ok";
           await loadStudentsFromApi();
