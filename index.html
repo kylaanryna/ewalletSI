@@ -2258,7 +2258,10 @@
                 <input id="rfidInput" name="rfid" type="text" placeholder="Contoh: RFID-001" value="${esc(state.rfidInput)}" autocomplete="off" />
               </div>
 
-          
+              <div class="scan-actions">
+                <button class="scan-auto-btn ${scanning ? "is-active" : ""}" type="button" data-action="scan-auto">${scanning ? "Scanning..." : "Scan otomatis"}</button>
+                <button class="btn btn-dark" type="submit">Scan Kartu</button>
+              </div>
             </form>
 
             ${detectedStudent ? `
