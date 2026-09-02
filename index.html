@@ -716,167 +716,68 @@
       font-size: 1rem;
     }
     .product-panel {
-      padding: clamp(18px, 2.2vw, 28px);
-      border-radius: var(--radius-lg);
-      background: linear-gradient(180deg, #fffaf0 0%, #fff1d4 100%);
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
+      padding: 8px 10px 12px;
+      border-radius: 20px;
+      background: rgba(247, 238, 217, 0.9);
+      border: 2px solid rgba(124, 30, 46, 0.18);
+      box-shadow: 0 12px 22px -20px rgba(97, 44, 31, 0.38);
     }
-    .product-panel-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
-    }
-    .product-panel-title {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .panel-icon-chip {
-      width: 46px;
-      height: 46px;
-      border-radius: 15px;
-      display: grid;
-      place-items: center;
-      font-size: 21px;
-      background: linear-gradient(135deg, rgba(220, 65, 124, 0.13), rgba(252, 143, 45, 0.16));
-      box-shadow: inset 0 0 0 1px rgba(199, 44, 79, 0.18);
-      flex: 0 0 auto;
-    }
-    .edit-badge {
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: rgba(252, 143, 45, 0.14);
-      border: 1px solid rgba(252, 143, 45, 0.38);
-      color: #9a5410;
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      white-space: nowrap;
+    .product-panel .section-title {
+      margin: 0 0 8px;
+      font-size: clamp(1.2rem, 1.5vw, 1.6rem);
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      color: var(--ink);
     }
     .product-form {
       display: grid;
-      grid-template-columns: minmax(84px, 0.6fr) minmax(0, 2fr) minmax(0, 1.4fr) minmax(0, 1fr);
-      gap: 10px;
+      grid-template-columns: 0.55fr 1.9fr 1.2fr 1fr;
+      gap: 5px;
       align-items: stretch;
     }
     .product-field {
       display: flex;
       align-items: center;
-      gap: 8px;
-      min-height: 48px;
-      padding: 0 14px;
-      background: #fffbf1;
-      border: 2px solid var(--line);
-      border-radius: 999px;
-      transition: border-color 0.18s ease, box-shadow 0.18s ease;
-    }
-    .product-field:focus-within {
-      border-color: rgba(199, 44, 79, 0.55);
-      box-shadow: 0 0 0 4px rgba(199, 44, 79, 0.1);
-    }
-    .field-ico {
-      font-size: 15px;
-      opacity: 0.8;
-      flex: 0 0 auto;
+      min-height: 42px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(124, 30, 46, 0.2);
+      border-radius: 9px;
+      padding: 0 8px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
     }
     .product-field input {
-      width: 100%;
-      min-width: 0;
-      border: 0;
-      outline: none;
-      background: transparent;
-      font-size: 0.95rem;
-      font-weight: 600;
+      font-size: 0.9rem;
+      font-weight: 500;
       color: var(--ink);
+      letter-spacing: -0.02em;
     }
     .product-field input::placeholder {
-      color: rgba(159, 106, 43, 0.55);
-      font-weight: 500;
+      color: rgba(124, 30, 46, 0.54);
     }
     .product-actions {
       display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 4px;
+      justify-content: flex-start;
+      margin-top: 8px;
     }
     .product-primary-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      min-height: 48px;
-      padding: 0 26px;
+      min-width: 104px;
+      height: 42px;
+      padding: 0 18px;
       border: none;
       border-radius: 999px;
-      background: linear-gradient(135deg, #c94062, #b81e44);
-      color: #fff7dc;
-      font-size: 15px;
+      background: linear-gradient(180deg, #c63b62 0%, #a61942 100%);
+      color: #fff8ef;
+      font-size: clamp(1.05rem, 1.2vw, 1.5rem);
       font-weight: 800;
-      letter-spacing: -0.01em;
+      letter-spacing: -0.04em;
       line-height: 1;
-      box-shadow: 0 16px 26px -18px rgba(196, 43, 52, 0.82);
+      box-shadow: 0 10px 16px -16px rgba(140, 32, 54, 0.9);
       transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
     }
     .product-primary-btn:hover {
-      transform: translateY(-1px);
-      filter: brightness(1.04);
-    }
-    .count-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 5px 12px;
-      border-radius: 999px;
-      background: rgba(159, 152, 32, 0.12);
-      border: 1px solid rgba(159, 152, 32, 0.3);
-      color: #6f6c14;
-      font-size: 0.76rem;
-      font-weight: 800;
-    }
-    .empty-state {
-      padding: 38px 20px;
-      text-align: center;
-      color: var(--muted);
-      border: 2px dashed rgba(196, 43, 52, 0.22);
-      border-radius: var(--radius-md);
-      background: rgba(255, 250, 236, 0.6);
-    }
-    .product-card-actions {
-      display: flex;
-      gap: 8px;
-      margin-top: 14px;
-    }
-    .card-btn {
-      flex: 1;
-      height: 40px;
-      border-radius: 999px;
-      border: 1px solid rgba(199, 44, 79, 0.28);
-      background: rgba(220, 65, 124, 0.08);
-      color: #b81e44;
-      font-size: 13px;
-      font-weight: 800;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: transform 0.15s ease, background 0.15s ease;
-    }
-    .card-btn:hover {
-      background: rgba(220, 65, 124, 0.16);
-      transform: translateY(-1px);
-    }
-    .card-btn.danger {
-      border-color: rgba(196, 43, 52, 0.3);
-      background: rgba(196, 43, 52, 0.07);
-      color: var(--danger);
-    }
-    .card-btn.danger:hover {
-      background: rgba(196, 43, 52, 0.14);
+      transform: translateY(-2px);
+      filter: brightness(1.02);
+      box-shadow: 0 20px 28px -18px rgba(140, 32, 54, 0.94);
     }
     .home-hero {
       display: grid;
@@ -1587,7 +1488,6 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
       .quick-actions { grid-template-columns: 1fr; }
-      .product-form { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
     @media (max-width: 640px) {
       .login-wrap, .main-wrap { padding: 0; }
@@ -1606,8 +1506,6 @@
       .scan-actions { flex-direction: column; }
       .scan-actions .btn { width: 100%; }
       .scan-card-art { width: min(260px, 88%); }
-      .product-form { grid-template-columns: 1fr; }
-      .product-card-actions { flex-direction: row; }
     }
   </style>
 </head>
@@ -1647,7 +1545,7 @@
       topupPinError: "",
       students: [],
       products: [
-  { id: 1, name: "Floridina", price: 5000, emoji: "F", cat: "Minuman" },
+      { id: 1, name: "Floridina", price: 5000, emoji: "F", cat: "Minuman" },
   { id: 2, name: "Nipis Madu", price: 6000, emoji: "N", cat: "Minuman" },
   { id: 3, name: "Cimory", price: 5000, emoji: "C", cat: "Minuman" },
   { id: 4, name: "Aoka", price: 3000, emoji: "A", cat: "Makanan" },
@@ -1667,7 +1565,7 @@
   { id: 18, name: "Superco", price: 1500, emoji: "S", cat: "Makanan" },
   { id: 19, name: "Sosis Jagung", price: 3000, emoji: "S", cat: "Makanan" },
   { id: 20, name: "Sosis Sonice", price: 1500, emoji: "S", cat: "Makanan" },
-  { id: 21, name: "Go Potato", price: 1500, emoji: "G", cat: "Makanan" },
+  { id: 21, name: "GO Potato", price: 1500, emoji: "G", cat: "Makanan" },
   { id: 22, name: "Basreng", price: 1500, emoji: "B", cat: "Makanan" },
   { id: 23, name: "Saltchees", price: 2000, emoji: "S", cat: "Makanan" },
   { id: 24, name: "Choki-Choki", price: 1500, emoji: "C", cat: "Makanan" },
@@ -1708,7 +1606,7 @@
   { id: 59, name: "Ciki yoritos", price: 7000, emoji: "C", cat: "Makanan" },
   { id: 60, name: "Ciki torotoro", price: 7000, emoji: "C", cat: "Makanan" },
   { id: 61, name: "Ciki pufs", price: 7000, emoji: "C", cat: "Makanan" },
-  { id: 62, name: "Chocolatos kotak", price: 8000, emoji: "C", cat: "Makanan" },
+  { id: 62, name: "Chocolatos kotak", price: 8000, emoji: "C", cat: "Makanan" }
       ],
       chips: [10000, 20000, 50000, 100000, 200000],
       history: [
@@ -2350,7 +2248,6 @@
     }
 
     function productsView() {
-      const editing = !!state.editingProductId;
       return `
         <div class="page-grid">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;">
@@ -2358,51 +2255,34 @@
               <div class="muted">Admin</div>
               <h2 style="font-size:24px;letter-spacing:-0.04em;margin-top:4px;">Dashboard Produk</h2>
             </div>
-            <button class="btn btn-ghost" data-action="nav" data-tab="home">Kembali</button>
+            <div>
+              <button class="btn btn-ghost" data-action="nav" data-tab="home">Kembali</button>
+            </div>
           </div>
 
           <div class="panel product-panel">
-            <div class="product-panel-head">
-              <div class="product-panel-title">
-                <span class="panel-icon-chip">${editing ? "✏️" : "➕"}</span>
-                <div>
-                  <h3 style="margin:0;font-size:18px;letter-spacing:-0.02em;color:var(--ink);">${editing ? "Edit Produk" : "Tambah Produk Baru"}</h3>
-                  <div class="muted" style="font-size:12px;margin-top:2px;">Lengkapi detail produk untuk katalog jualan</div>
-                </div>
-              </div>
-              ${editing ? `<span class="edit-badge">Mode Edit</span>` : ""}
-            </div>
-
+            <div class="section-title">Tambah / Edit Produk</div>
             <form id="productForm" class="product-form">
               <div class="product-field">
-                <span class="field-ico">🙂</span>
-                <input name="pemoji" placeholder="Emoji" maxlength="4" value="${esc(state.productForm.emoji)}" aria-label="Emoji produk" />
+                <input name="pemoji" placeholder="Emoji" value="${esc(state.productForm.emoji)}" aria-label="Emoji produk" />
               </div>
               <div class="product-field">
-                <span class="field-ico">🏷️</span>
                 <input name="pname" placeholder="Nama produk" value="${esc(state.productForm.name)}" aria-label="Nama produk" />
               </div>
               <div class="product-field">
-            <span class="field-ico">📁</span>
-            <select name="pcat" required style="width: 100%; border: none; background: transparent; outline: none; color: inherit; font-size: inherit;">
-              <option value="" disabled selected>Pilih Kategori</option>
-              <option value="Makanan">Makanan</option>
-              <option value="Minuman">Minuman</option>
-              <option value="Alat tulis">Alat tulis</option>
-              <option value="Keperluan pribadi">Keperluan pribadi</option>
-            </select>
-            </div>
+                <input name="pcat" placeholder="Kategori" value="${esc(state.productForm.cat)}" aria-label="Kategori produk" />
+              </div>
               <div class="product-field">
-                <span class="field-ico">💰</span>
                 <input name="pprice" inputmode="numeric" placeholder="Harga" value="${state.productForm.price || ""}" aria-label="Harga produk" />
               </div>
               <div class="product-actions" style="grid-column:1/-1;">
-                <button class="product-primary-btn" type="submit">${editing ? "💾 Simpan Perubahan" : "＋ Tambah Produk"}</button>
-                ${editing ? `<button class="btn btn-ghost" type="button" data-action="cancel-edit-product">Batal</button>` : ""}
+                <button class="product-primary-btn" type="submit">${state.editingProductId ? "Simpan" : "Tambah"}</button>
+                ${state.editingProductId ? `<button class="btn btn-ghost" type="button" data-action="cancel-edit-product">Batal</button>` : ""}
               </div>
             </form>
           </div>
 
+<<<<<<< HEAD
           <div style="margin-top:6px;">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
               <div class="section-title" style="margin-bottom:0;">Daftar Produk</div>
@@ -2428,10 +2308,26 @@
                       <button type="button" class="card-btn" data-action="edit-product" data-id="${p.id}">✏️ Edit</button>
                       <button type="button" class="card-btn danger" data-action="delete-product" data-id="${p.id}">🗑️ Hapus</button>
                     </div>
+=======
+          <div style="margin-top:12px;">
+            <div class="section-title">Daftar Produk</div>
+            <div class="catalog-grid" style="margin-top:12px;">
+              ${state.products.map((p) => `
+                <div class="product">
+                  <div class="product-top">
+                    <div><div class="emoji-dot">${esc(p.emoji)}</div></div>
+                    <div class="pill">${rupiah(p.price)}</div>
+>>>>>>> 24f3c5b76b44d599dd9d309b10e00559a22cc797
                   </div>
-                `).join("")}
-              </div>
-            `}
+                  <div class="product-name">${esc(p.name)}</div>
+                  <div class="product-cat">${esc(p.cat)}</div>
+                  <div style="display:flex;gap:8px;margin-top:12px;">
+                    <button class="btn btn-mint" data-action="edit-product" data-id="${p.id}">Edit</button>
+                    <button class="btn btn-ghost" data-action="delete-product" data-id="${p.id}">Hapus</button>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
           </div>
         </div>
       `;
