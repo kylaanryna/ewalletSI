@@ -2258,7 +2258,7 @@
               </div>
 
               <div class="scan-actions">
-                <button class="btn btn-dark" type="submit">Scan Kartu</button>
+                <button class="btn btn-dark" type="submit">Scan Kartu Santri</button>
               </div>
             </form>
 
@@ -2481,6 +2481,7 @@
             </form>
           </div>
 
+<<<<<<< HEAD
           <div style="margin-top:18px;">
             <div class="section-title">Daftar Produk ${filteredProducts.length > 0 ? `(${filteredProducts.length})` : ""}</div>
             
@@ -2496,6 +2497,52 @@
                 <button class="filter-chip ${state.selectedCategory === cat ? "active" : ""}" data-action="filter-category" data-category="${cat}">
                   ${esc(cat)}
                 </button>
+=======
+<<<<<<< HEAD
+          <div style="margin-top:6px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
+              <div class="section-title" style="margin-bottom:0;">Daftar Produk</div>
+              <span class="count-chip">📦 ${state.products.length} produk</span>
+            </div>
+            ${state.products.length === 0 ? `
+              <div class="empty-state">
+                <div style="font-size:30px;">📦</div>
+                <div style="font-weight:800;color:var(--ink2);margin-top:8px;">Belum ada produk</div>
+                <div style="font-size:13px;margin-top:4px;">Tambahkan produk pertama lewat formulir di atas.</div>
+              </div>
+            ` : `
+              <div class="catalog-grid">
+                ${state.products.map((p) => `
+                  <div class="product">
+                    <div class="produ-top">
+                      <div><div class="emoji-dot">${esc(p.emoji)}</div></div>
+                      <div class="pill">${rupiah(p.price)}</div>
+                    </div>
+                    <div class="product-name">${esc(p.name)}</div>
+                    <div class="product-cat">${esc(p.cat)}</div>
+                    <div class="product-card-actions">
+                      <button type="button" class="card-btn" data-action="edit-product" data-id="${p.id}">✏️ Edit</button>
+                      <button type="button" class="card-btn danger" data-action="delete-product" data-id="${p.id}">🗑️ Hapus</button>
+                    </div>
+=======
+          <div style="margin-top:12px;">
+            <div class="section-title">Daftar Produk</div>
+            <div class="catalog-grid" style="margin-top:12px;">
+              ${state.products.map((p) => `
+                <div class="product">
+                  <div class="product-top">
+                    <div><div class="emoji-dot">${esc(p.emoji)}</div></div>
+                    <div class="pill">${rupiah(p.price)}</div>
+>>>>>>> 24f3c5b76b44d599dd9d309b10e00559a22cc797
+                  </div>
+                  <div class="product-name">${esc(p.name)}</div>
+                  <div class="product-cat">${esc(p.cat)}</div>
+                  <div style="display:flex;gap:8px;margin-top:12px;">
+                    <button class="btn btn-mint" data-action="edit-product" data-id="${p.id}">Edit</button>
+                    <button class="btn btn-ghost" data-action="delete-product" data-id="${p.id}">Hapus</button>
+                  </div>
+                </div>
+>>>>>>> c73f091168b9cdfd49c95a2c04eb565d565a0522
               `).join("")}
             </div>
 
