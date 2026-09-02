@@ -1638,6 +1638,20 @@
       content: ""; position: absolute; inset: 0; pointer-events: none;
       background: radial-gradient(circle at 12% -10%, rgba(252, 143, 45, 0.14), transparent 40%);
     }
+.catalog-card {
+      background: rgba(255, 253, 248, 0.9);
+      border: 3px solid #ffffff;
+      border-radius: 30px;
+      padding: 22px;
+      box-shadow: 0 26px 54px -32px rgba(120, 26, 41, 0.34);
+    }
+    .catalog-card > .section-title,
+    .catalog-card > .search-bar:first-child {
+      margin-top: 0;
+    }
+    @media (max-width: 640px) {
+      .catalog-card { padding: 16px; border-radius: 24px; }
+    }
     .product-form-head {
       position: relative; display: flex; align-items: flex-start; justify-content: space-between; gap: 14px;
       margin-bottom: 16px;
@@ -2601,7 +2615,7 @@
           </div>
 
           <div>
-            <section class="panel" style="padding:18px;">
+            <section class="catalog-card">
               <div class="section-title" style="margin-bottom:14px;">🛍️ Produk Tersedia</div>
 
               <div class="search-bar">
@@ -2698,7 +2712,7 @@
             </form>
           </div>
 
-          <div>
+          <div class="catalog-card">
             <div class="catalog-tools">
               <div>
                 <div class="section-title" style="margin-bottom:0;">📦 Daftar Produk</div>
