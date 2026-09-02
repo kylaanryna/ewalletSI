@@ -1575,6 +1575,190 @@
       transform: translateY(-2px);
     }
 
+/* ===== UI/UX Refresh ===== */
+    .btn-sm { padding: 9px 14px; font-size: 13px; }
+    .cat-chip-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 4px 0 16px; }
+    .cat-tag {
+      display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px;
+      border-radius: 999px; border: 2px solid rgba(196, 43, 52, 0.16);
+      background: rgba(255, 255, 255, 0.6); color: var(--ink2);
+      font-weight: 700; font-size: 13px; cursor: pointer; white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .cat-tag:hover { transform: translateY(-1px); background: rgba(255, 255, 255, 0.95); }
+    .cat-tag.active {
+      background: linear-gradient(135deg, #df6a8e 0%, #c63d65 100%);
+      color: #fff; border-color: transparent;
+      box-shadow: 0 8px 16px -8px rgba(196, 43, 52, 0.4);
+    }
+    .search-bar { position: relative; margin-bottom: 16px; }
+    .search-bar .search-ico {
+      position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+      font-size: 17px; opacity: 0.8; pointer-events: none; z-index: 1;
+    }
+    .search-bar input {
+      width: 100%; padding: 13px 16px 13px 44px; border-radius: 999px;
+      border: 2px solid rgba(196, 43, 52, 0.16); background: rgba(255, 255, 255, 0.85);
+      font-size: 14px; font-weight: 600; color: var(--ink);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+    .search-bar input:focus {
+      outline: none; border-color: rgba(196, 43, 52, 0.36); background: #fff;
+      box-shadow: 0 0 0 4px rgba(196, 43, 52, 0.1);
+    }
+    .search-bar input::placeholder { color: rgba(159, 106, 43, 0.65); }
+    .search-bar input::-webkit-search-cancel-button { cursor: pointer; }
+    .catalog-group { margin-bottom: 20px; }
+    .cat-head { display: flex; align-items: center; gap: 10px; margin: 0 0 10px; }
+    .cat-emoji {
+      width: 34px; height: 34px; border-radius: 12px; display: grid; place-items: center;
+      background: linear-gradient(135deg, rgba(220, 65, 124, 0.12), rgba(252, 143, 45, 0.12));
+      border: 1px solid rgba(196, 43, 52, 0.12); font-size: 17px; flex: 0 0 auto;
+    }
+    .cat-name { font-weight: 800; font-size: 16px; letter-spacing: -0.02em; }
+    .cat-count {
+      margin-left: auto; font-size: 12px; font-weight: 700; color: var(--muted);
+      background: rgba(255, 255, 255, 0.7); border: 1px solid var(--line);
+      padding: 4px 10px; border-radius: 999px; white-space: nowrap;
+    }
+    .product.in-cart { border-color: rgba(220, 65, 124, 0.45); box-shadow: 0 14px 28px -16px rgba(220, 65, 124, 0.4); }
+    .add-to-cart {
+      position: relative; width: 100%; margin-top: 14px; border: 0; border-radius: 999px;
+      padding: 10px 14px; background: linear-gradient(135deg, #c94062, #b81e44);
+      color: #fff7dc; font-weight: 800; font-size: 14px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      box-shadow: 0 12px 20px -14px rgba(196, 43, 52, 0.7);
+      transition: transform 0.16s ease, box-shadow 0.16s ease, filter 0.16s ease;
+    }
+    .add-to-cart:hover { transform: translateY(-2px); filter: brightness(1.03); box-shadow: 0 18px 26px -16px rgba(196, 43, 52, 0.8); }
+    .add-to-cart:active { transform: scale(0.98); }
+    .product-panel { position: relative; overflow: hidden; }
+    .product-panel::before {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(circle at 12% -10%, rgba(252, 143, 45, 0.14), transparent 40%);
+    }
+    .product-form-head {
+      position: relative; display: flex; align-items: flex-start; justify-content: space-between; gap: 14px;
+      margin-bottom: 16px;
+    }
+    .form-preview {
+      width: 60px; height: 60px; border-radius: 20px; display: grid; place-items: center;
+      font-size: 28px; background: linear-gradient(135deg, rgba(220, 65, 124, 0.12), rgba(252, 143, 45, 0.16));
+      border: 2px dashed rgba(196, 43, 52, 0.28); flex: 0 0 auto; transition: transform 0.2s ease;
+    }
+    .form-preview:hover { transform: scale(1.06) rotate(-3deg); }
+    .product-form-v2 { position: relative; }
+    .product-form-v2 .form-grid { display: grid; grid-template-columns: 0.5fr 1.5fr 1fr 1fr; gap: 12px; }
+    .form-field { display: grid; gap: 6px; min-width: 0; }
+    .form-field .form-label {
+      font-size: 11px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted);
+    }
+    .form-field input,
+    .form-field select {
+      width: 100%; min-height: 46px; padding: 0 14px; border-radius: 16px;
+      border: 2px solid rgba(196, 43, 52, 0.15); background: rgba(255, 255, 255, 0.82);
+      color: var(--ink); font-size: 15px; font-weight: 600;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+    .form-field select {
+      cursor: pointer; appearance: none; padding-right: 38px;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239f6a2b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+      background-repeat: no-repeat; background-position: right 14px center;
+    }
+    .form-field input:focus,
+    .form-field select:focus {
+      outline: none; border-color: rgba(196, 43, 52, 0.38); background: #fff;
+      box-shadow: 0 0 0 4px rgba(196, 43, 52, 0.1);
+    }
+    .form-field input::placeholder { color: rgba(124, 30, 46, 0.45); }
+    .form-field .input-wrap { position: relative; }
+    .form-field .input-wrap input { padding-left: 42px; }
+    .form-field .prefix {
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      font-size: 12px; font-weight: 900; color: var(--muted); pointer-events: none;
+    }
+    .product-form-v2 .product-actions { margin-top: 6px; }
+    .product-form-v2 .product-primary-btn { font-size: 15px; min-width: 170px; height: 46px; letter-spacing: 0; }
+    .catalog-tools { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .count-chip {
+      display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px;
+      background: rgba(255, 255, 255, 0.7); border: 1px solid var(--line); color: var(--ink2);
+      font-size: 13px; font-weight: 800; white-space: nowrap;
+    }
+    .cart-title { font-size: 24px; letter-spacing: -0.04em; margin-top: 4px; }
+    .cart-head { display: flex; justify-content: space-between; align-items: center; gap: 14px; }
+    .cart-panel { background: linear-gradient(180deg, rgba(255, 252, 244, 0.96), rgba(255, 247, 220, 0.92)); }
+    .cart-student {
+      display: flex; align-items: center; gap: 12px; padding: 12px 14px;
+      border-radius: 20px; background: rgba(47, 158, 99, 0.08); border: 1px solid rgba(47, 158, 99, 0.24);
+    }
+    .cart-avatar {
+      width: 46px; height: 46px; border-radius: 16px; display: grid; place-items: center;
+      background: linear-gradient(135deg, #d63d6a, #e9844a); color: #fff7dc;
+      font-weight: 900; font-size: 19px; flex: 0 0 auto;
+    }
+    .cart-balance { margin-left: auto; text-align: right; font-weight: 800; font-size: 15px; color: #22744b; white-space: nowrap; }
+    .cart-balance small { display: block; font-size: 11px; color: var(--muted); font-weight: 700; }
+    .cart-list { display: grid; gap: 10px; margin-top: 16px; }
+    .cart-item {
+      display: flex; align-items: center; gap: 12px; padding: 12px;
+      border-radius: 18px; background: rgba(255, 255, 255, 0.75); border: 1px solid var(--line);
+      animation: slideUp 0.4s ease both;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .cart-item:hover { transform: translateY(-1px); box-shadow: 0 12px 22px -16px rgba(24, 26, 20, 0.25); }
+    .cart-item-emoji {
+      width: 46px; height: 46px; border-radius: 15px; display: grid; place-items: center;
+      background: linear-gradient(135deg, rgba(220, 65, 124, 0.1), rgba(252, 143, 45, 0.12));
+      border: 1px solid rgba(196, 43, 52, 0.1); font-size: 22px; flex: 0 0 auto;
+    }
+    .cart-item-info { flex: 1; min-width: 0; }
+    .cart-item-name { font-weight: 800; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .cart-item-sub { font-size: 12px; color: var(--muted); font-weight: 600; margin-top: 2px; }
+    .cart-qty { margin-top: 0; min-width: 108px; flex: 0 0 auto; }
+    .cart-qty .qty-btn { width: 32px; height: 32px; font-size: 17px; }
+    .cart-item-total { font-weight: 900; font-size: 14px; white-space: nowrap; min-width: 76px; text-align: right; }
+    .cart-totals {
+      margin-top: 16px; padding: 14px 16px; border-radius: 18px;
+      background: linear-gradient(180deg, rgba(252, 233, 171, 0.4), rgba(255, 247, 220, 0.4));
+      border: 1px solid var(--line);
+    }
+    .cart-total-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 6px 0; font-size: 14px; color: var(--ink2); }
+    .cart-total-row + .cart-total-row { border-top: 1px dashed rgba(24, 26, 20, 0.1); margin-top: 6px; padding-top: 10px; }
+    .cart-total-row strong { color: var(--ink); font-size: 15px; }
+    .cart-total-row .grand { color: var(--tomato); font-size: 1.35rem; letter-spacing: -0.04em; }
+    .cart-total-row .neg { color: var(--danger); }
+    .cart-empty {
+      text-align: center; padding: 44px 20px;
+      background: linear-gradient(180deg, rgba(255, 252, 244, 0.9), rgba(255, 245, 225, 0.85));
+      border: 1px dashed rgba(196, 43, 52, 0.25); border-radius: 26px;
+    }
+    .cart-empty .big { font-size: 44px; }
+    .cart-empty h3 { margin: 12px 0 6px; font-weight: 900; letter-spacing: -0.03em; }
+    .list-empty { margin-top: 8px; }
+    .empty-state { text-align: center; padding: 28px 16px; }
+    .cart-widget-total { font-size: 13px; font-weight: 800; color: var(--ink); white-space: nowrap; }
+    .cart-icon-emoji { font-size: 22px; line-height: 1; }
+    .cart-icon.cart-pill {
+      background: linear-gradient(120deg, #d63d6a, #c72c4f 60%, #e9844a);
+      color: #fff7dc; border: 0; padding: 9px 14px;
+      box-shadow: 0 18px 34px -18px rgba(196, 43, 52, 0.72);
+    }
+    .cart-icon.cart-pill .cart-widget-total { color: #fff7dc; }
+    .cart-icon.cart-pill .cart-badge {
+      background: #fff7dc; color: var(--tomato);
+      box-shadow: 0 8px 18px -10px rgba(24, 26, 20, 0.5);
+    }
+    @media (max-width: 1024px) {
+      .product-form-v2 .form-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .product-form-v2 .form-grid { grid-template-columns: 1fr; }
+      .cart-item { flex-wrap: wrap; }
+      .cart-item-total { min-width: 0; }
+      .cart-qty { width: 100%; }
+      .cart-icon { right: 16px; top: 16px; }
+    }
     .hero h1,
     .title,
     .section-title,
@@ -1660,6 +1844,10 @@
       lastOrder: null,
       editingProductId: null,
       productForm: { id: null, name: "", price: 0, emoji: "", cat: "" },
+      paymentSearch: "",
+      productSearch: "",
+      paymentCat: "all",
+      productCat: "all",
       notice: "",
       noticeType: "ok",
       paymentPhase: "none",
@@ -1758,17 +1946,98 @@
       const items = cartItems();
       const total = cartTotal();
       const qty = items.reduce((s, it) => s + it.qty, 0);
-      const last = state.lastOrder;
       if (qty === 0) return "";
 
       return `
         <div class="cart-root" aria-hidden="false">
-          <button class="cart-icon" data-action="proceed-payment" aria-label="Berikut">
-            <div class="cart-badge">${qty}</div>
-            <div style="font-weight:800;">Berikut</div>
+          <button class="cart-icon cart-pill" data-action="proceed-payment" aria-label="Buka keranjang">
+            <span class="cart-widget-total">${rupiah(total)}</span>
+            <span class="cart-icon-emoji">🛒</span>
+            <span class="cart-badge">${qty}</span>
           </button>
         </div>
       `;
+    }
+
+    const CATEGORIES = [
+      { key: "makanan", label: "Makanan", emoji: "🍱" },
+      { key: "minuman", label: "Minuman", emoji: "🥤" },
+      { key: "alat tulis", label: "Alat Tulis", emoji: "✏️" },
+      { key: "kebutuhan pribadi", label: "Kebutuhan Pribadi", emoji: "🧴" }
+    ];
+    const catKey = (v) => String(v || "").trim().toLowerCase();
+    const catLabel = (v) => { const c = CATEGORIES.find(x => x.key === catKey(v)); return c ? c.label : (String(v || "Umum")); };
+    const catEmoji = (v) => { const c = CATEGORIES.find(x => x.key === catKey(v)); return c ? c.emoji : "📦"; };
+
+    function groupProducts() {
+      const map = {};
+      state.products.forEach(p => {
+        const key = catKey(p.cat) || "umum";
+        if (!map[key]) map[key] = [];
+        map[key].push(p);
+      });
+      const order = [...CATEGORIES.map(c => c.key), "umum"];
+      return Object.keys(map)
+        .sort((a, b) => order.indexOf(a) - order.indexOf(b))
+        .map(key => ({ key, items: map[key] }));
+    }
+
+    function productCard(p, i, opts = {}) {
+      const inCart = Number(state.cart[p.id] || 0);
+      const cat = catKey(p.cat);
+      return `
+        <div class="product ${inCart > 0 && opts.cartButtons ? "in-cart" : ""}" data-name="${esc(String(p.name || "").toLowerCase())}" data-cat="${esc(cat)}" style="animation-delay:${(i + 1) * 0.04}s;">
+          <div class="product-top">
+            <div><div class="emoji-dot">${esc(p.emoji)}</div></div>
+            <div class="pill">${rupiah(p.price)}</div>
+          </div>
+          <div class="product-name">${esc(p.name)}</div>
+          <div class="product-cat">${catLabel(p.cat)}</div>
+          ${opts.cartButtons ? `
+            ${inCart > 0 ? `
+              <div class="qty-stepper">
+                <button type="button" class="qty-btn" data-action="cart-dec" data-id="${p.id}" aria-label="Kurangi jumlah">−</button>
+                <span class="qty-val">${inCart}</span>
+                <button type="button" class="qty-btn qty-plus" data-action="cart-inc" data-id="${p.id}" aria-label="Tambah jumlah">+</button>
+              </div>
+            ` : `
+              <button class="add-to-cart" data-action="add-product" data-id="${p.id}"><span>🛒</span><span>+ Tambah</span></button>
+            `}
+          ` : `
+            <div style="display:flex;gap:8px;margin-top:12px;">
+              <button class="btn btn-mint btn-sm" data-action="edit-product" data-id="${p.id}">✏️ Edit</button>
+              <button class="btn btn-ghost btn-sm" data-action="delete-product" data-id="${p.id}">🗑 Hapus</button>
+            </div>
+          `}
+        </div>
+      `;
+    }
+
+    function applyCatalogFilter(listId) {
+      const isProduct = listId === "productLists";
+      const input = document.getElementById(isProduct ? "productSearch" : "paymentSearch");
+      const q = ((input && input.value) || "").trim().toLowerCase();
+      const activeCat = isProduct ? state.productCat : state.paymentCat;
+      const list = document.getElementById(listId);
+      if (!list) return 0;
+      let visible = 0;
+      list.querySelectorAll(".catalog-group").forEach(group => {
+        let n = 0;
+        group.querySelectorAll(".product").forEach(card => {
+          const name = (card.dataset.name || "").toLowerCase();
+          const c = (card.dataset.cat || "").toLowerCase();
+          const ok = (!q || name.includes(q)) && (activeCat === "all" || c === activeCat);
+          card.style.display = ok ? "" : "none";
+          if (ok) n++;
+        });
+        group.style.display = n > 0 ? "" : "none";
+        const countEl = group.querySelector(".cat-count");
+        if (countEl) countEl.textContent = n + " produk";
+        visible += n;
+      });
+      const empty = document.getElementById(listId === "productLists" ? "productListsEmpty" : "paymentListsEmpty");
+      if (empty) empty.style.display = visible > 0 ? "none" : "";
+      return visible;
     }
 
     function showSweetAlert(message, type = "success", title = "Berhasil") {
@@ -2019,12 +2288,12 @@
 
     function sidebar() {
       const tabs = [
-        ["home", "Home"],
-        ["payment", "Bayar"],
-        ["topup", "Top Up"],
-        ["products", "Produk"],
-        ["history", "Riwayat"],
-        ["scan", "Scan"]
+        ["home", "🏠 Home"],
+        ["payment", "💳 Bayar"],
+        ["topup", "💰 Top Up"],
+        ["products", "📦 Produk"],
+        ["history", "📋 Riwayat"],
+        ["scan", "📡 Scan"]
       ];
       return `
         <aside class="sidebar">
@@ -2060,12 +2329,12 @@
 
     function bottomNav() {
       const tabs = [
-        ["home", "Home"],
-        ["payment", "Bayar"],
-        ["topup", "Top Up"],
-        ["products", "Produk"],
-        ["history", "Riwayat"],
-        ["scan", "Scan"]
+        ["home", "🏠 Home"],
+        ["payment", "💳 Bayar"],
+        ["topup", "💰 Top Up"],
+        ["products", "📦 Produk"],
+        ["history", "📋 Riwayat"],
+        ["scan", "📡 Scan"]
       ];
       return `
         <div class="bottom-nav">
@@ -2332,41 +2601,41 @@
 
           <div>
             <section class="panel" style="padding:18px;">
-              <div class="section-title">Produk Tersedia</div>
-              ${(() => {
-                const cats = [...new Set(state.products.map(p => p.cat))];
-                return cats.map(cat => `
-                  <div style="margin-top:12px;">
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-weight:800;">${esc(cat)}</div></div>
+              <div class="section-title" style="margin-bottom:14px;">🛍️ Produk Tersedia</div>
+
+              <div class="search-bar">
+                <span class="search-ico">🔍</span>
+                <input id="paymentSearch" type="search" autocomplete="off" placeholder="Cari produk… (misal: coklat, susu, pensil)" value="${esc(state.paymentSearch)}" aria-label="Cari produk" />
+              </div>
+
+              <div class="cat-chip-row">
+                <button type="button" class="cat-tag ${state.paymentCat === "all" ? "active" : ""}" data-cat-filter="all" data-scope="payment">✨ Semua</button>
+                ${CATEGORIES.map(c => `
+                  <button type="button" class="cat-tag ${state.paymentCat === c.key ? "active" : ""}" data-cat-filter="${c.key}" data-scope="payment">${c.emoji} ${c.label}</button>
+                `).join("")}
+              </div>
+
+              <div id="paymentLists">
+                ${groupProducts().map(g => `
+                  <div class="catalog-group">
+                    <div class="cat-head">
+                      <span class="cat-emoji">${catEmoji(g.key)}</span>
+                      <span class="cat-name">${catLabel(g.key)}</span>
+                      <span class="cat-count">${g.items.length} produk</span>
+                    </div>
                     <div class="catalog-grid">
-                      ${state.products.filter(p => p.cat === cat).map((p, i) => `
-                        <div class="product" style="animation-delay:${(i + 1) * 0.04}s;">
-                          <div class="product-top">
-                            <div>
-                              <div class="emoji-dot">${esc(p.emoji)}</div>
-                            </div>
-                            <div class="pill">${rupiah(p.price)}</div>
-                          </div>
-                          <div class="product-name">${esc(p.name)}</div>
-                          <div class="product-cat">${esc(p.cat)}</div>
-                          ${(() => {
-                            const inCart = Number(state.cart[p.id] || 0);
-                            return inCart > 0 ? `
-                              <div class="qty-stepper">
-                                <button type="button" class="qty-btn" data-action="cart-dec" data-id="${p.id}" aria-label="Kurangi jumlah">−</button>
-                                <span class="qty-val">${inCart}</span>
-                                <button type="button" class="qty-btn qty-plus" data-action="cart-inc" data-id="${p.id}" aria-label="Tambah jumlah">+</button>
-                              </div>
-                            ` : `
-                              <button class="btn btn-dark" style="width:100%;margin-top:14px;" data-action="add-product" data-id="${p.id}">+ Tambah</button>
-                            `;
-                          })()}
-                        </div>
-                      `).join("")}
+                      ${g.items.map((p, i) => productCard(p, i, { cartButtons: true })).join("")}
                     </div>
                   </div>
-                `).join("");
-              })()}
+                `).join("")}
+                <div id="paymentListsEmpty" class="list-empty" style="display:none;">
+                  <div class="empty-state">
+                    <div style="font-size:32px;">🔍</div>
+                    <div style="font-weight:800;color:var(--ink2);margin-top:8px;">Produk tidak ditemukan</div>
+                    <div style="font-size:13px;margin-top:4px;">Coba kata kunci atau kategori lain.</div>
+                  </div>
+                </div>
+              </div>
             </section>
           </div>
         </div>
@@ -2374,6 +2643,8 @@
     }
 
     function productsView() {
+      const editing = !!state.editingProductId;
+      const groups = groupProducts();
       return `
         <div class="page-grid">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;">
@@ -2381,50 +2652,92 @@
               <div class="muted">Admin</div>
               <h2 style="font-size:24px;letter-spacing:-0.04em;margin-top:4px;">Dashboard Produk</h2>
             </div>
-            <div>
-              <button class="btn btn-ghost" data-action="nav" data-tab="home">Kembali</button>
-            </div>
+            <button class="btn btn-ghost" data-action="nav" data-tab="home">Kembali</button>
           </div>
 
           <div class="panel product-panel">
-            <div class="section-title">Tambah / Edit Produk</div>
-            <form id="productForm" class="product-form">
-              <div class="product-field">
-                <input name="pemoji" placeholder="Emoji" value="${esc(state.productForm.emoji)}" aria-label="Emoji produk" />
+            <div class="product-form-head">
+              <div>
+                <div class="section-title" style="margin:0;">${editing ? "✏️ Edit Produk" : "✨ Tambah Produk Baru"}</div>
+                <div class="muted" style="font-size:13px;margin-top:4px;">${editing ? "Perbarui detail produk di katalog koperasi." : "Lengkapi detail produk untuk menambahkannya ke katalog."}</div>
               </div>
-              <div class="product-field">
-                <input name="pname" placeholder="Nama produk" value="${esc(state.productForm.name)}" aria-label="Nama produk" />
-              </div>
-              <div class="product-field">
-                <input name="pcat" placeholder="Kategori" value="${esc(state.productForm.cat)}" aria-label="Kategori produk" />
-              </div>
-              <div class="product-field">
-                <input name="pprice" inputmode="numeric" placeholder="Harga" value="${state.productForm.price || ""}" aria-label="Harga produk" />
-              </div>
-              <div class="product-actions" style="grid-column:1/-1;">
-                <button class="product-primary-btn" type="submit">${state.editingProductId ? "Simpan" : "Tambah"}</button>
-                ${state.editingProductId ? `<button class="btn btn-ghost" type="button" data-action="cancel-edit-product">Batal</button>` : ""}
+              <div class="form-preview" id="productEmojiPreview">${esc(state.productForm.emoji || "📦")}</div>
+            </div>
+
+            <form id="productForm" class="product-form-v2">
+              <div class="form-grid">
+                <label class="form-field">
+                  <span class="form-label">Emoji</span>
+                  <input name="pemoji" maxlength="8" placeholder="😋" value="${esc(state.productForm.emoji)}" aria-label="Emoji produk" />
+                </label>
+                <label class="form-field">
+                  <span class="form-label">Nama Produk</span>
+                  <input name="pname" placeholder="contoh: Nasi Goreng" value="${esc(state.productForm.name)}" aria-label="Nama produk" />
+                </label>
+                <label class="form-field">
+                  <span class="form-label">Kategori</span>
+                  <select name="pcat" aria-label="Kategori produk">
+                    ${CATEGORIES.map(c => `
+                      <option value="${c.key}" ${catKey(state.productForm.cat) === c.key ? "selected" : ""}>${c.emoji} ${c.label}</option>
+                    `).join("")}
+                  </select>
+                </label>
+                <label class="form-field">
+                  <span class="form-label">Harga</span>
+                  <div class="input-wrap">
+                    <span class="prefix">Rp</span>
+                    <input name="pprice" inputmode="numeric" placeholder="contoh: 5000" value="${state.productForm.price || ""}" aria-label="Harga produk" />
+                  </div>
+                </label>
+                <div class="product-actions">
+                  <button class="product-primary-btn" type="submit">${editing ? "💾 Simpan Perubahan" : "＋ Tambah Produk"}</button>
+                  ${editing ? `<button class="btn btn-ghost" type="button" data-action="cancel-edit-product">Batal</button>` : ""}
+                </div>
               </div>
             </form>
           </div>
 
-          <div style="margin-top:12px;">
-            <div class="section-title">Daftar Produk</div>
-            <div class="catalog-grid" style="margin-top:12px;">
-              ${state.products.map((p) => `
-                <div class="product">
-                  <div class="product-top">
-                    <div><div class="emoji-dot">${esc(p.emoji)}</div></div>
-                    <div class="pill">${rupiah(p.price)}</div>
+          <div>
+            <div class="catalog-tools">
+              <div>
+                <div class="section-title" style="margin-bottom:0;">📦 Daftar Produk</div>
+                <div class="muted" style="font-size:13px;margin-top:2px;">Kelola semua produk yang tersedia di koperasi.</div>
+              </div>
+              <span class="count-chip">📥 ${state.products.length} produk</span>
+            </div>
+
+            <div class="search-bar" style="margin-top:14px;">
+              <span class="search-ico">🔍</span>
+              <input id="productSearch" type="search" autocomplete="off" placeholder="Cari produk atau kategori…" value="${esc(state.productSearch)}" aria-label="Cari produk" />
+            </div>
+
+            <div class="cat-chip-row">
+              <button type="button" class="cat-tag ${state.productCat === "all" ? "active" : ""}" data-cat-filter="all" data-scope="product">✨ Semua</button>
+              ${CATEGORIES.map(c => `
+                <button type="button" class="cat-tag ${state.productCat === c.key ? "active" : ""}" data-cat-filter="${c.key}" data-scope="product">${c.emoji} ${c.label}</button>
+              `).join("")}
+            </div>
+
+            <div id="productLists">
+              ${groups.map(g => `
+                <div class="catalog-group">
+                  <div class="cat-head">
+                    <span class="cat-emoji">${catEmoji(g.key)}</span>
+                    <span class="cat-name">${catLabel(g.key)}</span>
+                    <span class="cat-count">${g.items.length} produk</span>
                   </div>
-                  <div class="product-name">${esc(p.name)}</div>
-                  <div class="product-cat">${esc(p.cat)}</div>
-                  <div style="display:flex;gap:8px;margin-top:12px;">
-                    <button class="btn btn-mint" data-action="edit-product" data-id="${p.id}">Edit</button>
-                    <button class="btn btn-ghost" data-action="delete-product" data-id="${p.id}">Hapus</button>
+                  <div class="catalog-grid">
+                    ${g.items.map((p, i) => productCard(p, i, { cartButtons: false })).join("")}
                   </div>
                 </div>
               `).join("")}
+              <div id="productListsEmpty" class="list-empty" style="display:none;">
+                <div class="empty-state">
+                  <div style="font-size:32px;">🔍</div>
+                  <div style="font-weight:800;color:var(--ink2);margin-top:8px;">Produk tidak ditemukan</div>
+                  <div style="font-size:13px;margin-top:4px;">Coba kata kunci atau kategori lain.</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -2436,40 +2749,75 @@
       const items = cartItems();
       const total = cartTotal();
       const remaining = student.saldo - total;
+
+      if (items.length === 0) {
+        return `
+          <div class="page-grid">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;">
+              <div>
+                <div class="muted">Keranjang</div>
+                <h2 style="font-size:24px;letter-spacing:-0.04em;margin-top:4px;">Konfirmasi Belanja</h2>
+              </div>
+              <button class="btn btn-ghost" data-action="nav" data-tab="payment">Kembali Belanja</button>
+            </div>
+            <div class="cart-empty">
+              <div class="big">🛒</div>
+              <h3>Keranjang masih kosong</h3>
+              <p class="muted" style="margin:0 auto;max-width:360px;line-height:1.6;">Kamu belum menambahkan produk apa pun. Silakan pilih dulu produk di halaman pembayaran.</p>
+              <button class="btn btn-orange" style="margin-top:18px;" data-action="nav" data-tab="payment">Mulai Belanja</button>
+            </div>
+          </div>
+        `;
+      }
+
       return `
         <div class="page-grid">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;">
+          <div class="cart-head">
             <div>
               <div class="muted">Keranjang</div>
-              <h2 style="font-size:24px;letter-spacing:-0.04em;margin-top:4px;">Konfirmasi Belanja</h2>
+              <h2 class="cart-title">🛒 Konfirmasi Belanja</h2>
             </div>
-            <button class="btn btn-ghost" data-action="nav" data-tab="payment">Kembali Belanja</button>
+            <button class="btn btn-ghost" data-action="nav" data-tab="payment">← Kembali Belanja</button>
           </div>
 
-          <div class="two-col">
-            <div class="panel" style="padding:20px;">
+          <div class="two-col cart-layout">
+            <div class="panel cart-panel" style="padding:20px;">
               <div class="section-title">Ringkasan Pesanan</div>
-              <div style="margin-top:12px;">
-                <div style="font-weight:800;font-size:16px;">${esc(student.name)}</div>
-                <div class="muted" style="font-size:12px;">Kelas: ${esc(student.kelas)} | Saldo: ${rupiah(student.saldo)}</div>
+
+              <div class="cart-student">
+                <div class="cart-avatar">${esc(student.name ? student.name.charAt(0) : "?")}</div>
+                <div>
+                  <div style="font-weight:800;font-size:15px;">${esc(student.name)}</div>
+                  <div class="muted" style="font-size:12px;">Kelas ${esc(student.kelas)}</div>
+                </div>
+                <div class="cart-balance"><small>Saldo</small>${rupiah(student.saldo)}</div>
               </div>
 
-              <div style="margin-top:18px;">
-                ${items.map(item => `
-                  <div class="cart-row">
-                    <div>
-                      <div style="font-weight:800;">${esc(item.name)}</div>
-                      <div class="muted" style="font-size:12px;">${rupiah(item.price)} × ${item.qty}</div>
+              <div class="cart-list">
+                ${items.map((item, i) => `
+                  <div class="cart-item" style="animation-delay:${(i + 1) * 0.05}s;">
+                    <div class="cart-item-emoji">${esc(item.emoji)}</div>
+                    <div class="cart-item-info">
+                      <div class="cart-item-name">${esc(item.name)}</div>
+                      <div class="cart-item-sub">${rupiah(item.price)} × ${item.qty}</div>
                     </div>
-                    <div style="font-weight:800;">${rupiah(item.price * item.qty)}</div>
+                    <div class="qty-stepper cart-qty">
+                      <button type="button" class="qty-btn" data-action="cart-dec" data-id="${item.id}" aria-label="Kurangi jumlah">−</button>
+                      <span class="qty-val">${item.qty}</span>
+                      <button type="button" class="qty-btn qty-plus" data-action="cart-inc" data-id="${item.id}" aria-label="Tambah jumlah">+</button>
+                    </div>
+                    <div class="cart-item-total">${rupiah(item.price * item.qty)}</div>
                   </div>
                 `).join("")}
               </div>
 
-              <div class="cart-total">
-                <span>Total Belanja</span>
-                <span style="font-size:1.2rem;color:var(--tomato);">${rupiah(total)}</span>
+              <div class="cart-totals">
+                <div class="cart-total-row"><span>Total Belanja</span><strong class="grand">${rupiah(total)}</strong></div>
+                <div class="cart-total-row"><span>Sisa Saldo Setelah Bayar</span><strong class="${remaining < 0 ? "neg" : ""}">${rupiah(remaining)}</strong></div>
               </div>
+              ${remaining < 0 ? `
+                <div style="margin-top:10px;font-size:12.5px;font-weight:700;color:var(--danger);background:rgba(196,43,52,0.08);border:1px solid rgba(196,43,52,0.2);padding:10px 12px;border-radius:14px;">⚠️ Saldo santri tidak mencukupi untuk transaksi ini. Silakan lakukan top up terlebih dahulu.</div>
+              ` : ""}
             </div>
 
             <div class="panel pin-panel">
@@ -2491,10 +2839,14 @@
                   <button type="button" class="pin-key" data-action="pin-ok" style="background:var(--tomato);color:#fff;">✓</button>
                 </div>
               ` : `
-                <div class="section-title">Pembayaran</div>
-                <p class="muted" style="margin-top:8px;">Pastikan pesanan sudah benar sebelum memproses pembayaran dengan PIN.</p>
-                <div style="margin-top:20px;">
-                  <button class="btn btn-dark" style="width:100%;" data-action="open-payment-pin">Proses Pembayaran</button>
+                <div class="section-title" style="display:flex;align-items:center;gap:8px;">💰 Pembayaran</div>
+                <p class="muted" style="margin-top:8px;">Pastikan pesanan sudah benar sebelum memproses pembayaran dengan PIN kasir.</p>
+                <div style="margin-top:20px;padding:14px;border-radius:18px;background:rgba(255,255,255,0.65);border:1px solid var(--line);">
+                  <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--muted);font-weight:700;"><span>Total tagihan</span><span>${items.length} item</span></div>
+                  <div style="font-size:1.9rem;font-weight:900;letter-spacing:-0.04em;color:var(--tomato);margin-top:6px;">${rupiah(total)}</div>
+                </div>
+                <div style="margin-top:16px;">
+                  <button class="product-primary-btn" style="width:100%;" data-action="open-payment-pin">🔒 Proses Pembayaran</button>
                 </div>
               `}
             </div>
@@ -2638,6 +2990,9 @@
       } else {
         stopScanPolling();
       }
+
+      applyCatalogFilter("paymentLists");
+      applyCatalogFilter("productLists");
     }
 
     document.addEventListener("submit", async (e) => {
@@ -2663,11 +3018,12 @@
       } else if (e.target.id === "productForm") {
         const fd = new FormData(e.target);
         const emoji = fd.get("pemoji");
-        const name = fd.get("pname");
-        const cat = fd.get("pcat");
-        const price = Number(fd.get("pprice"));
+        const name = String(fd.get("pname") || "").trim();
+        let cat = catKey(fd.get("pcat")) || "makanan";
+        if (!CATEGORIES.some(c => c.key === cat)) cat = "makanan";
+        const price = Number(String(fd.get("pprice") || "").replace(/[^0-9]/g, "")) || 0;
 
-        if (!name || !price) {
+        if (!name || price <= 0) {
           flash("Nama dan harga produk wajib diisi.", "err");
           return;
         }
@@ -2678,7 +3034,7 @@
             p.name = name;
             p.price = price;
             p.emoji = emoji || "📦";
-            p.cat = cat || "Umum";
+            p.cat = cat;
           }
           state.editingProductId = null;
           flash("Produk berhasil diperbarui.", "ok");
@@ -2689,11 +3045,13 @@
             name,
             price,
             emoji: emoji || "📦",
-            cat: cat || "Umum"
+            cat: cat
           });
           flash("Produk baru berhasil ditambahkan.", "ok");
         }
         state.productForm = { id: null, name: "", price: 0, emoji: "", cat: "" };
+        state.productSearch = "";
+        state.productCat = "all";
         render();
       }
     });
@@ -2791,6 +3149,33 @@
         delete state.cart[id];
         flash("Produk berhasil dihapus.", "ok");
         render();
+      }
+    });
+
+    document.addEventListener("click", (e) => {
+      const chip = e.target.closest("[data-cat-filter]");
+      if (!chip) return;
+      const scope = chip.dataset.scope;
+      const cat = chip.dataset.catFilter;
+      if (scope === "product") state.productCat = cat;
+      else state.paymentCat = cat;
+      const listId = scope === "product" ? "productLists" : "paymentLists";
+      document.querySelectorAll(`[data-cat-filter][data-scope="${scope}"]`).forEach(c => c.classList.toggle("active", c === chip));
+      applyCatalogFilter(listId);
+    });
+
+    document.addEventListener("input", (e) => {
+      const t = e.target;
+      if (!t) return;
+      if (t.id === "paymentSearch") {
+        state.paymentSearch = t.value;
+        applyCatalogFilter("paymentLists");
+      } else if (t.id === "productSearch") {
+        state.productSearch = t.value;
+        applyCatalogFilter("productLists");
+      } else if (t.name === "pemoji") {
+        const prev = document.getElementById("productEmojiPreview");
+        if (prev) prev.textContent = t.value || "📦";
       }
     });
 
