@@ -277,24 +277,28 @@
     .btn {
       border: 0;
       border-radius: 999px;
-      padding: 15px 18px;
+      padding: 12px 20px;
       font-weight: 800;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      transition: transform 0.14s ease, opacity 0.14s ease, box-shadow 0.14s ease;
+      transition: all 0.2s cubic-bezier(0.23, 1, 0.320, 1);
       text-decoration: none;
       white-space: nowrap;
       will-change: transform;
-      font-size: 15px;
+      font-size: 14px;
     }
-    .btn:hover { transform: translateY(-1px); }
-    .btn:active { transform: scale(0.99) translateY(0); }
-    .btn-dark { background: linear-gradient(135deg, #c94062, #b81e44); color: white; box-shadow: 0 16px 26px -18px rgba(196, 43, 52, 0.82); }
-    .btn-mint { background: linear-gradient(135deg, #b9bd4f, #9b9b20); color: white; box-shadow: 0 16px 26px -18px rgba(159, 152, 32, 0.82); }
-    .btn-orange { background: linear-gradient(135deg, #f7b15d, #ea8d39); color: white; box-shadow: 0 16px 26px -18px rgba(252, 143, 45, 0.82); }
-    .btn-ghost { background: transparent; color: var(--ink2); border: 1px solid var(--line); }
+    .btn:hover { transform: translateY(-2px); }
+    .btn:active { transform: scale(0.98) translateY(0); }
+    .btn-dark { background: linear-gradient(135deg, #c94062, #b81e44); color: white; box-shadow: 0 12px 20px -10px rgba(196, 43, 52, 0.5); }
+    .btn-dark:hover { box-shadow: 0 16px 28px -12px rgba(196, 43, 52, 0.6); }
+    .btn-mint { background: linear-gradient(135deg, #b9bd4f, #9b9b20); color: white; box-shadow: 0 12px 20px -10px rgba(159, 152, 32, 0.5); }
+    .btn-mint:hover { box-shadow: 0 16px 28px -12px rgba(159, 152, 32, 0.6); }
+    .btn-orange { background: linear-gradient(135deg, #f7b15d, #ea8d39); color: white; box-shadow: 0 12px 20px -10px rgba(252, 143, 45, 0.5); }
+    .btn-orange:hover { box-shadow: 0 16px 28px -12px rgba(252, 143, 45, 0.6); }
+    .btn-ghost { background: transparent; color: var(--ink2); border: 1px solid rgba(196, 43, 52, 0.18); transition: all 0.2s ease; }
+    .btn-ghost:hover { background: rgba(196, 43, 52, 0.05); border-color: rgba(196, 43, 52, 0.28); }
     .helper {
       margin-top: 8px;
       text-align: center;
@@ -364,11 +368,11 @@
       overflow: auto;
     }
     .panel {
-      background: rgba(255, 250, 236, 0.84);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      box-shadow: 0 18px 40px -32px rgba(120, 26, 41, 0.22);
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      background: rgba(255, 250, 236, 0.88);
+      border: 1px solid rgba(196, 43, 52, 0.12);
+      border-radius: 24px;
+      box-shadow: 0 12px 28px -20px rgba(120, 26, 41, 0.18);
+      transition: all 0.2s cubic-bezier(0.23, 1, 0.320, 1);
       animation: none;
     }
     .panel:hover,
@@ -377,7 +381,7 @@
     .product:hover,
     .history-card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 18px 28px -22px rgba(24, 26, 20, 0.28);
+      box-shadow: 0 16px 32px -20px rgba(24, 26, 20, 0.24);
     }
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(8px); }
@@ -716,68 +720,163 @@
       font-size: 1rem;
     }
     .product-panel {
-      padding: 8px 10px 12px;
-      border-radius: 20px;
-      background: rgba(247, 238, 217, 0.9);
-      border: 2px solid rgba(124, 30, 46, 0.18);
-      box-shadow: 0 12px 22px -20px rgba(97, 44, 31, 0.38);
+      padding: 20px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(255, 249, 240, 0.98), rgba(255, 247, 220, 0.95));
+      border: 1px solid rgba(196, 43, 52, 0.12);
+      box-shadow: 0 12px 28px -18px rgba(97, 44, 31, 0.28);
     }
     .product-panel .section-title {
-      margin: 0 0 8px;
-      font-size: clamp(1.2rem, 1.5vw, 1.6rem);
+      margin: 0 0 16px;
+      font-size: clamp(1.3rem, 1.6vw, 1.8rem);
       letter-spacing: -0.04em;
       line-height: 1.1;
       color: var(--ink);
+      font-weight: 900;
+    }
+    .search-bar-container {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+    .search-input-wrapper {
+      flex: 1;
+      min-width: 200px;
+      position: relative;
+    }
+    .search-input-wrapper input {
+      width: 100%;
+      padding: 14px 16px 14px 42px;
+      border-radius: 999px;
+      border: 2px solid rgba(196, 43, 52, 0.18);
+      background: rgba(255, 255, 255, 0.85);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+    .search-input-wrapper input:focus {
+      outline: none;
+      border-color: rgba(196, 43, 52, 0.36);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(196, 43, 52, 0.12);
+    }
+    .search-input-wrapper input::placeholder {
+      color: rgba(159, 106, 43, 0.65);
+    }
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 18px;
+      pointer-events: none;
+    }
+    .category-filter {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .category-filter::-webkit-scrollbar {
+      height: 4px;
+    }
+    .category-filter::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .category-filter::-webkit-scrollbar-thumb {
+      background: rgba(196, 43, 52, 0.2);
+      border-radius: 999px;
+    }
+    .filter-chip {
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 2px solid rgba(196, 43, 52, 0.18);
+      background: rgba(255, 255, 255, 0.6);
+      color: var(--ink2);
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+    .filter-chip:hover {
+      border-color: rgba(196, 43, 52, 0.36);
+      background: rgba(255, 255, 255, 0.95);
+      transform: translateY(-1px);
+    }
+    .filter-chip.active {
+      background: linear-gradient(135deg, #df6a8e 0%, #c63d65 100%);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 8px 16px -8px rgba(196, 43, 52, 0.4);
     }
     .product-form {
       display: grid;
       grid-template-columns: 0.55fr 1.9fr 1.2fr 1fr;
-      gap: 5px;
+      gap: 8px;
       align-items: stretch;
+      margin-bottom: 14px;
     }
     .product-field {
       display: flex;
       align-items: center;
-      min-height: 42px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 2px solid rgba(124, 30, 46, 0.2);
-      border-radius: 9px;
-      padding: 0 8px;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
+      min-height: 44px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 2px solid rgba(196, 43, 52, 0.16);
+      border-radius: 14px;
+      padding: 0 12px;
+      box-shadow: inset 0 1px 2px rgba(24, 26, 20, 0.04);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .product-field:focus-within {
+      border-color: rgba(196, 43, 52, 0.32);
+      box-shadow: 0 0 0 3px rgba(196, 43, 52, 0.1);
     }
     .product-field input {
-      font-size: 0.9rem;
-      font-weight: 500;
+      font-size: 14px;
+      font-weight: 600;
       color: var(--ink);
-      letter-spacing: -0.02em;
+      letter-spacing: -0.01em;
+      width: 100%;
     }
     .product-field input::placeholder {
-      color: rgba(124, 30, 46, 0.54);
+      color: rgba(124, 30, 46, 0.5);
     }
     .product-actions {
       display: flex;
       justify-content: flex-start;
-      margin-top: 8px;
+      gap: 10px;
+      grid-column: 1 / -1;
     }
     .product-primary-btn {
-      min-width: 104px;
-      height: 42px;
-      padding: 0 18px;
+      min-width: 120px;
+      height: 44px;
+      padding: 0 20px;
       border: none;
       border-radius: 999px;
-      background: linear-gradient(180deg, #c63b62 0%, #a61942 100%);
+      background: linear-gradient(135deg, #df6a8e 0%, #c63d65 100%);
       color: #fff8ef;
-      font-size: clamp(1.05rem, 1.2vw, 1.5rem);
+      font-size: 14px;
       font-weight: 800;
-      letter-spacing: -0.04em;
+      letter-spacing: -0.02em;
       line-height: 1;
-      box-shadow: 0 10px 16px -16px rgba(140, 32, 54, 0.9);
-      transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+      box-shadow: 0 12px 24px -12px rgba(196, 43, 52, 0.5);
+      transition: all 0.2s cubic-bezier(0.23, 1, 0.320, 1);
+      cursor: pointer;
     }
     .product-primary-btn:hover {
       transform: translateY(-2px);
-      filter: brightness(1.02);
-      box-shadow: 0 20px 28px -18px rgba(140, 32, 54, 0.94);
+      box-shadow: 0 16px 32px -12px rgba(196, 43, 52, 0.6);
+    }
+    .product-primary-btn:active {
+      transform: scale(0.98);
     }
     .home-hero {
       display: grid;
@@ -896,43 +995,77 @@
     }
     .catalog-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
     }
     .product {
-      padding: 16px;
-      border-radius: 22px;
-      background: linear-gradient(180deg, #fff9ea 0%, #ffe7bb 100%);
-      border: 1px solid var(--line);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      animation: none;
+      padding: 18px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, #fffcf3 0%, #fff9e8 100%);
+      border: 1.5px solid rgba(196, 43, 52, 0.1);
+      box-shadow: 0 8px 20px -12px rgba(97, 44, 31, 0.22);
+      transition: all 0.25s cubic-bezier(0.23, 1, 0.320, 1);
+      animation: slideUp 0.4s ease both;
+      position: relative;
+      overflow: hidden;
+    }
+    .product::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 20% 30%, rgba(252, 143, 45, 0.08), transparent 50%);
+      pointer-events: none;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .product:hover {
+      transform: translateY(-4px);
+      border-color: rgba(196, 43, 52, 0.22);
+      box-shadow: 0 16px 32px -16px rgba(97, 44, 31, 0.32);
     }
     .product-top {
       display: flex;
       justify-content: space-between;
       gap: 12px;
       align-items: start;
+      position: relative;
+      z-index: 1;
     }
     .emoji-dot {
-      width: 34px;
-      height: 34px;
-      border-radius: 999px;
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
       display: grid;
       place-items: center;
-      background: var(--bg);
-      border: 1px solid var(--line);
+      background: linear-gradient(135deg, rgba(220, 65, 124, 0.1), rgba(252, 143, 45, 0.1));
+      border: 1px solid rgba(196, 43, 52, 0.12);
       flex: 0 0 auto;
-      font-size: 16px;
+      font-size: 20px;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+    .product:hover .emoji-dot {
+      transform: scale(1.08);
+      background: linear-gradient(135deg, rgba(220, 65, 124, 0.15), rgba(252, 143, 45, 0.15));
     }
     .product-name {
       font-weight: 800;
-      font-size: 14px;
-      margin-top: 12px;
+      font-size: 15px;
+      margin-top: 14px;
+      line-height: 1.3;
+      color: var(--ink);
+      position: relative;
+      z-index: 1;
     }
     .product-cat {
       color: var(--muted);
       font-size: 12px;
-      margin-top: 4px;
+      margin-top: 6px;
+      font-weight: 600;
+      position: relative;
+      z-index: 1;
     }
     .cart {
       padding: 18px;
@@ -1258,11 +1391,17 @@
       align-items: center;
       justify-content: center;
       border-radius: 999px;
-      padding: 6px 10px;
-      background: #fff9e8;
-      border: 1px solid var(--line);
-      font-size: 12px;
+      padding: 8px 12px;
+      background: linear-gradient(135deg, rgba(252, 143, 45, 0.16), rgba(220, 65, 124, 0.12));
+      border: 1px solid rgba(196, 43, 52, 0.16);
+      font-size: 13px;
       font-weight: 800;
+      color: var(--ink2);
+      transition: all 0.2s ease;
+    }
+    .product:hover .pill {
+      background: linear-gradient(135deg, rgba(252, 143, 45, 0.22), rgba(220, 65, 124, 0.18));
+      border-color: rgba(196, 43, 52, 0.24);
     }
     .flash {
       margin-bottom: 16px;
@@ -1498,15 +1637,30 @@
       .student-row,
       .catalog-grid,
       .chip-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .quick-actions { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .login-wrap, .main-wrap { padding: 0; }
+      .card-shell { border-radius: 0; min-height: 100vh; }
+      .hero, .login-form { padding: 22px 18px; }
+      .title { font-size: 30px; }
+      .hero h1 { font-size: 28px; }
+      .student-row,
+      .catalog-grid,
+      .chip-grid {
         grid-template-columns: 1fr;
       }
-      .stat-grid { grid-template-columns: 1fr 1fr; }
-      .scan-head { flex-direction: column; }
-      .status-pill { margin-top: 0; }
-      .scan-actions { flex-direction: column; }
-      .scan-actions .btn { width: 100%; }
-      .scan-card-art { width: min(260px, 88%); }
-    }
+      .product-form {
+        grid-template-columns: 1fr;
+      }
+      .search-bar-container {
+        flex-direction: column;
+      }
+      .search-input-wrapper {
+        min-width: unset;
+      }
   </style>
 </head>
 <body>
@@ -1543,6 +1697,8 @@
       topupPhase: "none",
       topupPinValue: "",
       topupPinError: "",
+      searchQuery: "",
+      selectedCategory: "Semua",
       students: [],
       products: [
       { id: 1, name: "Floridina", price: 5000, emoji: "F", cat: "Minuman" },
@@ -2180,9 +2336,17 @@
       const student = selectedStudent();
       const total = cartTotal();
       const items = cartItems();
+      const allCategories = ["Semua", ...new Set(state.products.map(p => p.cat))];
+      const paymentFilteredProducts = state.products.filter(p => {
+        const matchesSearch = p.name.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
+                             p.cat.toLowerCase().includes(state.searchQuery.toLowerCase());
+        const matchesCategory = state.selectedCategory === "Semua" || p.cat === state.selectedCategory;
+        return matchesSearch && matchesCategory;
+      });
+      
       return `
         <div class="page-grid">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:12px;">
             <div>
               <div class="muted">Pembayaran</div>
               <h2 style="font-size:24px;letter-spacing:-0.04em;margin-top:4px;">Detail belanja</h2>
@@ -2205,42 +2369,69 @@
           </div>
 
           <div>
-            <section class="panel" style="padding:18px;">
+            <section class="panel" style="padding:20px;">
               <div class="section-title">Produk Tersedia</div>
-              ${(() => {
-                const cats = [...new Set(state.products.map(p => p.cat))];
-                return cats.map(cat => `
-                  <div style="margin-top:12px;">
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-weight:800;">${esc(cat)}</div></div>
-                    <div class="catalog-grid">
-                      ${state.products.filter(p => p.cat === cat).map((p, i) => `
-                        <div class="product" style="animation-delay:${(i + 1) * 0.04}s;">
-                          <div class="product-top">
-                            <div>
-                              <div class="emoji-dot">${esc(p.emoji)}</div>
-                            </div>
-                            <div class="pill">${rupiah(p.price)}</div>
-                          </div>
-                          <div class="product-name">${esc(p.name)}</div>
-                          <div class="product-cat">${esc(p.cat)}</div>
-                          ${(() => {
-                            const inCart = Number(state.cart[p.id] || 0);
-                            return inCart > 0 ? `
-                              <div class="qty-stepper">
-                                <button type="button" class="qty-btn" data-action="cart-dec" data-id="${p.id}" aria-label="Kurangi jumlah">−</button>
-                                <span class="qty-val">${inCart}</span>
-                                <button type="button" class="qty-btn qty-plus" data-action="cart-inc" data-id="${p.id}" aria-label="Tambah jumlah">+</button>
+              
+              <div class="search-bar-container">
+                <div class="search-input-wrapper">
+                  <span class="search-icon">🔍</span>
+                  <input type="text" id="paymentSearch" placeholder="Cari nama produk..." value="${esc(state.searchQuery)}" data-action="search-payment" />
+                </div>
+              </div>
+
+              <div class="category-filter">
+                ${allCategories.map(cat => `
+                  <button class="filter-chip ${state.selectedCategory === cat ? "active" : ""}" data-action="filter-category" data-category="${cat}">
+                    ${esc(cat)}
+                  </button>
+                `).join("")}
+              </div>
+
+              ${paymentFilteredProducts.length === 0 ? `
+                <div style="text-align:center;padding:30px 20px;">
+                  <div style="font-size:36px;margin-bottom:10px;">🔍</div>
+                  <div style="font-weight:800;color:var(--ink2);">Produk tidak ditemukan</div>
+                  <div style="color:var(--muted);font-size:13px;margin-top:6px;">Coba ubah pencarian atau filter kategori</div>
+                </div>
+              ` : `
+                ${(() => {
+                  const uniqueCats = [...new Set(paymentFilteredProducts.map(p => p.cat))];
+                  return uniqueCats.map(cat => `
+                    <div style="margin-top:14px;">
+                      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                        <div style="font-weight:800;color:var(--ink);font-size:14px;">${esc(cat)}</div>
+                        <div style="font-size:12px;color:var(--muted);">${paymentFilteredProducts.filter(p => p.cat === cat).length} item</div>
+                      </div>
+                      <div class="catalog-grid">
+                        ${paymentFilteredProducts.filter(p => p.cat === cat).map((p, i) => `
+                          <div class="product" style="animation-delay:${(i + 1) * 0.04}s;">
+                            <div class="product-top">
+                              <div>
+                                <div class="emoji-dot">${esc(p.emoji)}</div>
                               </div>
-                            ` : `
-                              <button class="btn btn-dark" style="width:100%;margin-top:14px;" data-action="add-product" data-id="${p.id}">+ Tambah</button>
-                            `;
-                          })()}
-                        </div>
-                      `).join("")}
+                              <div class="pill">${rupiah(p.price)}</div>
+                            </div>
+                            <div class="product-name">${esc(p.name)}</div>
+                            <div class="product-cat">${esc(p.cat)}</div>
+                            ${(() => {
+                              const inCart = Number(state.cart[p.id] || 0);
+                              return inCart > 0 ? `
+                                <div class="qty-stepper">
+                                  <button type="button" class="qty-btn" data-action="cart-dec" data-id="${p.id}" aria-label="Kurangi jumlah">−</button>
+                                  <span class="qty-val">${inCart}</span>
+                                  <button type="button" class="qty-btn qty-plus" data-action="cart-inc" data-id="${p.id}" aria-label="Tambah jumlah">+</button>
+                                </div>
+                              ` : `
+                                <button class="btn btn-dark" style="width:100%;margin-top:14px;" data-action="add-product" data-id="${p.id}">+ Tambah</button>
+                              `;
+                            })()}
+                          </div>
+                        `).join("")}
+                      </div>
                     </div>
-                  </div>
-                `).join("");
-              })()}
+                  `).join("");
+                })()}
+              `}
             </section>
           </div>
         </div>
@@ -2248,9 +2439,17 @@
     }
 
     function productsView() {
+      const allCategories = ["Semua", ...new Set(state.products.map(p => p.cat))];
+      const filteredProducts = state.products.filter(p => {
+        const matchesSearch = p.name.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
+                             p.cat.toLowerCase().includes(state.searchQuery.toLowerCase());
+        const matchesCategory = state.selectedCategory === "Semua" || p.cat === state.selectedCategory;
+        return matchesSearch && matchesCategory;
+      });
+      
       return `
         <div class="page-grid">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:12px;">
             <div>
               <div class="muted">Admin</div>
               <h2 style="font-size:24px;letter-spacing:-0.04em;margin-top:4px;">Dashboard Produk</h2>
@@ -2264,7 +2463,7 @@
             <div class="section-title">Tambah / Edit Produk</div>
             <form id="productForm" class="product-form">
               <div class="product-field">
-                <input name="pemoji" placeholder="Emoji" value="${esc(state.productForm.emoji)}" aria-label="Emoji produk" />
+                <input name="pemoji" placeholder="Emoji" value="${esc(state.productForm.emoji)}" aria-label="Emoji produk" maxlength="2" />
               </div>
               <div class="product-field">
                 <input name="pname" placeholder="Nama produk" value="${esc(state.productForm.name)}" aria-label="Nama produk" />
@@ -2275,31 +2474,55 @@
               <div class="product-field">
                 <input name="pprice" inputmode="numeric" placeholder="Harga" value="${state.productForm.price || ""}" aria-label="Harga produk" />
               </div>
-              <div class="product-actions" style="grid-column:1/-1;">
-                <button class="product-primary-btn" type="submit">${state.editingProductId ? "Simpan" : "Tambah"}</button>
+              <div class="product-actions">
+                <button class="product-primary-btn" type="submit">${state.editingProductId ? "Simpan Perubahan" : "Tambah Produk"}</button>
                 ${state.editingProductId ? `<button class="btn btn-ghost" type="button" data-action="cancel-edit-product">Batal</button>` : ""}
               </div>
             </form>
           </div>
 
-          <div style="margin-top:12px;">
-            <div class="section-title">Daftar Produk</div>
-            <div class="catalog-grid" style="margin-top:12px;">
-              ${state.products.map((p) => `
-                <div class="product">
-                  <div class="product-top">
-                    <div><div class="emoji-dot">${esc(p.emoji)}</div></div>
-                    <div class="pill">${rupiah(p.price)}</div>
-                  </div>
-                  <div class="product-name">${esc(p.name)}</div>
-                  <div class="product-cat">${esc(p.cat)}</div>
-                  <div style="display:flex;gap:8px;margin-top:12px;">
-                    <button class="btn btn-mint" data-action="edit-product" data-id="${p.id}">Edit</button>
-                    <button class="btn btn-ghost" data-action="delete-product" data-id="${p.id}">Hapus</button>
-                  </div>
-                </div>
+          <div style="margin-top:18px;">
+            <div class="section-title">Daftar Produk ${filteredProducts.length > 0 ? `(${filteredProducts.length})` : ""}</div>
+            
+            <div class="search-bar-container">
+              <div class="search-input-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="productSearch" placeholder="Cari nama produk atau kategori..." value="${esc(state.searchQuery)}" data-action="search-product" />
+              </div>
+            </div>
+
+            <div class="category-filter">
+              ${allCategories.map(cat => `
+                <button class="filter-chip ${state.selectedCategory === cat ? "active" : ""}" data-action="filter-category" data-category="${cat}">
+                  ${esc(cat)}
+                </button>
               `).join("")}
             </div>
+
+            ${filteredProducts.length === 0 ? `
+              <div style="text-align:center;padding:40px 20px;">
+                <div style="font-size:48px;margin-bottom:12px;">📦</div>
+                <div style="font-weight:800;color:var(--ink2);margin-bottom:6px;">Produk tidak ditemukan</div>
+                <div style="color:var(--muted);font-size:14px;">Coba ubah pencarian atau kategori filter Anda</div>
+              </div>
+            ` : `
+              <div class="catalog-grid">
+                ${filteredProducts.map((p, i) => `
+                  <div class="product" style="animation-delay:${i * 0.05}s;">
+                    <div class="product-top">
+                      <div><div class="emoji-dot">${esc(p.emoji)}</div></div>
+                      <div class="pill">${rupiah(p.price)}</div>
+                    </div>
+                    <div class="product-name">${esc(p.name)}</div>
+                    <div class="product-cat">${esc(p.cat)}</div>
+                    <div style="display:flex;gap:8px;margin-top:14px;">
+                      <button class="btn btn-mint" style="flex:1;" data-action="edit-product" data-id="${p.id}">Edit</button>
+                      <button class="btn btn-ghost" style="flex:1;" data-action="delete-product" data-id="${p.id}">Hapus</button>
+                    </div>
+                  </div>
+                `).join("")}
+              </div>
+            `}
           </div>
         </div>
       `;
@@ -2572,6 +2795,15 @@
       }
     });
 
+    document.addEventListener("input", (e) => {
+      if (e.target.id === "productSearch" || e.target.id === "paymentSearch") {
+        state.searchQuery = e.target.value;
+        render();
+      } else if (e.target.id === "customTopup") {
+        // Handle custom topup input if needed
+      }
+    });
+
     document.addEventListener("click", async (e) => {
       const btn = e.target.closest("[data-action]");
       if (!btn) return;
@@ -2580,6 +2812,8 @@
       if (action === "nav") {
         state.activeTab = btn.dataset.tab;
         state.notice = "";
+        state.searchQuery = "";
+        state.selectedCategory = "Semua";
         render();
       } else if (action === "logout") {
         state.loggedIn = false;
@@ -2664,6 +2898,12 @@
         state.products = state.products.filter(x => x.id !== id);
         delete state.cart[id];
         flash("Produk berhasil dihapus.", "ok");
+        render();
+      } else if (action === "filter-category") {
+        state.selectedCategory = btn.dataset.category;
+        render();
+      } else if (action === "search-product") {
+        state.searchQuery = btn.value || "";
         render();
       }
     });
