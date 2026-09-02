@@ -277,28 +277,24 @@
     .btn {
       border: 0;
       border-radius: 999px;
-      padding: 12px 20px;
+      padding: 15px 18px;
       font-weight: 800;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      transition: all 0.2s cubic-bezier(0.23, 1, 0.320, 1);
+      transition: transform 0.14s ease, opacity 0.14s ease, box-shadow 0.14s ease;
       text-decoration: none;
       white-space: nowrap;
       will-change: transform;
-      font-size: 14px;
+      font-size: 15px;
     }
-    .btn:hover { transform: translateY(-2px); }
-    .btn:active { transform: scale(0.98) translateY(0); }
-    .btn-dark { background: linear-gradient(135deg, #c94062, #b81e44); color: white; box-shadow: 0 12px 20px -10px rgba(196, 43, 52, 0.5); }
-    .btn-dark:hover { box-shadow: 0 16px 28px -12px rgba(196, 43, 52, 0.6); }
-    .btn-mint { background: linear-gradient(135deg, #b9bd4f, #9b9b20); color: white; box-shadow: 0 12px 20px -10px rgba(159, 152, 32, 0.5); }
-    .btn-mint:hover { box-shadow: 0 16px 28px -12px rgba(159, 152, 32, 0.6); }
-    .btn-orange { background: linear-gradient(135deg, #f7b15d, #ea8d39); color: white; box-shadow: 0 12px 20px -10px rgba(252, 143, 45, 0.5); }
-    .btn-orange:hover { box-shadow: 0 16px 28px -12px rgba(252, 143, 45, 0.6); }
-    .btn-ghost { background: transparent; color: var(--ink2); border: 1px solid rgba(196, 43, 52, 0.18); transition: all 0.2s ease; }
-    .btn-ghost:hover { background: rgba(196, 43, 52, 0.05); border-color: rgba(196, 43, 52, 0.28); }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:active { transform: scale(0.99) translateY(0); }
+    .btn-dark { background: linear-gradient(135deg, #c94062, #b81e44); color: white; box-shadow: 0 16px 26px -18px rgba(196, 43, 52, 0.82); }
+    .btn-mint { background: linear-gradient(135deg, #b9bd4f, #9b9b20); color: white; box-shadow: 0 16px 26px -18px rgba(159, 152, 32, 0.82); }
+    .btn-orange { background: linear-gradient(135deg, #f7b15d, #ea8d39); color: white; box-shadow: 0 16px 26px -18px rgba(252, 143, 45, 0.82); }
+    .btn-ghost { background: transparent; color: var(--ink2); border: 1px solid var(--line); }
     .helper {
       margin-top: 8px;
       text-align: center;
@@ -368,11 +364,11 @@
       overflow: auto;
     }
     .panel {
-      background: rgba(255, 250, 236, 0.88);
-      border: 1px solid rgba(196, 43, 52, 0.12);
-      border-radius: 24px;
-      box-shadow: 0 12px 28px -20px rgba(120, 26, 41, 0.18);
-      transition: all 0.2s cubic-bezier(0.23, 1, 0.320, 1);
+      background: rgba(255, 250, 236, 0.84);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 18px 40px -32px rgba(120, 26, 41, 0.22);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
       animation: none;
     }
     .panel:hover,
@@ -381,7 +377,7 @@
     .product:hover,
     .history-card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 16px 32px -20px rgba(24, 26, 20, 0.24);
+      box-shadow: 0 18px 28px -22px rgba(24, 26, 20, 0.28);
     }
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(8px); }
@@ -779,8 +775,8 @@
       display: flex;
       gap: 8px;
       overflow-x: auto;
-      padding-bottom: 10px;
-      margin-bottom: 14px;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
       flex-wrap: wrap;
     }
     .category-filter::-webkit-scrollbar {
@@ -856,27 +852,24 @@
       grid-column: 1 / -1;
     }
     .product-primary-btn {
-      min-width: 120px;
-      height: 44px;
-      padding: 0 20px;
+      min-width: 104px;
+      height: 42px;
+      padding: 0 18px;
       border: none;
       border-radius: 999px;
-      background: linear-gradient(135deg, #df6a8e 0%, #c63d65 100%);
+      background: linear-gradient(180deg, #c63b62 0%, #a61942 100%);
       color: #fff8ef;
-      font-size: 14px;
+      font-size: clamp(1.05rem, 1.2vw, 1.5rem);
       font-weight: 800;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.04em;
       line-height: 1;
-      box-shadow: 0 12px 24px -12px rgba(196, 43, 52, 0.5);
-      transition: all 0.2s cubic-bezier(0.23, 1, 0.320, 1);
-      cursor: pointer;
+      box-shadow: 0 10px 16px -16px rgba(140, 32, 54, 0.9);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
     }
     .product-primary-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 16px 32px -12px rgba(196, 43, 52, 0.6);
-    }
-    .product-primary-btn:active {
-      transform: scale(0.98);
+      filter: brightness(1.02);
+      box-shadow: 0 20px 28px -18px rgba(140, 32, 54, 0.94);
     }
     .home-hero {
       display: grid;
@@ -1391,17 +1384,11 @@
       align-items: center;
       justify-content: center;
       border-radius: 999px;
-      padding: 8px 12px;
-      background: linear-gradient(135deg, rgba(252, 143, 45, 0.16), rgba(220, 65, 124, 0.12));
-      border: 1px solid rgba(196, 43, 52, 0.16);
-      font-size: 13px;
+      padding: 6px 10px;
+      background: #fff9e8;
+      border: 1px solid var(--line);
+      font-size: 12px;
       font-weight: 800;
-      color: var(--ink2);
-      transition: all 0.2s ease;
-    }
-    .product:hover .pill {
-      background: linear-gradient(135deg, rgba(252, 143, 45, 0.22), rgba(220, 65, 124, 0.18));
-      border-color: rgba(196, 43, 52, 0.24);
     }
     .flash {
       margin-bottom: 16px;
@@ -1637,30 +1624,15 @@
       .student-row,
       .catalog-grid,
       .chip-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: 1fr;
       }
-      .quick-actions { grid-template-columns: 1fr; }
+      .stat-grid { grid-template-columns: 1fr 1fr; }
+      .scan-head { flex-direction: column; }
+      .status-pill { margin-top: 0; }
+      .scan-actions { flex-direction: column; }
+      .scan-actions .btn { width: 100%; }
+      .scan-card-art { width: min(260px, 88%); }
     }
-    @media (max-width: 640px) {
-      .login-wrap, .main-wrap { padding: 0; }
-      .card-shell { border-radius: 0; min-height: 100vh; }
-      .hero, .login-form { padding: 22px 18px; }
-      .title { font-size: 30px; }
-      .hero h1 { font-size: 28px; }
-      .student-row,
-      .catalog-grid,
-      .chip-grid {
-        grid-template-columns: 1fr;
-      }
-      .product-form {
-        grid-template-columns: 1fr;
-      }
-      .search-bar-container {
-        flex-direction: column;
-      }
-      .search-input-wrapper {
-        min-width: unset;
-      }
   </style>
 </head>
 <body>
@@ -1697,8 +1669,6 @@
       topupPhase: "none",
       topupPinValue: "",
       topupPinError: "",
-      searchQuery: "",
-      selectedCategory: "Semua",
       students: [],
       products: [
       { id: 1, name: "Floridina", price: 5000, emoji: "F", cat: "Minuman" },
@@ -2258,7 +2228,7 @@
               </div>
 
               <div class="scan-actions">
-                <button class="btn btn-dark" type="submit">Scan Kartu Santri</button>
+                <button class="btn btn-dark" type="submit">Scan Kartu</button>
               </div>
             </form>
 
@@ -2336,17 +2306,9 @@
       const student = selectedStudent();
       const total = cartTotal();
       const items = cartItems();
-      const allCategories = ["Semua", ...new Set(state.products.map(p => p.cat))];
-      const paymentFilteredProducts = state.products.filter(p => {
-        const matchesSearch = p.name.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
-                             p.cat.toLowerCase().includes(state.searchQuery.toLowerCase());
-        const matchesCategory = state.selectedCategory === "Semua" || p.cat === state.selectedCategory;
-        return matchesSearch && matchesCategory;
-      });
-      
       return `
         <div class="page-grid">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:12px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;">
             <div>
               <div class="muted">Pembayaran</div>
               <h2 style="font-size:24px;letter-spacing:-0.04em;margin-top:4px;">Detail belanja</h2>
@@ -2369,69 +2331,42 @@
           </div>
 
           <div>
-            <section class="panel" style="padding:20px;">
+            <section class="panel" style="padding:18px;">
               <div class="section-title">Produk Tersedia</div>
-              
-              <div class="search-bar-container">
-                <div class="search-input-wrapper">
-                  <span class="search-icon">🔍</span>
-                  <input type="text" id="paymentSearch" placeholder="Cari nama produk..." value="${esc(state.searchQuery)}" data-action="search-payment" />
-                </div>
-              </div>
-
-              <div class="category-filter">
-                ${allCategories.map(cat => `
-                  <button class="filter-chip ${state.selectedCategory === cat ? "active" : ""}" data-action="filter-category" data-category="${cat}">
-                    ${esc(cat)}
-                  </button>
-                `).join("")}
-              </div>
-
-              ${paymentFilteredProducts.length === 0 ? `
-                <div style="text-align:center;padding:30px 20px;">
-                  <div style="font-size:36px;margin-bottom:10px;">🔍</div>
-                  <div style="font-weight:800;color:var(--ink2);">Produk tidak ditemukan</div>
-                  <div style="color:var(--muted);font-size:13px;margin-top:6px;">Coba ubah pencarian atau filter kategori</div>
-                </div>
-              ` : `
-                ${(() => {
-                  const uniqueCats = [...new Set(paymentFilteredProducts.map(p => p.cat))];
-                  return uniqueCats.map(cat => `
-                    <div style="margin-top:14px;">
-                      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-                        <div style="font-weight:800;color:var(--ink);font-size:14px;">${esc(cat)}</div>
-                        <div style="font-size:12px;color:var(--muted);">${paymentFilteredProducts.filter(p => p.cat === cat).length} item</div>
-                      </div>
-                      <div class="catalog-grid">
-                        ${paymentFilteredProducts.filter(p => p.cat === cat).map((p, i) => `
-                          <div class="product" style="animation-delay:${(i + 1) * 0.04}s;">
-                            <div class="product-top">
-                              <div>
-                                <div class="emoji-dot">${esc(p.emoji)}</div>
-                              </div>
-                              <div class="pill">${rupiah(p.price)}</div>
+              ${(() => {
+                const cats = [...new Set(state.products.map(p => p.cat))];
+                return cats.map(cat => `
+                  <div style="margin-top:12px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-weight:800;">${esc(cat)}</div></div>
+                    <div class="catalog-grid">
+                      ${state.products.filter(p => p.cat === cat).map((p, i) => `
+                        <div class="product" style="animation-delay:${(i + 1) * 0.04}s;">
+                          <div class="product-top">
+                            <div>
+                              <div class="emoji-dot">${esc(p.emoji)}</div>
                             </div>
-                            <div class="product-name">${esc(p.name)}</div>
-                            <div class="product-cat">${esc(p.cat)}</div>
-                            ${(() => {
-                              const inCart = Number(state.cart[p.id] || 0);
-                              return inCart > 0 ? `
-                                <div class="qty-stepper">
-                                  <button type="button" class="qty-btn" data-action="cart-dec" data-id="${p.id}" aria-label="Kurangi jumlah">−</button>
-                                  <span class="qty-val">${inCart}</span>
-                                  <button type="button" class="qty-btn qty-plus" data-action="cart-inc" data-id="${p.id}" aria-label="Tambah jumlah">+</button>
-                                </div>
-                              ` : `
-                                <button class="btn btn-dark" style="width:100%;margin-top:14px;" data-action="add-product" data-id="${p.id}">+ Tambah</button>
-                              `;
-                            })()}
+                            <div class="pill">${rupiah(p.price)}</div>
                           </div>
-                        `).join("")}
-                      </div>
+                          <div class="product-name">${esc(p.name)}</div>
+                          <div class="product-cat">${esc(p.cat)}</div>
+                          ${(() => {
+                            const inCart = Number(state.cart[p.id] || 0);
+                            return inCart > 0 ? `
+                              <div class="qty-stepper">
+                                <button type="button" class="qty-btn" data-action="cart-dec" data-id="${p.id}" aria-label="Kurangi jumlah">−</button>
+                                <span class="qty-val">${inCart}</span>
+                                <button type="button" class="qty-btn qty-plus" data-action="cart-inc" data-id="${p.id}" aria-label="Tambah jumlah">+</button>
+                              </div>
+                            ` : `
+                              <button class="btn btn-dark" style="width:100%;margin-top:14px;" data-action="add-product" data-id="${p.id}">+ Tambah</button>
+                            `;
+                          })()}
+                        </div>
+                      `).join("")}
                     </div>
-                  `).join("");
-                })()}
-              `}
+                  </div>
+                `).join("");
+              })()}
             </section>
           </div>
         </div>
@@ -2439,17 +2374,9 @@
     }
 
     function productsView() {
-      const allCategories = ["Semua", ...new Set(state.products.map(p => p.cat))];
-      const filteredProducts = state.products.filter(p => {
-        const matchesSearch = p.name.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
-                             p.cat.toLowerCase().includes(state.searchQuery.toLowerCase());
-        const matchesCategory = state.selectedCategory === "Semua" || p.cat === state.selectedCategory;
-        return matchesSearch && matchesCategory;
-      });
-      
       return `
         <div class="page-grid">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:12px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;">
             <div>
               <div class="muted">Admin</div>
               <h2 style="font-size:24px;letter-spacing:-0.04em;margin-top:4px;">Dashboard Produk</h2>
@@ -2463,7 +2390,7 @@
             <div class="section-title">Tambah / Edit Produk</div>
             <form id="productForm" class="product-form">
               <div class="product-field">
-                <input name="pemoji" placeholder="Emoji" value="${esc(state.productForm.emoji)}" aria-label="Emoji produk" maxlength="2" />
+                <input name="pemoji" placeholder="Emoji" value="${esc(state.productForm.emoji)}" aria-label="Emoji produk" />
               </div>
               <div class="product-field">
                 <input name="pname" placeholder="Nama produk" value="${esc(state.productForm.name)}" aria-label="Nama produk" />
@@ -2474,57 +2401,13 @@
               <div class="product-field">
                 <input name="pprice" inputmode="numeric" placeholder="Harga" value="${state.productForm.price || ""}" aria-label="Harga produk" />
               </div>
-              <div class="product-actions">
-                <button class="product-primary-btn" type="submit">${state.editingProductId ? "Simpan Perubahan" : "Tambah Produk"}</button>
+              <div class="product-actions" style="grid-column:1/-1;">
+                <button class="product-primary-btn" type="submit">${state.editingProductId ? "Simpan" : "Tambah"}</button>
                 ${state.editingProductId ? `<button class="btn btn-ghost" type="button" data-action="cancel-edit-product">Batal</button>` : ""}
               </div>
             </form>
           </div>
 
-<<<<<<< HEAD
-          <div style="margin-top:18px;">
-            <div class="section-title">Daftar Produk ${filteredProducts.length > 0 ? `(${filteredProducts.length})` : ""}</div>
-            
-            <div class="search-bar-container">
-              <div class="search-input-wrapper">
-                <span class="search-icon">🔍</span>
-                <input type="text" id="productSearch" placeholder="Cari nama produk atau kategori..." value="${esc(state.searchQuery)}" data-action="search-product" />
-              </div>
-            </div>
-
-            <div class="category-filter">
-              ${allCategories.map(cat => `
-                <button class="filter-chip ${state.selectedCategory === cat ? "active" : ""}" data-action="filter-category" data-category="${cat}">
-                  ${esc(cat)}
-                </button>
-=======
-<<<<<<< HEAD
-          <div style="margin-top:6px;">
-            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
-              <div class="section-title" style="margin-bottom:0;">Daftar Produk</div>
-              <span class="count-chip">📦 ${state.products.length} produk</span>
-            </div>
-            ${state.products.length === 0 ? `
-              <div class="empty-state">
-                <div style="font-size:30px;">📦</div>
-                <div style="font-weight:800;color:var(--ink2);margin-top:8px;">Belum ada produk</div>
-                <div style="font-size:13px;margin-top:4px;">Tambahkan produk pertama lewat formulir di atas.</div>
-              </div>
-            ` : `
-              <div class="catalog-grid">
-                ${state.products.map((p) => `
-                  <div class="product">
-                    <div class="produ-top">
-                      <div><div class="emoji-dot">${esc(p.emoji)}</div></div>
-                      <div class="pill">${rupiah(p.price)}</div>
-                    </div>
-                    <div class="product-name">${esc(p.name)}</div>
-                    <div class="product-cat">${esc(p.cat)}</div>
-                    <div class="product-card-actions">
-                      <button type="button" class="card-btn" data-action="edit-product" data-id="${p.id}">✏️ Edit</button>
-                      <button type="button" class="card-btn danger" data-action="delete-product" data-id="${p.id}">🗑️ Hapus</button>
-                    </div>
-=======
           <div style="margin-top:12px;">
             <div class="section-title">Daftar Produk</div>
             <div class="catalog-grid" style="margin-top:12px;">
@@ -2533,7 +2416,6 @@
                   <div class="product-top">
                     <div><div class="emoji-dot">${esc(p.emoji)}</div></div>
                     <div class="pill">${rupiah(p.price)}</div>
->>>>>>> 24f3c5b76b44d599dd9d309b10e00559a22cc797
                   </div>
                   <div class="product-name">${esc(p.name)}</div>
                   <div class="product-cat">${esc(p.cat)}</div>
@@ -2542,34 +2424,8 @@
                     <button class="btn btn-ghost" data-action="delete-product" data-id="${p.id}">Hapus</button>
                   </div>
                 </div>
->>>>>>> c73f091168b9cdfd49c95a2c04eb565d565a0522
               `).join("")}
             </div>
-
-            ${filteredProducts.length === 0 ? `
-              <div style="text-align:center;padding:40px 20px;">
-                <div style="font-size:48px;margin-bottom:12px;">📦</div>
-                <div style="font-weight:800;color:var(--ink2);margin-bottom:6px;">Produk tidak ditemukan</div>
-                <div style="color:var(--muted);font-size:14px;">Coba ubah pencarian atau kategori filter Anda</div>
-              </div>
-            ` : `
-              <div class="catalog-grid">
-                ${filteredProducts.map((p, i) => `
-                  <div class="product" style="animation-delay:${i * 0.05}s;">
-                    <div class="product-top">
-                      <div><div class="emoji-dot">${esc(p.emoji)}</div></div>
-                      <div class="pill">${rupiah(p.price)}</div>
-                    </div>
-                    <div class="product-name">${esc(p.name)}</div>
-                    <div class="product-cat">${esc(p.cat)}</div>
-                    <div style="display:flex;gap:8px;margin-top:14px;">
-                      <button class="btn btn-mint" style="flex:1;" data-action="edit-product" data-id="${p.id}">Edit</button>
-                      <button class="btn btn-ghost" style="flex:1;" data-action="delete-product" data-id="${p.id}">Hapus</button>
-                    </div>
-                  </div>
-                `).join("")}
-              </div>
-            `}
           </div>
         </div>
       `;
@@ -2842,15 +2698,6 @@
       }
     });
 
-    document.addEventListener("input", (e) => {
-      if (e.target.id === "productSearch" || e.target.id === "paymentSearch") {
-        state.searchQuery = e.target.value;
-        render();
-      } else if (e.target.id === "customTopup") {
-        // Handle custom topup input if needed
-      }
-    });
-
     document.addEventListener("click", async (e) => {
       const btn = e.target.closest("[data-action]");
       if (!btn) return;
@@ -2859,8 +2706,6 @@
       if (action === "nav") {
         state.activeTab = btn.dataset.tab;
         state.notice = "";
-        state.searchQuery = "";
-        state.selectedCategory = "Semua";
         render();
       } else if (action === "logout") {
         state.loggedIn = false;
@@ -2945,12 +2790,6 @@
         state.products = state.products.filter(x => x.id !== id);
         delete state.cart[id];
         flash("Produk berhasil dihapus.", "ok");
-        render();
-      } else if (action === "filter-category") {
-        state.selectedCategory = btn.dataset.category;
-        render();
-      } else if (action === "search-product") {
-        state.searchQuery = btn.value || "";
         render();
       }
     });
