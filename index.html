@@ -1391,16 +1391,6 @@
       font-size: 12px;
       font-weight: 800;
     }
-    .flash {
-      margin-bottom: 16px;
-      padding: 14px 16px;
-      border-radius: 18px;
-      font-weight: 700;
-      border: 1px solid transparent;
-      animation: none;
-    }
-    .flash.ok { background: rgba(159, 152, 32, 0.15); border-color: rgba(159, 152, 32, 0.3); color: #6d6513; }
-    .flash.err { background: rgba(196, 43, 52, 0.12); border-color: rgba(196, 43, 52, 0.26); color: var(--danger); }
     .simart-swal {
       border-radius: 18px !important;
       box-shadow: 0 24px 54px -28px rgba(110, 19, 35, 0.52) !important;
@@ -1456,10 +1446,25 @@
       color: var(--tomato);
     }
     .pin-display {
+      position: relative;
       display: flex;
       justify-content: center;
+      align-items: center;
       gap: 10px;
       margin: 10px 0 18px;
+      cursor: text;
+    }
+    .pin-hidden-input {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      padding: 0;
+      margin: 0;
+      background: transparent;
+      opacity: 0;
+      cursor: text;
     }
     .pin-dot {
       width: 14px;
@@ -1752,18 +1757,79 @@
     .cart-empty h3 { margin: 12px 0 6px; font-weight: 900; letter-spacing: -0.03em; }
     .list-empty { margin-top: 8px; }
     .empty-state { text-align: center; padding: 28px 16px; }
-    .cart-widget-total { font-size: 13px; font-weight: 800; color: var(--ink); white-space: nowrap; }
-    .cart-icon-emoji { font-size: 22px; line-height: 1; }
-    .cart-icon.cart-pill {
+    .cart-fab {
+      position: fixed;
+      right: 34px;
+      top: 34px;
+      z-index: 1200;
+      width: 58px;
+      height: 58px;
+      border: 0;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
       background: linear-gradient(120deg, #d63d6a, #c72c4f 60%, #e9844a);
-      color: #fff7dc; border: 0; padding: 9px 14px;
+      color: #fff7dc;
+      font-size: 27px;
       box-shadow: 0 18px 34px -18px rgba(196, 43, 52, 0.72);
+      transition: transform 0.16s ease, box-shadow 0.16s ease;
+      line-height: 1;
     }
-    .cart-icon.cart-pill .cart-widget-total { color: #fff7dc; }
-    .cart-icon.cart-pill .cart-badge {
-      background: #fff7dc; color: var(--tomato);
-      box-shadow: 0 8px 18px -10px rgba(24, 26, 20, 0.5);
+    .cart-fab:hover { transform: translateY(-2px); box-shadow: 0 22px 40px -20px rgba(196, 43, 52, 0.8); }
+    .cart-fab:active { transform: scale(0.96); }
+    .cart-fab-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      min-width: 22px;
+      height: 22px;
+      padding: 0 6px;
+      border-radius: 999px;
+      background: #fff7dc;
+      color: var(--tomato);
+      font-size: 12px;
+      font-weight: 900;
+      display: grid;
+      place-items: center;
+      border: 2px solid #ffffff;
+      box-shadow: 0 8px 18px -8px rgba(24, 26, 20, 0.4);
     }
+    .cart-fab.cart-bump { animation: cartBump 0.5s ease; }
+    .cart-pay {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+    }
+    .pay-cta {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .pay-box {
+      flex: 1;
+      min-width: 240px;
+      padding: 16px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,247,220,0.55));
+      border: 1px solid var(--line);
+    }
+    .pay-total {
+      font-size: 1.9rem;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: var(--tomato);
+      margin: 8px 0 14px;
+    }
+    button.history-card {
+      width: 100%;
+      text-align: left;
+      font: inherit;
+      color: inherit;
+      cursor: pointer;
+    }
+    .hist-items { margin-top: 18px; }
     @media (max-width: 1024px) {
       .product-form-v2 .form-grid { grid-template-columns: 1fr 1fr; }
     }
@@ -1773,6 +1839,7 @@
       .cart-item-total { min-width: 0; }
       .cart-qty { width: 100%; }
       .cart-icon { right: 16px; top: 16px; }
+      .cart-fab { right: 16px; top: 16px; }
     }
     .hero h1,
     .title,
@@ -1857,6 +1924,7 @@
       topupAmount: 0,
       cartOpen: false,
       lastOrder: null,
+      historyDetailId: null,
       editingProductId: null,
       productForm: { id: null, name: "", price: 0, emoji: "", cat: "" },
       paymentSearch: "",
@@ -1945,6 +2013,23 @@
       stats: { transaksi: 12, topupTotal: 350000 }
     };
 
+    const HISTORY_KEY = "simart_history_v1";
+    function loadSavedHistory() {
+      try {
+        const raw = localStorage.getItem(HISTORY_KEY);
+        if (raw) {
+          const arr = JSON.parse(raw);
+          if (Array.isArray(arr)) return arr;
+        }
+      } catch (err) {}
+      return null;
+    }
+    function saveHistory() {
+      try { localStorage.setItem(HISTORY_KEY, JSON.stringify(state.history)); } catch (err) {}
+    }
+    const savedHistory = loadSavedHistory();
+    if (savedHistory && savedHistory.length) state.history = savedHistory;
+
     const root = document.getElementById("root");
 
     const rupiah = (n) => "Rp" + Math.round(n).toLocaleString("id-ID");
@@ -1959,16 +2044,14 @@
 
     function cartWidget() {
       const items = cartItems();
-      const total = cartTotal();
       const qty = items.reduce((s, it) => s + it.qty, 0);
       if (qty === 0) return "";
 
       return `
         <div class="cart-root" aria-hidden="false">
-          <button class="cart-icon cart-pill" data-action="proceed-payment" aria-label="Buka keranjang">
-            <span class="cart-widget-total">${rupiah(total)}</span>
-            <span class="cart-icon-emoji">🛒</span>
-            <span class="cart-badge">${qty}</span>
+          <button class="cart-fab" data-action="proceed-payment" aria-label="Buka keranjang">
+            <span class="cart-fab-emoji">🛒</span>
+            <span class="cart-fab-badge">${qty}</span>
           </button>
         </div>
       `;
@@ -2082,15 +2165,24 @@
     }
 
     function flash(message, type = "ok") {
-      if (window.Swal) {
-        const mapped = type === "err" ? "error" : "success";
-        showSweetAlert(message, mapped, type === "err" ? "Gagal" : "Berhasil");
-      }
+      if (!window.Swal) return;
+      const mapped = type === "err" ? "error" : "success";
+      showSweetAlert(message, mapped, type === "err" ? "Gagal" : "Berhasil");
+    }
+
+    function syncPinInput(id, value) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.value = value || "";
+      el.focus();
+      try {
+        el.setSelectionRange(el.value.length, el.value.length);
+      } catch (_) {}
     }
 
     function flyToCart(startRect, emoji) {
       if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      const target = document.querySelector(".cart-icon");
+      const target = document.querySelector(".cart-fab");
       let endX = window.innerWidth - 110;
       let endY = 58;
       if (target) {
@@ -2123,7 +2215,7 @@
           requestAnimationFrame(step);
         } else {
           flyer.remove();
-          const cart = document.querySelector(".cart-icon");
+          const cart = document.querySelector(".cart-fab");
           if (cart) {
             cart.classList.remove("cart-bump");
             void cart.offsetWidth;
@@ -2138,12 +2230,14 @@
       state.history = [
         {
           id: Date.now(),
+          date: new Date().toLocaleDateString("id-ID", { weekday: "short", day: "numeric", month: "short", year: "numeric" }),
           time: new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" }),
           admin: "Admin",
           ...entry
         },
         ...state.history
       ];
+      saveHistory();
     }
 
     function openPaymentPin() {
@@ -2158,8 +2252,7 @@
         state.paymentPhase = "none";
         state.pinValue = "";
         state.pinError = "";
-        state.notice = "Saldo tidak mencukupi. Silakan top up saldo terlebih dahulu.";
-        state.noticeType = "err";
+        flash("Saldo tidak mencukupi. Silakan top up saldo terlebih dahulu.", "err");
         state.activeTab = "topup";
         render();
         return;
@@ -2176,13 +2269,13 @@
       const pin = state.pinValue;
 
       if (pin.length < 6) {
-        state.pinError = "Masukkan PIN 6 digit terlebih dahulu.";
+        flash("Masukkan PIN 6 digit terlebih dahulu.", "err");
         render();
         return;
       }
 
       if (pin !== "123456") {
-        state.pinError = "PIN salah. Silakan coba lagi.";
+        flash("PIN salah. Silakan coba lagi.", "err");
         state.pinValue = "";
         render();
         return;
@@ -2197,11 +2290,12 @@
       };
       student.saldo -= state.paymentTotal;
       state.stats.transaksi += 1;
-      pushHistory({ type: "payment", name: student.name, amount: state.paymentTotal });
+      pushHistory({ type: "payment", name: student.name, amount: state.paymentTotal, items: cartItems().map(it => ({ id: it.id, name: it.name, price: it.price, qty: it.qty, emoji: it.emoji })) });
       state.cart = {};
       state.cartOpen = false;
       state.paymentPhase = "success";
       state.activeTab = "history";
+      flash("Pembayaran berhasil.", "ok");
       render();
     }
 
@@ -2230,13 +2324,13 @@
       const pin = state.topupPinValue;
 
       if (pin.length < 6) {
-        state.topupPinError = "Masukkan PIN 6 digit terlebih dahulu.";
+        flash("Masukkan PIN 6 digit terlebih dahulu.", "err");
         render();
         return;
       }
 
       if (pin !== "123456") {
-        state.topupPinError = "PIN salah. Silakan coba lagi.";
+        flash("PIN salah. Silakan coba lagi.", "err");
         state.topupPinValue = "";
         render();
         return;
@@ -2248,6 +2342,7 @@
       state.topupAmount = 0;
       state.topupPhase = "success";
       state.activeTab = "history";
+      flash("Top up berhasil.", "ok");
       render();
     }
 
@@ -2415,8 +2510,6 @@
         state.rfidScanned = true;
         state.rfidInput = "";
         state.activeTab = "payment";
-        state.notice = `Santri terdeteksi: ${student.name}`;
-        state.noticeType = "ok";
         state.scanAnimating = false;
         showSweetAlert(`Santri terdeteksi: ${student.name}`, "success", "Scan berhasil");
         render();
@@ -2424,7 +2517,6 @@
         state.scanAnimating = false;
         state.rfidInput = "";
         showSweetAlert(error.message || "Gagal membaca kartu RFID.", "error", "Scan gagal");
-        flash(error.message || "Gagal membaca kartu RFID.", "err");
       }
     }
 
@@ -2450,8 +2542,6 @@
             state.rfidScanned = true;
             state.rfidInput = "";
             state.activeTab = "payment";
-            state.notice = `Santri terdeteksi: ${scan.data.name}`;
-            state.noticeType = "ok";
             render();
             showSweetAlert(`Santri terdeteksi: ${scan.data.name}`, "success", "Scan berhasil");
           } else {
@@ -2768,18 +2858,20 @@
       if (items.length === 0) {
         return `
           <div class="page-grid">
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;">
-              <div>
-                <div class="muted">Keranjang</div>
-                <h2 style="font-size:24px;letter-spacing:-0.04em;margin-top:4px;">Konfirmasi Belanja</h2>
+            <div class="catalog-card">
+              <div class="cart-head">
+                <div>
+                  <div class="muted">Keranjang</div>
+                  <h2 style="font-size:24px;letter-spacing:-0.04em;margin-top:4px;">Konfirmasi Belanja</h2>
+                </div>
+                <button class="btn btn-ghost" data-action="nav" data-tab="payment">← Kembali Belanja</button>
               </div>
-              <button class="btn btn-ghost" data-action="nav" data-tab="payment">Kembali Belanja</button>
-            </div>
-            <div class="cart-empty">
-              <div class="big">🛒</div>
-              <h3>Keranjang masih kosong</h3>
-              <p class="muted" style="margin:0 auto;max-width:360px;line-height:1.6;">Kamu belum menambahkan produk apa pun. Silakan pilih dulu produk di halaman pembayaran.</p>
-              <button class="btn btn-orange" style="margin-top:18px;" data-action="nav" data-tab="payment">Mulai Belanja</button>
+              <div class="cart-empty">
+                <div class="big">🛒</div>
+                <h3>Keranjang masih kosong</h3>
+                <p class="muted" style="margin:0 auto;max-width:360px;line-height:1.6;">Kamu belum menambahkan produk apa pun. Silakan pilih dulu produk di halaman pembayaran.</p>
+                <button class="btn btn-orange" style="margin-top:18px;" data-action="nav" data-tab="payment">Mulai Belanja</button>
+              </div>
             </div>
           </div>
         `;
@@ -2787,19 +2879,16 @@
 
       return `
         <div class="page-grid">
-          <div class="cart-head">
-            <div>
-              <div class="muted">Keranjang</div>
-              <h2 class="cart-title">🛒 Konfirmasi Belanja</h2>
+          <div class="catalog-card cart-card">
+            <div class="cart-head">
+              <div>
+                <div class="muted">Keranjang</div>
+                <h2 class="cart-title">🛒 Konfirmasi Belanja</h2>
+              </div>
+              <button class="btn btn-ghost" data-action="nav" data-tab="payment">← Kembali Belanja</button>
             </div>
-            <button class="btn btn-ghost" data-action="nav" data-tab="payment">← Kembali Belanja</button>
-          </div>
 
-          <div class="two-col cart-layout">
-            <div class="panel cart-panel" style="padding:20px;">
-              <div class="section-title">Ringkasan Pesanan</div>
-
-              <div class="cart-student">
+            <div class="cart-student" style="margin-top:16px;">
                 <div class="cart-avatar">${esc(student.name ? student.name.charAt(0) : "?")}</div>
                 <div>
                   <div style="font-weight:800;font-size:15px;">${esc(student.name)}</div>
@@ -2833,20 +2922,19 @@
               ${remaining < 0 ? `
                 <div style="margin-top:10px;font-size:12.5px;font-weight:700;color:var(--danger);background:rgba(196,43,52,0.08);border:1px solid rgba(196,43,52,0.2);padding:10px 12px;border-radius:14px;">⚠️ Saldo santri tidak mencukupi untuk transaksi ini. Silakan lakukan top up terlebih dahulu.</div>
               ` : ""}
-            </div>
 
-            <div class="panel pin-panel">
+            <div class="cart-pay">
               ${state.paymentPhase === "pin" ? `
                 <div class="pin-header">
-                  <div class="section-title" style="margin:0;">Konfirmasi PIN</div>
+                  <div class="section-title" style="margin:0;">🔒 Konfirmasi PIN</div>
                   <button class="btn btn-ghost" style="padding:6px 12px;font-size:12px;" data-action="cancel-payment">Batal</button>
                 </div>
                 <p class="muted" style="font-size:13px;">Masukkan PIN 6 digit kasir untuk melanjutkan pembayaran.</p>
                 <div class="pin-total">${rupiah(total)}</div>
-                <div class="pin-display">
+                <div class="pin-display" id="paymentPinDisplay" title="Klik, lalu ketik PIN dari keyboard">
                   ${[0,1,2,3,4,5].map(i => `<div class="pin-dot ${i < state.pinValue.length ? "filled" : ""}"></div>`).join("")}
+                  <input id="paymentPinInput" class="pin-hidden-input" type="text" inputmode="numeric" maxlength="6" autocomplete="off" tabindex="-1" aria-label="Ketik PIN 6 digit kasir" />
                 </div>
-                ${state.pinError ? `<div style="color:var(--danger);font-size:12px;font-weight:700;text-align:center;margin-bottom:10px;">${esc(state.pinError)}</div>` : ""}
                 <div class="pin-pad">
                   ${[1,2,3,4,5,6,7,8,9].map(n => `<button type="button" class="pin-key" data-action="pin-key" data-val="${n}">${n}</button>`).join("")}
                   <button type="button" class="pin-key pin-del" data-action="pin-del">⌫</button>
@@ -2854,14 +2942,16 @@
                   <button type="button" class="pin-key" data-action="pin-ok" style="background:var(--tomato);color:#fff;">✓</button>
                 </div>
               ` : `
-                <div class="section-title" style="display:flex;align-items:center;gap:8px;">💰 Pembayaran</div>
-                <p class="muted" style="margin-top:8px;">Pastikan pesanan sudah benar sebelum memproses pembayaran dengan PIN kasir.</p>
-                <div style="margin-top:20px;padding:14px;border-radius:18px;background:rgba(255,255,255,0.65);border:1px solid var(--line);">
-                  <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--muted);font-weight:700;"><span>Total tagihan</span><span>${items.length} item</span></div>
-                  <div style="font-size:1.9rem;font-weight:900;letter-spacing:-0.04em;color:var(--tomato);margin-top:6px;">${rupiah(total)}</div>
-                </div>
-                <div style="margin-top:16px;">
-                  <button class="product-primary-btn" style="width:100%;" data-action="open-payment-pin">🔒 Proses Pembayaran</button>
+                <div class="pay-cta">
+                  <div>
+                    <div class="section-title" style="margin:0;display:flex;align-items:center;gap:8px;">💰 Pembayaran</div>
+                    <p class="muted" style="margin-top:6px;">Pastikan pesanan sudah benar sebelum memproses pembayaran dengan PIN kasir.</p>
+                  </div>
+                  <div class="pay-box">
+                    <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--muted);font-weight:700;"><span>Total tagihan</span><span>${items.length} item</span></div>
+                    <div class="pay-total">${rupiah(total)}</div>
+                    <button class="product-primary-btn" style="width:100%;" data-action="open-payment-pin">🔒 Proses Pembayaran</button>
+                  </div>
                 </div>
               `}
             </div>
@@ -2899,10 +2989,10 @@
                   <button class="btn btn-ghost" style="padding:6px 12px;font-size:12px;" data-action="cancel-topup-pin">Batal</button>
                 </div>
                 <p class="muted" style="font-size:13px;">Masukkan PIN 6 digit kasir untuk mengisi saldo sebesar ${rupiah(state.topupAmount)}.</p>
-                <div class="pin-display" style="margin-top:20px;">
+                <div class="pin-display" id="topupPinDisplay" style="margin-top:20px;" title="Klik, lalu ketik PIN dari keyboard">
                   ${[0,1,2,3,4,5].map(i => `<div class="pin-dot ${i < state.topupPinValue.length ? "filled" : ""}"></div>`).join("")}
+                  <input id="topupPinInput" class="pin-hidden-input" type="text" inputmode="numeric" maxlength="6" autocomplete="off" tabindex="-1" aria-label="Ketik PIN 6 digit kasir" />
                 </div>
-                ${state.topupPinError ? `<div style="color:var(--danger);font-size:12px;font-weight:700;text-align:center;margin-bottom:10px;">${esc(state.topupPinError)}</div>` : ""}
                 <div class="pin-pad">
                   ${[1,2,3,4,5,6,7,8,9].map(n => `<button type="button" class="pin-key" data-action="topup-pin-key" data-val="${n}">${n}</button>`).join("")}
                   <button type="button" class="pin-key pin-del" data-action="topup-pin-del">⌫</button>
@@ -2932,35 +3022,96 @@
     }
 
     function historyView() {
+      const detail = state.history.find(h => h.id === state.historyDetailId);
+      if (detail) {
+        const isPayment = detail.type === "payment";
+        const dItems = detail.items || [];
+        return `
+          <div class="page-grid">
+            <div class="catalog-card">
+              <div class="cart-head">
+                <div>
+                  <div class="muted">Riwayat</div>
+                  <h2 class="cart-title">🧾 Detail Transaksi</h2>
+                </div>
+                <button class="btn btn-ghost" data-action="close-history-detail">← Kembali</button>
+              </div>
+
+              <div class="cart-student" style="margin-top:16px;">
+                <div class="cart-avatar">${isPayment ? "💳" : "💰"}</div>
+                <div>
+                  <div style="font-weight:800;font-size:16px;">${esc(detail.name)}</div>
+                  <div class="muted" style="font-size:12px;">${esc(detail.date || "")} • ${esc(detail.time || "")} • oleh ${esc(detail.admin || "Admin")}</div>
+                </div>
+                <div class="cart-balance"><small>${isPayment ? "Total" : "Nominal"}</small>${rupiah(detail.amount)}</div>
+              </div>
+
+              ${isPayment && dItems.length ? `
+                <div class="hist-items">
+                  <div class="section-title" style="margin-bottom:10px;">🛍️ Detail Pembelian</div>
+                  ${dItems.map(it => `
+                    <div class="cart-item">
+                      <div class="cart-item-emoji">${esc(it.emoji || "📦")}</div>
+                      <div class="cart-item-info">
+                        <div class="cart-item-name">${esc(it.name)}</div>
+                        <div class="cart-item-sub">${rupiah(it.price)} × ${it.qty}</div>
+                      </div>
+                      <div class="cart-item-total">${rupiah(it.price * it.qty)}</div>
+                    </div>
+                  `).join("")}
+                  <div class="cart-totals" style="margin-top:14px;">
+                    <div class="cart-total-row"><span>${dItems.reduce((s, i) => s + i.qty, 0)} item</span><strong class="grand">${rupiah(detail.amount)}</strong></div>
+                  </div>
+                </div>
+              ` : `
+                <div class="hist-items">
+                  <div class="section-title" style="margin-bottom:10px;">💰 Top Up Saldo</div>
+                  <div class="cart-item">
+                    <div class="cart-item-emoji">💰</div>
+                    <div class="cart-item-info">
+                      <div class="cart-item-name">Top Up Saldo</div>
+                      <div class="cart-item-sub">${esc(detail.name)}</div>
+                    </div>
+                    <div class="cart-item-total">${rupiah(detail.amount)}</div>
+                  </div>
+                </div>
+              `}
+            </div>
+          </div>
+        `;
+      }
+
       return `
         <div class="page-grid">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;">
-            <div>
-              <div class="muted">Riwayat</div>
-              <h2 style="font-size:24px;letter-spacing:-0.04em;margin-top:4px;">Log Transaksi</h2>
+          <div class="catalog-card">
+            <div class="cart-head">
+              <div>
+                <div class="muted">Riwayat</div>
+                <h2 class="cart-title">📋 Log Transaksi</h2>
+              </div>
+              <button class="btn btn-ghost" data-action="nav" data-tab="home">Kembali</button>
             </div>
-            <button class="btn btn-ghost" data-action="nav" data-tab="home">Kembali</button>
-          </div>
 
-          <div>
             ${state.history.length === 0 ? `
-              <div class="empty-state">
-                <div style="font-size:30px;">📋</div>
-                <div style="font-weight:800;color:var(--ink2);margin-top:8px;">Belum ada riwayat</div>
-                <div style="font-size:13px;margin-top:4px;">Transaksi atau top up yang berhasil akan muncul di sini.</div>
+              <div class="cart-empty">
+                <div class="big">📋</div>
+                <h3>Belum ada riwayat</h3>
+                <p class="muted" style="margin:0 auto;max-width:360px;line-height:1.6;">Transaksi atau top up yang berhasil akan muncul di sini.</p>
               </div>
             ` : `
-              <div class="history-grid">
+              <div class="history-grid" style="margin-top:16px;">
                 ${state.history.map((h, i) => `
-                  <div class="history-card ${h.type}" style="animation-delay:${(i + 1) * 0.05}s;">
+                  <button class="history-card ${h.type}" data-action="history-detail" data-id="${h.id}" style="animation-delay:${(i + 1) * 0.05}s;">
                     <div class="history-top">
                       <div class="pill">${h.type === "topup" ? "Top Up" : "Bayar"}</div>
-                      <div class="muted" style="font-size:11px;">${esc(h.time)}</div>
+                      <div class="muted" style="font-size:11px;text-align:right;">${esc(h.date || "")}<br/>${esc(h.time)}</div>
                     </div>
                     <div style="font-weight:800;font-size:15px;margin-top:10px;">${esc(h.name)}</div>
                     <div style="font-weight:900;font-size:1.1rem;margin-top:6px;color:var(--tomato);">${rupiah(h.amount)}</div>
-                    <div class="muted" style="font-size:11px;margin-top:6px;">Oleh: ${esc(h.admin)}</div>
-                  </div>
+                    <div class="muted" style="font-size:11px;margin-top:6px;">
+                      ${h.type === "topup" ? "Isi saldo" : `${(h.items || []).reduce((s, it) => s + it.qty, 0)} item`} • oleh ${esc(h.admin)}
+                    </div>
+                  </button>
                 `).join("")}
               </div>
             `}
@@ -2991,7 +3142,6 @@
           ${!isMobile ? sidebar() : ""}
           <main class="main">
             <div class="main-scroll">
-              ${state.notice ? `<div class="flash ${state.noticeType}">${esc(state.notice)}</div>` : ""}
               ${content}
             </div>
             ${cartWidget()}
@@ -3008,6 +3158,9 @@
 
       applyCatalogFilter("paymentLists");
       applyCatalogFilter("productLists");
+
+      if (state.paymentPhase === "pin") syncPinInput("paymentPinInput", state.pinValue);
+      else if (state.topupPhase === "pin") syncPinInput("topupPinInput", state.topupPinValue);
     }
 
     document.addEventListener("submit", async (e) => {
@@ -3019,8 +3172,7 @@
         if (user === "admin" && pass === "admin123") {
           state.loggedIn = true;
           state.loginUsername = user;
-          state.notice = "Berhasil masuk sebagai admin.";
-          state.noticeType = "ok";
+          flash("Berhasil masuk sebagai admin.", "ok");
           await loadStudentsFromApi();
           render();
         } else {
@@ -3078,10 +3230,18 @@
 
       if (action === "nav") {
         state.activeTab = btn.dataset.tab;
-        state.notice = "";
+        if (btn.dataset.tab === "history") state.historyDetailId = null;
+        state.paymentPhase = "none";
+        state.pinValue = "";
+        state.pinError = "";
+        state.topupPhase = "none";
+        state.topupPinValue = "";
+        state.topupPinError = "";
         render();
       } else if (action === "logout") {
         state.loggedIn = false;
+        state.paymentPhase = "none";
+        state.topupPhase = "none";
         stopScanPolling();
         render();
       } else if (action === "select-student") {
@@ -3164,6 +3324,12 @@
         delete state.cart[id];
         flash("Produk berhasil dihapus.", "ok");
         render();
+      } else if (action === "history-detail") {
+        state.historyDetailId = Number(btn.dataset.id);
+        render();
+      } else if (action === "close-history-detail") {
+        state.historyDetailId = null;
+        render();
       }
     });
 
@@ -3182,6 +3348,18 @@
     document.addEventListener("input", (e) => {
       const t = e.target;
       if (!t) return;
+      if (t.id === "paymentPinInput" || t.id === "topupPinInput") {
+        const digits = String(t.value || "").replace(/\D/g, "").slice(0, 6);
+        if (t.id === "paymentPinInput") {
+          state.pinValue = digits;
+          state.pinError = "";
+        } else {
+          state.topupPinValue = digits;
+          state.topupPinError = "";
+        }
+        render();
+        return;
+      }
       if (t.id === "paymentSearch") {
         state.paymentSearch = t.value;
         applyCatalogFilter("paymentLists");
@@ -3191,6 +3369,83 @@
       } else if (t.name === "pemoji") {
         const prev = document.getElementById("productEmojiPreview");
         if (prev) prev.textContent = t.value || "📦";
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (!state.loggedIn) return;
+
+      const t = e.target;
+      const tag = t ? t.tagName : "";
+      const inTextField = tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT";
+      const pinActive = state.paymentPhase === "pin" || state.topupPhase === "pin";
+
+      if (e.key === "Enter") {
+        if (state.paymentPhase === "pin") {
+          e.preventDefault();
+          submitPinPayment();
+        } else if (state.topupPhase === "pin") {
+          e.preventDefault();
+          submitTopupPin();
+        }
+        return;
+      }
+
+      if (e.key === "Escape") {
+        if (state.paymentPhase === "pin") {
+          state.paymentPhase = "none";
+          state.pinValue = "";
+          state.pinError = "";
+          render();
+        } else if (state.topupPhase === "pin") {
+          state.topupPhase = "none";
+          state.topupPinValue = "";
+          state.topupPinError = "";
+          render();
+        }
+        return;
+      }
+
+      // Dukungan keyboard fisik: tangani angka & hapus walau fokus di luar input PIN
+      if (pinActive && !(inTextField && t.id !== "paymentPinInput" && t.id !== "topupPinInput")) {
+        const isPayment = state.paymentPhase === "pin";
+        const current = isPayment ? state.pinValue : state.topupPinValue;
+        if (/^[0-9]$/.test(e.key)) {
+          if (current.length < 6) {
+            e.preventDefault();
+            if (isPayment) {
+              state.pinValue = current + e.key;
+              state.pinError = "";
+            } else {
+              state.topupPinValue = current + e.key;
+              state.topupPinError = "";
+            }
+            render();
+          }
+          return;
+        }
+        if (e.key === "Backspace") {
+          e.preventDefault();
+          if (isPayment) {
+            state.pinValue = current.slice(0, -1);
+            state.pinError = "";
+          } else {
+            state.topupPinValue = current.slice(0, -1);
+            state.topupPinError = "";
+          }
+          render();
+        }
+      }
+    });
+
+    document.addEventListener("click", (e) => {
+      if (state.paymentPhase === "pin" && e.target && e.target.closest && e.target.closest("#paymentPinDisplay")) {
+        const el = document.getElementById("paymentPinInput");
+        if (el) el.focus();
+      }
+      if (state.topupPhase === "pin" && e.target && e.target.closest && e.target.closest("#topupPinDisplay")) {
+        const el = document.getElementById("topupPinInput");
+        if (el) el.focus();
       }
     });
 
