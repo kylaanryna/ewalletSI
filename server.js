@@ -74,7 +74,7 @@ function limitApi(req, res, next) {
   next();
 }
 
-app.use(['/api/health', '/api/students', '/api/scan', '/api/payments'], limitApi);
+app.use(['/api/health', '/api/students', '/api/scan', '/api/payments', '/api/topup', '/api/dashboard'], limitApi);
 
 function safeText(value, maxLength = 120) {
   return String(value || '').trim().slice(0, maxLength);
@@ -118,6 +118,17 @@ async function initDb() {
 
     await query(`
       CREATE TABLE IF NOT EXISTS payments (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        card_id VARCHAR(50) NOT NULL,
+        name VARCHAR(255) NOT NULL,
+        amount INT NOT NULL,
+        note TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      ) ENGINE=InnoDB
+    `);
+
+    await query(`
+      CREATE TABLE IF NOT EXISTS topups (
         id INT AUTO_INCREMENT PRIMARY KEY,
         card_id VARCHAR(50) NOT NULL,
         name VARCHAR(255) NOT NULL,
@@ -232,6 +243,87 @@ app.get('/api/last-scan', (req, res) => {
     return res.json({ ok: true, data: null });
   }
   res.json({ ok: true, data: lastScan });
+});
+
+app.get('/api/dashboard', async (req, res) => {
+  try {
+    const payToday = await query(
+      'SELECT COUNT(*) AS transaksi, COALESCE(SUM(amount), 0) AS omzet FROM payments WHERE DATE(created_at) = CURDATE()'
+    );
+    const topToday = await query(
+      'SELECT COUNT(*) AS count, COALESCE(SUM(amount), 0) AS total FROM topups WHERE DATE(created_at) = CURDATE()'
+    );
+    const recentPay = await query(
+      'SELECT id, card_id, name, amount, note, created_at FROM payments ORDER BY created_at DESC LIMIT 10'
+    );
+    const recentTop = await query(
+      'SELECT id, card_id, name, amount, note, created_at FROM topups ORDER BY created_at DESC LIMIT 10'
+    );
+    const recent = [
+      ...recentPay.map((row) => ({ ...row, type: 'payment' })),
+      ...recentTop.map((row) => ({ ...row, type: 'topup' }))
+    ]
+      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+      .slice(0, 12);
+
+    res.json({
+      ok: true,
+      data: {
+        today: {
+          transaksi: Number(payToday[0].transaksi || 0),
+          omzet: Number(payToday[0].omzet || 0)
+        },
+        topupToday: {
+          count: Number(topToday[0].count || 0),
+          total: Number(topToday[0].total || 0)
+        },
+        recent
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ ok: false, message: 'Gagal memuat dashboard' });
+  }
+});
+
+app.post('/api/topup', async (req, res) => {
+  const safeCardIdValue = safeCardId(req.body.cardId);
+  const safeAmountValue = safeAmount(req.body.amount);
+  const safeNote = safeText(req.body.note || 'Top up saldo', 120);
+
+  if (!safeCardIdValue || !safeAmountValue) {
+    return res.status(400).json({ ok: false, message: 'cardId dan amount harus valid' });
+  }
+
+  try {
+    const rows = await query('SELECT id, card_id, name, kelas, saldo FROM students WHERE card_id = ?', [safeCardIdValue]);
+    if (!rows.length) {
+      return res.status(404).json({ ok: false, message: 'Santri tidak ditemukan' });
+    }
+
+    const student = rows[0];
+    const newSaldo = Number(student.saldo) + safeAmountValue;
+
+    await query('UPDATE students SET saldo = ? WHERE card_id = ?', [newSaldo, safeCardIdValue]);
+    await query(
+      'INSERT INTO topups (card_id, name, amount, note) VALUES (?, ?, ?, ?)',
+      [safeCardIdValue, student.name, safeAmountValue, safeNote]
+    );
+
+    res.json({
+      ok: true,
+      message: 'Top up berhasil',
+      data: {
+        id: student.id,
+        cardId: safeCardIdValue,
+        name: student.name,
+        kelas: student.kelas,
+        amount: safeAmountValue,
+        saldoTerbaru: newSaldo
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ ok: false, message: 'Gagal memproses top up' });
+  }
 });
 
 app.post('/api/payments', async (req, res) => {

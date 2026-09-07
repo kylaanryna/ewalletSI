@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SIMART Kasir</title>
+  <title>SIMART</title>
   <link rel="icon" type="image/png" href="assets/simart-logo.png" /> 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
@@ -936,6 +936,110 @@
       margin-top: 4px;
       font-weight: 600;
     }
+    .dash-stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .dash-stat {
+      padding: 16px 18px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #fff9e8 0%, #ffe7bf 100%);
+      border: 1px solid var(--line);
+      animation: fadeUp 0.55s ease both;
+      min-height: 108px;
+    }
+    .dash-stat .stat-ico {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-size: 15px;
+      background: rgba(255, 247, 220, 0.9);
+      border: 1px solid var(--line-soft);
+    }
+    .dash-split {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 18px;
+    }
+    .dash-panel {
+      padding: 20px;
+      border-radius: 26px;
+      background: linear-gradient(180deg, #fffaf0 0%, #fff1d4 100%);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+    .dash-panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .dash-txn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      text-align: left;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: #fff9e8;
+      border: 1px solid var(--line);
+      margin-bottom: 8px;
+      color: inherit;
+    }
+    .dash-txn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 20px -16px rgba(125, 16, 40, 0.35);
+    }
+    .dash-txn-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: var(--ink-tint);
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+    .dash-txn-meta { flex: 1; min-width: 0; }
+    .dash-txn-meta strong {
+      display: block;
+      font-size: 14px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .dash-rank {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .dash-rank:last-child { border-bottom: 0; }
+    .dash-rank-n {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 800;
+      background: var(--gold-tint);
+      color: var(--ink);
+      flex-shrink: 0;
+    }
+    .dash-empty {
+      padding: 28px 12px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
     .quick-actions {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1212,6 +1316,86 @@
       animation: none;
     }
     .history-card.payment { background: linear-gradient(180deg, rgba(220, 65, 124, 0.18), #fff7dc); }
+    .history-card.topup { background: linear-gradient(180deg, rgba(159, 152, 32, 0.22), #fff7dc); }
+    .topup-grid {
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      gap: 16px;
+    }
+    .topup-hero {
+      padding: 24px;
+      border-radius: 28px;
+      background: linear-gradient(155deg, rgba(220, 65, 124, 0.96), rgba(196, 43, 52, 0.94), rgba(252, 143, 45, 0.92));
+      color: #fff7dc;
+      min-height: 280px;
+    }
+    .topup-label { font-size: 12px; font-weight: 700; opacity: 0.88; }
+    .topup-value {
+      font-size: 34px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      margin-top: 4px;
+    }
+    .topup-note { margin-top: 18px; font-size: 12px; font-weight: 700; opacity: 0.86; }
+    .topup-card {
+      padding: 22px;
+      border-radius: 28px;
+      background: linear-gradient(180deg, #fffaf0 0%, #fff1d4 100%);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+    .chip-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 14px 0 18px;
+    }
+    .chip {
+      border: 1px solid var(--line);
+      background: #fff9e8;
+      color: var(--ink);
+      border-radius: 16px;
+      padding: 14px 12px;
+      font-weight: 800;
+    }
+    .chip.active {
+      background: var(--tomato);
+      color: #fff7dc;
+      border-color: transparent;
+    }
+    .custom-topup { margin-bottom: 16px; }
+    .custom-topup-label { display: block; margin-bottom: 8px; font-weight: 700; font-size: 13px; }
+    .topup-cta, .product-primary-btn.topup-cta {
+      width: 100%;
+      border: 0;
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-weight: 800;
+      color: #fff7dc;
+      background: linear-gradient(135deg, #c42b34, #fc8f2d);
+    }
+    .saldo-hero {
+      padding: 24px;
+      border-radius: 28px;
+      background: linear-gradient(155deg, rgba(159, 152, 32, 0.95), rgba(252, 143, 45, 0.88));
+      color: #fff7dc;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-end;
+    }
+    .saldo-hero .topup-value { font-size: 40px; }
+    .role-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      background: rgba(255,247,220,0.9);
+      color: var(--tomato);
+      border: 1px solid var(--line);
+    }
     .history-top {
       display: flex;
       justify-content: space-between;
@@ -1249,6 +1433,18 @@
       padding: 24px;
       background: linear-gradient(180deg, rgba(255,249,232,0.96), rgba(255,241,214,0.94));
       border-radius: 30px;
+    }
+    .flash {
+      margin: 12px 0;
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .flash.err {
+      background: rgba(196, 43, 52, 0.12);
+      color: var(--danger);
+      border: 1px solid rgba(196, 43, 52, 0.2);
     }
     .pin-header {
       display: flex;
@@ -1703,10 +1899,13 @@
       .card-shell { border-radius: 28px; }
       .login-grid,
       .home-hero,
+      .dash-split,
       .two-col,
+      .topup-grid,
       .history-grid {
         grid-template-columns: 1fr;
       }
+      .dash-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .sidebar { display: none; }
       .main-scroll { padding: 18px 14px 10px; }
       .bottom-nav { display: block; }
@@ -1714,7 +1913,7 @@
       .catalog-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
-      .quick-actions { grid-template-columns: 1fr; }
+      .quick-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
     @media (max-width: 640px) {
       .login-wrap, .main-wrap { padding: 0; }
@@ -1723,7 +1922,8 @@
       .title { font-size: 30px; }
       .hero h1 { font-size: 28px; }
       .student-row,
-      .catalog-grid {
+      .catalog-grid,
+      .quick-actions {
         grid-template-columns: 1fr;
       }
       .stat-grid { grid-template-columns: 1fr 1fr; }
@@ -1732,6 +1932,7 @@
       .scan-actions { flex-direction: column; }
       .scan-actions .btn { width: 100%; }
       .scan-card-art { width: min(260px, 88%); }
+      .balance-hero { flex-direction: column; align-items: stretch; }
     }
   </style>
 </head>
@@ -1745,11 +1946,17 @@
   <script>
     const API_BASE = "http://localhost:3000";
 
+    const ACCOUNTS = {
+      admin: { password: "admin123", role: "admin", label: "Admin" },
+      kasir: { password: "kasir123", role: "kasir", label: "Kasir" }
+    };
+
     const state = {
       loggedIn: false,
+      role: "",
       loginUsername: "",
       loginPassword: "",
-      activeTab: "scan",
+      activeTab: "home",
       selectedStudentId: null,
       rfidInput: "",
       rfidScanned: false,
@@ -1758,6 +1965,14 @@
       cartOpen: false,
       lastOrder: null,
       historyDetailId: null,
+      topupAmount: 0,
+      customTopup: "",
+      topupPhase: "none",
+      topupPinValue: "",
+      topupPinError: "",
+      lastTopupAmount: 0,
+      saldoSearch: "",
+      chips: [10000, 20000, 50000, 100000, 200000],
       editingProductId: null,
       productForm: { id: null, name: "", price: 0, emoji: "", cat: "" },
       paymentSearch: "",
@@ -1846,7 +2061,8 @@
       history: [
         { id: 1, type: "payment", name: "Ahmad Fauzan", amount: 12000, admin: "Admin", time: "08:12" }
       ],
-      stats: { transaksi: 12 }
+      stats: { transaksi: 0, omzet: 0, topupTotal: 0 },
+      dashboardApi: null
     };
 
     const HISTORY_KEY = "simart_history_v1";
@@ -1877,8 +2093,108 @@
       return p ? { ...p, qty } : null;
     }).filter(Boolean);
     const cartTotal = () => cartItems().reduce((sum, item) => sum + item.price * item.qty, 0);
+    const isAdmin = () => state.role === "admin";
+    const isKasir = () => state.role === "kasir";
+    const roleLabel = () => (isAdmin() ? "Admin" : "Kasir");
+
+    function navTabs() {
+      if (isAdmin()) {
+        return [
+          ["home", "Dashboard"],
+          ["scan", "Scan"],
+          ["saldo", "Cek Saldo"],
+          ["topup", "Top Up"],
+          ["history", "Riwayat"]
+        ];
+      }
+      return [
+        ["home", "Dashboard"],
+        ["scan", "Scan"],
+        ["payment", "Bayar"],
+        ["products", "Produk"],
+        ["history", "Riwayat"]
+      ];
+    }
+
+    function canOpenTab(tab) {
+      if (tab === "cart") return isKasir();
+      return navTabs().some(([key]) => key === tab);
+    }
+
+    function upsertStudent(student) {
+      if (!student || student.id == null) return;
+      const idx = state.students.findIndex((s) => s.id === student.id);
+      if (idx >= 0) state.students[idx] = { ...state.students[idx], ...student };
+      else state.students.push(student);
+      state.selectedStudentId = student.id;
+    }
+
+    function scanDestination() {
+      return isAdmin() ? "saldo" : "payment";
+    }
+
+    function visibleHistory() {
+      if (isAdmin()) return state.history.filter((h) => h.type === "topup" || h.type === "payment");
+      return state.history.filter((h) => h.type !== "topup");
+    }
+
+    function todayLabel() {
+      return new Date().toLocaleDateString("id-ID", { weekday: "short", day: "numeric", month: "short", year: "numeric" });
+    }
+
+    function isSameLocalDay(ts) {
+      const d = new Date(ts);
+      const now = new Date();
+      return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth() && d.getDate() === now.getDate();
+    }
+
+    function historyIsToday(h) {
+      if (h.createdAt) return isSameLocalDay(h.createdAt);
+      return h.date === todayLabel();
+    }
+
+    function currentAccount() {
+      const key = String(state.loginUsername || "").trim().toLowerCase();
+      return ACCOUNTS[key] || { role: state.role || "kasir", label: roleLabel() };
+    }
+
+    function cashierDashboard() {
+      const localToday = visibleHistory().filter((h) => historyIsToday(h) && h.type !== "topup");
+      const localOmzet = localToday.reduce((s, h) => s + Number(h.amount || 0), 0);
+      const apiToday = state.dashboardApi && state.dashboardApi.today;
+      const transaksi = Math.max(localToday.length, apiToday ? Number(apiToday.transaksi || 0) : 0);
+      const omzet = Math.max(localOmzet, apiToday ? Number(apiToday.omzet || 0) : 0);
+      const avg = transaksi ? Math.round(omzet / transaksi) : 0;
+      const itemsSold = localToday.reduce((s, h) => s + (h.items || []).reduce((n, it) => n + Number(it.qty || 0), 0), 0);
+      const cartQty = Object.values(state.cart).reduce((s, q) => s + q, 0);
+      const recent = (visibleHistory().length ? visibleHistory() : ((state.dashboardApi && state.dashboardApi.recent) || [])).slice(0, 6);
+      const productMap = {};
+      state.history.forEach((h) => {
+        (h.items || []).forEach((it) => {
+          const key = it.name || "Produk";
+          if (!productMap[key]) productMap[key] = { name: key, emoji: it.emoji || "📦", qty: 0, amount: 0 };
+          productMap[key].qty += Number(it.qty || 0);
+          productMap[key].amount += Number(it.price || 0) * Number(it.qty || 0);
+        });
+      });
+      const topProducts = Object.values(productMap).sort((a, b) => b.qty - a.qty).slice(0, 5);
+      return { transaksi, omzet, avg, itemsSold, cartQty, recent, topProducts };
+    }
+
+    function adminDashboard() {
+      const localToday = state.history.filter(historyIsToday);
+      const localTopup = localToday.filter((h) => h.type === "topup");
+      const localTopupTotal = localTopup.reduce((s, h) => s + Number(h.amount || 0), 0);
+      const apiTop = state.dashboardApi && state.dashboardApi.topupToday;
+      const topupCount = Math.max(localTopup.length, apiTop ? Number(apiTop.count || 0) : 0);
+      const topupTotal = Math.max(localTopupTotal, apiTop ? Number(apiTop.total || 0) : 0);
+      const totalSaldo = state.students.reduce((s, st) => s + Number(st.saldo || 0), 0);
+      const recent = visibleHistory().slice(0, 6);
+      return { topupCount, topupTotal, totalSaldo, recent };
+    }
 
     function cartWidget() {
+      if (!isKasir()) return "";
       const items = cartItems();
       const qty = items.reduce((s, it) => s + it.qty, 0);
       if (qty === 0) return "";
@@ -2066,9 +2382,10 @@
       state.history = [
         {
           id: Date.now(),
+          createdAt: Date.now(),
           date: new Date().toLocaleDateString("id-ID", { weekday: "short", day: "numeric", month: "short", year: "numeric" }),
           time: new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" }),
-          admin: "Admin",
+          admin: currentAccount().label || (isAdmin() ? "Admin" : "Kasir"),
           ...entry
         },
         ...state.history
@@ -2133,6 +2450,88 @@
       render();
     }
 
+    function openTopupPin() {
+      if (!isAdmin()) {
+        flash("Hanya admin yang dapat top up saldo.", "err");
+        return;
+      }
+      const custom = document.getElementById("customTopup");
+      const customAmount = custom ? Number(String(custom.value || state.customTopup || "").replace(/[^\d]/g, "")) : Number(String(state.customTopup || "").replace(/[^\d]/g, ""));
+      const amount = state.topupAmount || customAmount;
+      const student = selectedStudent();
+      if (!amount || amount <= 0) {
+        flash("Pilih nominal top up dulu.", "err");
+        return;
+      }
+      if (!student || !student.id) {
+        flash("Pilih atau scan santri terlebih dahulu.", "err");
+        return;
+      }
+      state.topupPinValue = "";
+      state.topupPinError = "";
+      state.topupAmount = amount;
+      state.lastTopupAmount = amount;
+      state.topupPhase = "pin";
+      render();
+    }
+
+    async function submitTopupPin() {
+      if (!isAdmin()) {
+        flash("Hanya admin yang dapat top up saldo.", "err");
+        return;
+      }
+      const student = selectedStudent();
+      const pin = state.topupPinValue;
+
+      if (pin.length < 6) {
+        state.topupPinError = "Masukkan PIN 6 digit terlebih dahulu.";
+        flash(state.topupPinError, "err");
+        render();
+        return;
+      }
+
+      if (pin !== "123456") {
+        state.topupPinError = "PIN salah. Silakan coba lagi.";
+        state.topupPinValue = "";
+        flash(state.topupPinError, "err");
+        render();
+        return;
+      }
+
+      const cardId = student.card_id || student.cardId;
+      const amount = state.topupAmount;
+      try {
+        const response = await fetch(`${API_BASE}/api/topup`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ cardId, amount, note: "Top up saldo" })
+        });
+        const result = await response.json();
+        if (!response.ok || !result.ok) {
+          throw new Error(result.message || "Gagal memproses top up");
+        }
+        if (result.data && result.data.saldoTerbaru != null) student.saldo = result.data.saldoTerbaru;
+        else student.saldo = Number(student.saldo || 0) + amount;
+      } catch (error) {
+        if (!cardId) {
+          student.saldo = Number(student.saldo || 0) + amount;
+        } else {
+          flash(error.message || "Gagal memproses top up.", "err");
+          render();
+          return;
+        }
+      }
+
+      state.stats.topupTotal += amount;
+      pushHistory({ type: "topup", name: student.name, amount });
+      state.lastTopupAmount = amount;
+      state.topupAmount = 0;
+      state.customTopup = "";
+      state.topupPhase = "success";
+      flash("Top up berhasil.", "ok");
+      render();
+    }
+
     function loginView() {
       return `
         <div class="login-wrap">
@@ -2157,14 +2556,17 @@
               <section class="login-form">
                 <div>
                   <div class="title">Masuk ke aplikasi</div>
-                  <p class="muted" style="margin-top:10px;">Gunakan demo login: <strong>admin</strong> / <strong>admin123</strong></p>
+                  <p class="muted" style="margin-top:10px;">
+                    Admin: <strong>admin</strong> / <strong>admin123</strong><br/>
+                    Kasir: <strong>kasir</strong> / <strong>kasir123</strong>
+                  </p>
                 </div>
                 <form id="loginForm">
                   <div class="field" style="margin-bottom:14px;">
                     <label>Username</label>
                     <div class="input-shell">
                       <span class="input-icon">U</span>
-                      <input name="username" autocomplete="username" placeholder="admin" />
+                      <input name="username" autocomplete="username" placeholder="admin atau kasir" />
                     </div>
                   </div>
                   <div class="field" style="margin-bottom:14px;">
@@ -2184,13 +2586,8 @@
     }
 
     function sidebar() {
-      const tabs = [
-        ["home", "Home"],
-        ["payment", "Bayar"],
-        ["products", "Produk"],
-        ["history", "Riwayat"],
-        ["scan", "Scan"]
-      ];
+      const tabs = navTabs();
+      const account = currentAccount();
       return `
         <aside class="sidebar">
           <div>
@@ -2213,8 +2610,8 @@
             <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
               <img class="profile-avatar" src="assets/simart-logo.png" alt="Profil SIMART" />
               <div>
-                <div style="font-weight:800;">Admin</div>
-                <div style="font-size:12px;color:var(--muted);">Kasir SIMART</div>
+                <div style="font-weight:800;">${esc(account.label)}</div>
+                <div style="font-size:12px;color:var(--muted);">${isAdmin() ? "Admin SIMART" : "Kasir SIMART"}</div>
               </div>
             </div>
             <button class="btn btn-ghost" style="width:100%;" data-action="logout">Keluar</button>
@@ -2224,13 +2621,7 @@
     }
 
     function bottomNav() {
-      const tabs = [
-        ["home", "Home"],
-        ["payment", "Bayar"],
-        ["products", "Produk"],
-        ["history", "Riwayat"],
-        ["scan", "Scan"]
-      ];
+      const tabs = navTabs();
       return `
         <div class="bottom-nav">
           <div class="bottom-bar">
@@ -2266,6 +2657,42 @@
       }
     }
 
+    function mapApiPayment(row) {
+      const created = row.created_at ? new Date(row.created_at) : new Date();
+      const type = row.type === "topup" ? "topup" : "payment";
+      return {
+        id: `${type}-${Number(row.id) || Date.now()}`,
+        type,
+        name: row.name,
+        amount: Number(row.amount || 0),
+        admin: type === "topup" ? "Admin" : "Kasir",
+        note: row.note || "",
+        items: [],
+        createdAt: created.getTime(),
+        date: created.toLocaleDateString("id-ID", { weekday: "short", day: "numeric", month: "short", year: "numeric" }),
+        time: created.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })
+      };
+    }
+
+    async function loadDashboardFromApi() {
+      try {
+        const response = await fetch(`${API_BASE}/api/dashboard`);
+        const result = await response.json();
+        if (!response.ok || !result.ok) return false;
+        state.dashboardApi = result.data || null;
+        const recent = ((result.data && result.data.recent) || []).map(mapApiPayment);
+        if (recent.length && !state.history.some((h) => h.items && h.items.length)) {
+          const localIds = new Set(state.history.map((h) => String(h.id)));
+          const extras = recent.filter((r) => !localIds.has(String(r.id)));
+          if (extras.length) state.history = [...extras, ...state.history];
+        }
+        return true;
+      } catch (error) {
+        state.dashboardApi = null;
+        return false;
+      }
+    }
+
     async function processRfidScan(cardId) {
       const normalized = String(cardId || "").trim();
       if (!normalized) {
@@ -2291,10 +2718,10 @@
         }
 
         const student = result.data;
-        state.selectedStudentId = student.id;
+        upsertStudent(student);
         state.rfidScanned = true;
         state.rfidInput = "";
-        state.activeTab = "payment";
+        state.activeTab = scanDestination();
         state.scanAnimating = false;
         showSweetAlert(`Santri terdeteksi: ${student.name}`, "success", "Scan berhasil");
         render();
@@ -2323,10 +2750,10 @@
           lastHandledScanId = scan.scanId;
 
           if (scan.ok && scan.data) {
-            state.selectedStudentId = scan.data.id;
+            upsertStudent(scan.data);
             state.rfidScanned = true;
             state.rfidInput = "";
-            state.activeTab = "payment";
+            state.activeTab = scanDestination();
             render();
             showSweetAlert(`Santri terdeteksi: ${scan.data.name}`, "success", "Scan berhasil");
           } else {
@@ -2359,7 +2786,9 @@
             <div class="scan-head">
               <div>
                 <h2 class="scan-title">Scan Kartu Santri</h2>
-                <p class="scan-subtitle">Tempelkan kartu RFID santri pada perangkat pembaca untuk mengenali identitas dan lanjut ke pembayaran.</p>
+                <p class="scan-subtitle">${isAdmin()
+                  ? "Tempelkan kartu RFID santri untuk cek saldo atau lanjut top up."
+                  : "Tempelkan kartu RFID santri pada perangkat pembaca untuk mengenali identitas dan lanjut ke pembayaran."}</p>
               </div>
               <div class="status-pill ${hasError ? "fail" : ""}" aria-label="Status RFID">
                 <span class="status-dot"></span>
@@ -2403,59 +2832,420 @@
       `;
     }
 
-    function homeView() {
+    function adminHomeView() {
+      const dash = adminDashboard();
+      const nowLabel = new Date().toLocaleDateString("id-ID", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+      const recentRows = dash.recent.map((h, i) => {
+        const initial = String(h.name || "?").trim().charAt(0).toUpperCase();
+        const canOpen = state.history.some((x) => String(x.id) === String(h.id));
+        return `
+          <button class="dash-txn" ${canOpen ? `data-action="history-detail" data-id="${esc(String(h.id))}"` : ""} style="animation-delay:${(i + 1) * 0.05}s;">
+            <div class="dash-txn-avatar">${esc(initial)}</div>
+            <div class="dash-txn-meta">
+              <strong>${esc(h.name)}</strong>
+              <div class="muted" style="font-size:11px;margin-top:2px;">${esc(h.time || "")} • ${h.type === "topup" ? "Top Up" : "Pembayaran"}</div>
+            </div>
+            <div style="font-weight:900;white-space:nowrap;">${rupiah(h.amount)}</div>
+          </button>
+        `;
+      }).join("");
+
       return `
         <div class="page-grid">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;">
             <div>
-              <div class="muted">Selamat datang kembali</div>
-              <h2 style="font-size:24px;letter-spacing:-0.04em;margin-top:4px;">Admin</h2>
+              <div class="muted">${esc(nowLabel)}</div>
+              <h2 style="font-size:24px;letter-spacing:-0.04em;margin-top:4px;">Dashboard Admin</h2>
+            </div>
+            <span class="role-chip">Admin</span>
+          </div>
+
+          <div class="home-hero">
+            <section class="hero-card">
+              <h2>Kelola saldo santri</h2>
+              <p>Scan kartu, cek saldo, lalu top up. Riwayat isi saldo dan pembayaran tampil di sini.</p>
+              <button class="hero-chip" data-action="nav" data-tab="scan" style="border:0;">Scan kartu sekarang</button>
+            </section>
+            <section class="stat-grid">
+              <div class="stat-card" style="animation-delay:0.08s;">
+                <div style="font-size:12px;color:var(--muted);font-weight:700;">Santri terdaftar</div>
+                <div class="stat-value">${state.students.length}</div>
+                <div class="stat-label">Data dari server</div>
+              </div>
+              <div class="stat-card" style="animation-delay:0.16s;">
+                <div style="font-size:12px;color:var(--muted);font-weight:700;">Total saldo</div>
+                <div class="stat-value">${rupiah(dash.totalSaldo)}</div>
+                <div class="stat-label">Semua santri</div>
+              </div>
+            </section>
+          </div>
+
+          <div class="dash-stats">
+            <div class="dash-stat" style="animation-delay:0.05s;">
+              <div class="stat-ico">💰</div>
+              <div class="stat-value">${rupiah(dash.topupTotal)}</div>
+              <div class="stat-label">Top up hari ini</div>
+            </div>
+            <div class="dash-stat" style="animation-delay:0.1s;">
+              <div class="stat-ico">📥</div>
+              <div class="stat-value">${dash.topupCount}</div>
+              <div class="stat-label">Jumlah top up hari ini</div>
+            </div>
+            <div class="dash-stat" style="animation-delay:0.15s;">
+              <div class="stat-ico">👤</div>
+              <div class="stat-value">${state.students.length}</div>
+              <div class="stat-label">Santri aktif</div>
+            </div>
+            <div class="dash-stat" style="animation-delay:0.2s;">
+              <div class="stat-ico">📋</div>
+              <div class="stat-value">${state.history.filter((h) => h.type === "topup").length}</div>
+              <div class="stat-label">Riwayat top up</div>
+            </div>
+          </div>
+
+          <div class="quick-actions">
+            <button class="quick-card panel" data-action="nav" data-tab="scan">
+              <strong>Scan kartu RFID</strong>
+              <p class="muted">Tempel kartu santri untuk cek saldo.</p>
+            </button>
+            <button class="quick-card panel" data-action="nav" data-tab="saldo">
+              <strong>Cek saldo</strong>
+              <p class="muted">Lihat saldo santri yang dipilih.</p>
+            </button>
+            <button class="quick-card panel" data-action="nav" data-tab="topup">
+              <strong>Top up saldo</strong>
+              <p class="muted">Isi saldo dengan nominal cepat atau custom.</p>
+            </button>
+            <button class="quick-card panel" data-action="nav" data-tab="history">
+              <strong>Riwayat</strong>
+              <p class="muted">Catatan top up dan pembayaran.</p>
+            </button>
+          </div>
+
+          <div class="dash-split">
+            <section class="dash-panel">
+              <div class="dash-panel-head">
+                <div class="section-title" style="margin:0;">Aktivitas terbaru</div>
+                <button class="btn btn-ghost" data-action="nav" data-tab="history">Lihat semua</button>
+              </div>
+              ${recentRows || `<div class="dash-empty">Belum ada aktivitas. Scan kartu atau top up untuk mulai.</div>`}
+            </section>
+            <section class="dash-panel">
+              <div class="dash-panel-head">
+                <div class="section-title" style="margin:0;">Saldo santri</div>
+                <button class="btn btn-ghost" data-action="nav" data-tab="saldo">Lihat semua</button>
+              </div>
+              ${state.students.length ? state.students.slice(0, 6).map((s) => `
+                <button class="dash-txn" data-action="select-student" data-id="${s.id}">
+                  <div class="dash-txn-avatar">${esc(String(s.name || "?").charAt(0).toUpperCase())}</div>
+                  <div class="dash-txn-meta">
+                    <strong>${esc(s.name)}</strong>
+                    <div class="muted" style="font-size:11px;margin-top:2px;">${esc(s.kelas)}</div>
+                  </div>
+                  <div style="font-weight:900;white-space:nowrap;">${rupiah(s.saldo)}</div>
+                </button>
+              `).join("") : `<div class="dash-empty">Data santri belum tersedia. Pastikan server API aktif.</div>`}
+            </section>
+          </div>
+        </div>
+      `;
+    }
+
+    function homeView() {
+      if (isAdmin()) return adminHomeView();
+      return kasirHomeView();
+    }
+
+    function kasirHomeView() {
+      const dash = cashierDashboard();
+      const nowLabel = new Date().toLocaleDateString("id-ID", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+      const recentRows = dash.recent.map((h, i) => {
+        const itemCount = (h.items || []).reduce((s, it) => s + Number(it.qty || 0), 0);
+        const initial = String(h.name || "?").trim().charAt(0).toUpperCase();
+        const canOpen = state.history.some((x) => String(x.id) === String(h.id));
+        return `
+          <button class="dash-txn" ${canOpen ? `data-action="history-detail" data-id="${esc(String(h.id))}"` : ""} style="animation-delay:${(i + 1) * 0.05}s;">
+            <div class="dash-txn-avatar">${esc(initial)}</div>
+            <div class="dash-txn-meta">
+              <strong>${esc(h.name)}</strong>
+              <div class="muted" style="font-size:11px;margin-top:2px;">${esc(h.time || "")}${itemCount ? ` • ${itemCount} item` : ""}</div>
+            </div>
+            <div style="font-weight:900;white-space:nowrap;">${rupiah(h.amount)}</div>
+          </button>
+        `;
+      }).join("");
+      const topRows = dash.topProducts.map((p, i) => `
+        <div class="dash-rank">
+          <div class="dash-rank-n">${i + 1}</div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-weight:800;font-size:14px;">${esc(p.emoji || "📦")} ${esc(p.name)}</div>
+            <div class="muted" style="font-size:11px;">${p.qty} terjual</div>
+          </div>
+          <div style="font-weight:800;font-size:13px;">${rupiah(p.amount)}</div>
+        </div>
+      `).join("");
+
+      return `
+        <div class="page-grid">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;">
+            <div>
+              <div class="muted">${esc(nowLabel)}</div>
+              <h2 style="font-size:24px;letter-spacing:-0.04em;margin-top:4px;">Dashboard Kasir</h2>
             </div>
             <button class="btn btn-dark" data-action="nav" data-tab="scan">Mulai Bayar</button>
           </div>
 
           <div class="home-hero">
             <section class="hero-card">
-              <h2>Kelola transaksi santri dengan cepat</h2>
-              <p>Catat pembayaran dan lihat riwayat transaksi dalam satu tampilan yang nyaman dipakai di laptop maupun tablet.</p>
-              <div class="hero-chip">Mulai Transaksi</div>
+              <h2>Siap melayani belanja santri</h2>
+              <p>Scan kartu, pilih produk, lalu konfirmasi pembayaran. Ringkasan omzet dan transaksi hari ini tampil di sini.</p>
+              <button class="hero-chip" data-action="nav" data-tab="scan" style="border:0;">Scan kartu sekarang</button>
             </section>
             <section class="stat-grid">
               <div class="stat-card" style="animation-delay:0.08s;">
-                <div style="font-size:12px;color:var(--muted);font-weight:700;">Transaksi</div>
-                <div class="stat-value">${state.stats.transaksi}</div>
-                <div class="stat-label">Hari ini</div>
+                <div style="font-size:12px;color:var(--muted);font-weight:700;">Santri aktif</div>
+                <div class="stat-value">${state.students.length}</div>
+                <div class="stat-label">${dash.cartQty} item di keranjang</div>
               </div>
               <div class="stat-card" style="animation-delay:0.16s;">
-                <div style="font-size:12px;color:var(--muted);font-weight:700;">Keranjang</div>
-                <div class="stat-value">${Object.values(state.cart).reduce((s, q) => s + q, 0)}</div>
-                <div class="stat-label">Item saat ini</div>
+                <div style="font-size:12px;color:var(--muted);font-weight:700;">Rata-rata belanja</div>
+                <div class="stat-value">${rupiah(dash.avg)}</div>
+                <div class="stat-label">Per transaksi hari ini</div>
               </div>
             </section>
           </div>
 
+          <div class="dash-stats">
+            <div class="dash-stat" style="animation-delay:0.05s;">
+              <div class="stat-ico">💰</div>
+              <div class="stat-value">${rupiah(dash.omzet)}</div>
+              <div class="stat-label">Omzet hari ini</div>
+            </div>
+            <div class="dash-stat" style="animation-delay:0.1s;">
+              <div class="stat-ico">🧾</div>
+              <div class="stat-value">${dash.transaksi}</div>
+              <div class="stat-label">Transaksi hari ini</div>
+            </div>
+            <div class="dash-stat" style="animation-delay:0.15s;">
+              <div class="stat-ico">🛍️</div>
+              <div class="stat-value">${dash.itemsSold}</div>
+              <div class="stat-label">Item terjual hari ini</div>
+            </div>
+            <div class="dash-stat" style="animation-delay:0.2s;">
+              <div class="stat-ico">📦</div>
+              <div class="stat-value">${state.products.length}</div>
+              <div class="stat-label">Produk di katalog</div>
+            </div>
+          </div>
+
           <div class="quick-actions">
-            <button class="quick-card panel" data-action="nav" data-tab="payment" style="animation-delay:0.12s;">
-              <strong>Pembayaran belanja santri</strong>
-              <p class="muted">Pilih santri, tambah produk, lalu konfirmasi dengan PIN.</p>
+            <button class="quick-card panel" data-action="nav" data-tab="scan">
+              <strong>Scan kartu RFID</strong>
+              <p class="muted">Tempel kartu santri untuk mulai transaksi.</p>
             </button>
-            <button class="quick-card panel" data-action="nav" data-tab="history" style="animation-delay:0.2s;">
-              <strong>Lihat riwayat transaksi</strong>
-              <p class="muted">Cek pembayaran yang sudah berhasil diproses.</p>
+            <button class="quick-card panel" data-action="nav" data-tab="payment">
+              <strong>Pembayaran belanja</strong>
+              <p class="muted">Pilih produk, lalu konfirmasi dengan PIN kasir.</p>
+            </button>
+            <button class="quick-card panel" data-action="nav" data-tab="products">
+              <strong>Kelola produk</strong>
+              <p class="muted">Tambah, ubah, atau hapus item kantin.</p>
+            </button>
+            <button class="quick-card panel" data-action="nav" data-tab="history">
+              <strong>Riwayat transaksi</strong>
+              <p class="muted">Cek pembayaran yang sudah diproses.</p>
             </button>
           </div>
 
+          <div class="dash-split">
+            <section class="dash-panel">
+              <div class="dash-panel-head">
+                <div class="section-title" style="margin:0;">Transaksi terbaru</div>
+                <button class="btn btn-ghost" data-action="nav" data-tab="history">Lihat semua</button>
+              </div>
+              ${recentRows || `<div class="dash-empty">Belum ada transaksi. Scan kartu santri untuk mulai.</div>`}
+            </section>
+            <section class="dash-panel">
+              <div class="dash-panel-head">
+                <div class="section-title" style="margin:0;">Produk terlaris</div>
+              </div>
+              ${topRows || `<div class="dash-empty">Data penjualan produk akan muncul setelah ada transaksi dengan detail item.</div>`}
+            </section>
+          </div>
+
           <div>
-            <div class="section-title">Santri</div>
+            <div class="section-title">Saldo santri</div>
             <div class="student-row">
-              ${state.students.map((s, i) => `
+              ${state.students.length ? state.students.slice(0, 6).map((s, i) => `
                 <button class="student-card ${state.selectedStudentId === s.id ? "active" : ""}" data-action="select-student" data-id="${s.id}" style="animation-delay:${(i + 1) * 0.08}s;">
                   <div class="student-name">${esc(s.name)}</div>
                   <div class="student-sub">${esc(s.kelas)}</div>
                   <div style="margin-top:12px;font-weight:800;color:var(--ink);">${rupiah(s.saldo)}</div>
                 </button>
-              `).join("")}
+              `).join("") : `<div class="dash-empty">Data santri belum tersedia. Pastikan server API aktif.</div>`}
             </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function saldoView() {
+      const student = selectedStudent();
+      const q = String(state.saldoSearch || "").trim().toLowerCase();
+      const list = state.students.filter((s) => {
+        if (!q) return true;
+        return String(s.name || "").toLowerCase().includes(q) || String(s.kelas || "").toLowerCase().includes(q) || String(s.card_id || s.cardId || "").toLowerCase().includes(q);
+      });
+      return `
+        <div class="page-grid">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;">
+            <div>
+              <div class="muted">Cek Saldo</div>
+              <h2 style="font-size:24px;letter-spacing:-0.04em;margin-top:4px;">Saldo santri</h2>
+            </div>
+            <button class="btn btn-ghost" data-action="nav" data-tab="scan">Scan Kartu</button>
+          </div>
+
+          <section class="saldo-hero">
+            <div>
+              <div class="topup-label">Santri dipilih</div>
+              <div style="font-size:22px;font-weight:900;letter-spacing:-0.03em;margin-top:8px;">${esc(student.name)}</div>
+              <div class="muted" style="margin-top:6px;color:rgba(255,247,220,0.86);">${esc(student.kelas)} • ${esc(student.card_id || student.cardId || "-")}</div>
+            </div>
+            <div>
+              <div style="font-size:12px;font-weight:700;opacity:0.88;">Saldo saat ini</div>
+              <div class="topup-value">${rupiah(student.saldo)}</div>
+            </div>
+          </section>
+
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn btn-orange" data-action="nav" data-tab="topup">Top Up Saldo</button>
+            <button class="btn btn-ghost" data-action="nav" data-tab="history">Lihat Riwayat</button>
+          </div>
+
+          <div class="field">
+            <label>Cari santri</label>
+            <div class="input-shell">
+              <span class="input-icon">Q</span>
+              <input id="saldoSearch" type="search" placeholder="Nama, kelas, atau ID kartu" value="${esc(state.saldoSearch)}" autocomplete="off" />
+            </div>
+          </div>
+
+          <div class="student-row">
+            ${list.length ? list.map((s, i) => `
+              <button class="student-card ${state.selectedStudentId === s.id ? "active" : ""}" data-action="select-student" data-id="${s.id}" style="animation-delay:${(i + 1) * 0.04}s;">
+                <div class="student-name">${esc(s.name)}</div>
+                <div class="student-sub">${esc(s.kelas)}</div>
+                <div style="margin-top:12px;font-weight:800;color:var(--ink);">${rupiah(s.saldo)}</div>
+              </button>
+            `).join("") : `<div class="dash-empty">Santri tidak ditemukan.</div>`}
+          </div>
+        </div>
+      `;
+    }
+
+    function topupPinView() {
+      const student = selectedStudent();
+      const pinDots = Array.from({ length: 6 }, (_, idx) => `
+        <span class="pin-dot ${idx < state.topupPinValue.length ? "filled" : ""}"></span>
+      `).join("");
+      return `
+        <div class="page-grid">
+          <div class="panel pin-panel" style="padding:24px;">
+            <div class="pin-header">
+              <button class="btn btn-ghost" data-action="cancel-topup-pin">Batal</button>
+              <div class="muted">Verifikasi admin</div>
+            </div>
+            <div class="pin-summary">
+              <div class="pin-icon">🔒</div>
+              <div>
+                <div class="muted" style="font-size:11px;">Top Up untuk</div>
+                <div style="font-weight:900;font-size:22px;letter-spacing:-0.03em;">${esc(student.name)}</div>
+              </div>
+            </div>
+            <div class="pin-total">${rupiah(state.topupAmount)}</div>
+            <div class="pin-display">${pinDots}</div>
+            ${state.topupPinError ? `<div class="flash err">${esc(state.topupPinError)}</div>` : ""}
+            <div class="pin-pad">
+              ${["1","2","3","4","5","6","7","8","9"].map((d) => `
+                <button class="pin-key" data-action="topup-pin-key" data-digit="${d}">${d}</button>
+              `).join("")}
+              <div></div>
+              <button class="pin-key" data-action="topup-pin-key" data-digit="0">0</button>
+              <button class="pin-key pin-del" data-action="topup-pin-del">⌫</button>
+            </div>
+            <div class="pin-actions">
+              <button class="btn btn-ghost" data-action="cancel-topup-pin">Batalkan</button>
+              <button class="btn btn-orange" data-action="topup-pin-submit" ${state.topupPinValue.length !== 6 ? "disabled" : ""}>Konfirmasi Top Up</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function topupSuccessView() {
+      const student = selectedStudent();
+      const amount = state.lastTopupAmount || 0;
+      return `
+        <div class="page-grid">
+          <div class="panel success-panel">
+            <div class="success-badge">✓</div>
+            <div class="success-title">Top Up Berhasil</div>
+            <p class="muted" style="text-align:center;line-height:1.6;">
+              Saldo <strong>${esc(student.name)}</strong> berhasil ditambahkan.
+            </p>
+            <div class="success-box">
+              <div class="success-row"><span>Nama Santri</span><strong>${esc(student.name)}</strong></div>
+              <div class="success-row"><span>Nominal</span><strong>${rupiah(amount)}</strong></div>
+              <div class="success-row"><span>Saldo Baru</span><strong>${rupiah(student.saldo)}</strong></div>
+            </div>
+            <button class="btn btn-dark" data-action="topup-success-done" style="width:100%;margin-top:18px;">Selesai</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function topupView() {
+      if (state.topupPhase === "pin") return topupPinView();
+      if (state.topupPhase === "success") return topupSuccessView();
+      const student = selectedStudent();
+      const amount = state.topupAmount || 0;
+      return `
+        <div class="page-grid">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;">
+            <div>
+              <div class="muted">Top Up</div>
+              <h2 style="font-size:24px;letter-spacing:-0.04em;margin-top:4px;">Isi saldo santri</h2>
+            </div>
+            <button class="btn btn-ghost" data-action="nav" data-tab="saldo">Cek Saldo</button>
+          </div>
+
+          <div class="topup-grid">
+            <section class="topup-hero">
+              <div class="topup-label">Santri dipilih</div>
+              <div style="font-size:22px;font-weight:900;letter-spacing:-0.03em;margin-top:8px;">${esc(student.name)}</div>
+              <div class="muted" style="margin-top:6px;color:rgba(255,247,220,0.86);">${esc(student.kelas)}</div>
+              <div style="margin-top:24px;color:rgba(255,247,220,0.88);font-size:12px;font-weight:700;">Saldo sekarang</div>
+              <div class="topup-value">${rupiah(student.saldo)}</div>
+              <div class="topup-note">Nominal top up dipilih</div>
+              <div style="display:inline-flex; margin-top:16px; padding:10px 16px; border-radius:999px; background:rgba(255,255,255,0.16); border:1px solid rgba(255,255,255,0.2); font-weight:800;">${rupiah(amount)}</div>
+            </section>
+            <section class="topup-card">
+              <div class="section-title" style="margin-bottom:6px;">Pilih nominal</div>
+              <div class="chip-grid">
+                ${state.chips.map((v, i) => `
+                  <button class="chip ${state.topupAmount === v ? "active" : ""}" data-action="pick-topup" data-amount="${v}" style="animation-delay:${(i + 1) * 0.05}s;">${rupiah(v)}</button>
+                `).join("")}
+              </div>
+              <div class="custom-topup field">
+                <label class="custom-topup-label">Atau nominal lain</label>
+                <div class="input-shell">
+                  <span class="input-icon">Rp</span>
+                  <input id="customTopup" inputmode="numeric" placeholder="0" value="${esc(state.customTopup)}" />
+                </div>
+              </div>
+              <button class="topup-cta" data-action="open-topup-pin">Top Up</button>
+            </section>
           </div>
         </div>
       `;
@@ -2539,7 +3329,7 @@
         <div class="page-grid">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;">
             <div>
-              <div class="muted">Admin</div>
+              <div class="muted">Kasir</div>
               <h2 style="font-size:24px;letter-spacing:-0.04em;margin-top:4px;">Dashboard Produk</h2>
             </div>
             <button class="btn btn-ghost" data-action="nav" data-tab="home">Kembali</button>
@@ -2743,7 +3533,8 @@
     }
 
     function historyView() {
-      const detail = state.history.find(h => h.id === state.historyDetailId);
+      const historyRows = visibleHistory();
+      const detail = state.history.find(h => String(h.id) === String(state.historyDetailId));
       if (detail) {
         const isPayment = detail.type === "payment";
         const dItems = detail.items || [];
@@ -2813,7 +3604,7 @@
               <button class="btn btn-ghost" data-action="nav" data-tab="home">Kembali</button>
             </div>
 
-            ${state.history.length === 0 ? `
+            ${historyRows.length === 0 ? `
               <div class="cart-empty">
                 <div class="big">📋</div>
                 <h3>Belum ada riwayat</h3>
@@ -2821,16 +3612,16 @@
               </div>
             ` : `
               <div class="history-grid" style="margin-top:16px;">
-                ${state.history.map((h, i) => `
-                  <button class="history-card ${h.type}" data-action="history-detail" data-id="${h.id}" style="animation-delay:${(i + 1) * 0.05}s;">
+                ${historyRows.map((h, i) => `
+                  <button class="history-card ${h.type}" data-action="history-detail" data-id="${esc(String(h.id))}" style="animation-delay:${(i + 1) * 0.05}s;">
                     <div class="history-top">
-                      <div class="pill">${h.type === "payment" ? "Bayar" : "Lainnya"}</div>
+                      <div class="pill">${h.type === "topup" ? "Top Up" : "Bayar"}</div>
                       <div class="muted" style="font-size:11px;text-align:right;">${esc(h.date || "")}<br/>${esc(h.time)}</div>
                     </div>
                     <div style="font-weight:800;font-size:15px;margin-top:10px;">${esc(h.name)}</div>
                     <div style="font-weight:900;font-size:1.1rem;margin-top:6px;color:var(--tomato);">${rupiah(h.amount)}</div>
                     <div class="muted" style="font-size:11px;margin-top:6px;">
-                      ${`${(h.items || []).reduce((s, it) => s + it.qty, 0)} item`} • oleh ${esc(h.admin)}
+                      ${h.type === "topup" ? "Isi saldo" : `${(h.items || []).reduce((s, it) => s + it.qty, 0)} item`} • oleh ${esc(h.admin)}
                     </div>
                   </button>
                 `).join("")}
@@ -2848,10 +3639,14 @@
         return;
       }
 
+      if (!canOpenTab(state.activeTab)) state.activeTab = "home";
+
       const isMobile = window.innerWidth <= 1024;
       let content = "";
       if (state.activeTab === "home") content = homeView();
       else if (state.activeTab === "scan") content = scanView();
+      else if (state.activeTab === "saldo") content = saldoView();
+      else if (state.activeTab === "topup") content = topupView();
       else if (state.activeTab === "payment") content = paymentView();
       else if (state.activeTab === "products") content = productsView();
       else if (state.activeTab === "history") content = historyView();
@@ -2886,13 +3681,19 @@
       e.preventDefault();
       if (e.target.id === "loginForm") {
         const data = new FormData(e.target);
-        const user = data.get("username");
-        const pass = data.get("password");
-        if (user === "admin" && pass === "admin123") {
+        const user = String(data.get("username") || "").trim().toLowerCase();
+        const pass = String(data.get("password") || "");
+        const account = ACCOUNTS[user];
+        if (account && account.password === pass) {
           state.loggedIn = true;
+          state.role = account.role;
           state.loginUsername = user;
-          flash("Berhasil masuk sebagai admin.", "ok");
+          flash(`Berhasil masuk sebagai ${account.label}.`, "ok");
+          state.activeTab = "home";
+          state.topupPhase = "none";
+          state.paymentPhase = "none";
           await loadStudentsFromApi();
+          await loadDashboardFromApi();
           render();
         } else {
           flash("Username atau kata sandi salah.", "err");
@@ -2948,21 +3749,38 @@
       const action = btn.dataset.action;
 
       if (action === "nav") {
-        state.activeTab = btn.dataset.tab;
-        if (btn.dataset.tab === "history") state.historyDetailId = null;
+        const tab = btn.dataset.tab;
+        if (!canOpenTab(tab)) return;
+        state.activeTab = tab;
+        if (tab === "history") state.historyDetailId = null;
         state.paymentPhase = "none";
         state.pinValue = "";
         state.pinError = "";
+        if (tab !== "topup") {
+          state.topupPhase = "none";
+          state.topupPinValue = "";
+          state.topupPinError = "";
+        }
         render();
+        if (tab === "home") {
+          loadDashboardFromApi().then(() => {
+            if (state.loggedIn && state.activeTab === "home") render();
+          });
+        }
       } else if (action === "logout") {
         state.loggedIn = false;
+        state.role = "";
+        state.loginUsername = "";
         state.paymentPhase = "none";
+        state.topupPhase = "none";
+        state.cart = {};
         stopScanPolling();
         render();
       } else if (action === "select-student") {
         state.selectedStudentId = Number(btn.dataset.id);
         render();
       } else if (action === "add-product") {
+        if (!isKasir()) return;
         const id = Number(btn.dataset.id);
         state.cart[id] = (state.cart[id] || 0) + 1;
         const rect = btn.getBoundingClientRect();
@@ -2982,6 +3800,7 @@
         }
         render();
       } else if (action === "proceed-payment") {
+        if (!isKasir()) return;
         state.activeTab = "cart";
         render();
       } else if (action === "open-payment-pin") {
@@ -3020,10 +3839,38 @@
         flash("Produk berhasil dihapus.", "ok");
         render();
       } else if (action === "history-detail") {
-        state.historyDetailId = Number(btn.dataset.id);
+        state.historyDetailId = btn.dataset.id;
+        state.activeTab = "history";
         render();
       } else if (action === "close-history-detail") {
         state.historyDetailId = null;
+        render();
+      } else if (action === "pick-topup") {
+        state.topupAmount = Number(btn.dataset.amount || 0);
+        state.customTopup = "";
+        render();
+      } else if (action === "open-topup-pin") {
+        openTopupPin();
+      } else if (action === "cancel-topup-pin") {
+        state.topupPhase = "none";
+        state.topupPinValue = "";
+        state.topupPinError = "";
+        render();
+      } else if (action === "topup-pin-key") {
+        if (state.topupPinValue.length < 6) {
+          state.topupPinValue += btn.dataset.digit;
+          state.topupPinError = "";
+          render();
+        }
+      } else if (action === "topup-pin-del") {
+        state.topupPinValue = state.topupPinValue.slice(0, -1);
+        state.topupPinError = "";
+        render();
+      } else if (action === "topup-pin-submit") {
+        submitTopupPin();
+      } else if (action === "topup-success-done") {
+        state.topupPhase = "none";
+        state.activeTab = "saldo";
         render();
       }
     });
@@ -3056,6 +3903,19 @@
       } else if (t.id === "productSearch") {
         state.productSearch = t.value;
         applyCatalogFilter("productLists");
+      } else if (t.id === "saldoSearch") {
+        const pos = t.selectionStart;
+        state.saldoSearch = t.value;
+        render();
+        const el = document.getElementById("saldoSearch");
+        if (el) {
+          el.focus();
+          try { el.setSelectionRange(pos, pos); } catch (_) {}
+        }
+      } else if (t.id === "customTopup") {
+        state.customTopup = t.value;
+        const n = Number(String(t.value || "").replace(/[^\d]/g, ""));
+        if (n > 0) state.topupAmount = n;
       } else if (t.name === "pemoji") {
         const prev = document.getElementById("productEmojiPreview");
         if (prev) prev.textContent = t.value || "📦";
@@ -3069,11 +3929,15 @@
       const tag = t ? t.tagName : "";
       const inTextField = tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT";
       const pinActive = state.paymentPhase === "pin";
+      const topupPinActive = state.topupPhase === "pin";
 
       if (e.key === "Enter") {
         if (state.paymentPhase === "pin") {
           e.preventDefault();
           submitPinPayment();
+        } else if (state.topupPhase === "pin") {
+          e.preventDefault();
+          submitTopupPin();
         }
         return;
       }
@@ -3083,6 +3947,11 @@
           state.paymentPhase = "none";
           state.pinValue = "";
           state.pinError = "";
+          render();
+        } else if (state.topupPhase === "pin") {
+          state.topupPhase = "none";
+          state.topupPinValue = "";
+          state.topupPinError = "";
           render();
         }
         return;
@@ -3104,6 +3973,25 @@
           e.preventDefault();
           state.pinValue = current.slice(0, -1);
           state.pinError = "";
+          render();
+        }
+      }
+
+      if (topupPinActive && !inTextField) {
+        const current = state.topupPinValue;
+        if (/^[0-9]$/.test(e.key)) {
+          if (current.length < 6) {
+            e.preventDefault();
+            state.topupPinValue = current + e.key;
+            state.topupPinError = "";
+            render();
+          }
+          return;
+        }
+        if (e.key === "Backspace") {
+          e.preventDefault();
+          state.topupPinValue = current.slice(0, -1);
+          state.topupPinError = "";
           render();
         }
       }
