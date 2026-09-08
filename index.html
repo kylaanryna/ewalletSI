@@ -1429,6 +1429,43 @@
       font-weight: 600 !important;
     }
 
+    /* ===== Product Edit Modal ===== */
+    .product-modal-backdrop {
+      position: fixed; inset: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: center; padding: 20px;
+      background: rgba(125, 16, 40, 0.45);
+      backdrop-filter: blur(3px);
+      animation: simartFadeIn 0.2s ease;
+    }
+    @keyframes simartFadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .product-modal {
+      width: 100%; max-width: 480px; max-height: 92vh; overflow: auto;
+      background: linear-gradient(180deg, #fff7dc, #fef1cd);
+      border: 3px solid #fff; border-radius: 28px;
+      box-shadow: 0 30px 70px -30px rgba(120, 26, 41, 0.5);
+      padding: 24px;
+      animation: simartModalPop 0.24s ease;
+    }
+    @keyframes simartModalPop {
+      from { opacity: 0; transform: translateY(14px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .product-modal-head {
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; margin-bottom: 18px;
+    }
+    .product-modal-title {
+      font-size: 20px; font-weight: 800; letter-spacing: -0.03em; margin-top: 4px; color: var(--ink);
+    }
+    .modal-close-btn {
+      border: 0; width: 36px; height: 36px; border-radius: 12px; flex: 0 0 auto;
+      background: rgba(196, 43, 52, 0.1); color: var(--tomato); font-size: 15px; font-weight: 800;
+      transition: transform 0.16s ease, background 0.16s ease;
+    }
+    .modal-close-btn:hover { transform: rotate(90deg); background: rgba(196, 43, 52, 0.18); }
+    .product-modal.product-form-v2 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .product-modal .product-actions .product-primary-btn { flex: 1 1 auto; }
+    .product-modal .product-actions .btn-ghost { min-width: 96px; }
+
     .pin-panel {
       padding: 24px;
       background: linear-gradient(180deg, rgba(255,249,232,0.96), rgba(255,241,214,0.94));
@@ -3325,7 +3362,6 @@
     }
 
     function productsView() {
-      const editing = !!state.editingProductId;
       const groups = groupProducts();
       return `
         <div class="page-grid">
@@ -3340,8 +3376,8 @@
           <div class="panel product-panel">
             <div class="product-form-head">
               <div>
-                <div class="section-title" style="margin:0;">${editing ? "✏️ Edit Produk" : "Tambah Produk Baru"}</div>
-                <div class="muted" style="font-size:13px;margin-top:4px;">${editing ? "Perbarui detail produk di katalog koperasi." : "Lengkapi detail produk untuk menambahkannya ke katalog."}</div>
+                <div class="section-title" style="margin:0;">Tambah Produk Baru</div>
+                <div class="muted" style="font-size:13px;margin-top:4px;">Lengkapi detail produk untuk menambahkannya ke katalog.</div>
               </div>
               <div class="form-preview" id="productEmojiPreview">${esc(state.productForm.emoji || "📦")}</div>
             </div>
@@ -3372,8 +3408,7 @@
                   </div>
                 </label>
                 <div class="product-actions">
-                  <button class="product-primary-btn" type="submit">${editing ? "💾 Simpan Perubahan" : "＋ Tambah Produk"}</button>
-                  ${editing ? `<button class="btn btn-ghost" type="button" data-action="cancel-edit-product">Batal</button>` : ""}
+                  <button class="product-primary-btn" type="submit">＋ Tambah Produk</button>
                 </div>
               </div>
             </form>
@@ -3421,6 +3456,57 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        ${state.editingProductId ? editProductModal() : ""}
+      `;
+    }
+
+    function editProductModal() {
+      const f = state.productForm;
+      const price = f.price ? String(f.price).replace(/\B(?=(\d{3})+(?!\d))/g, ".") : "";
+      return `
+        <div class="product-modal-backdrop" data-backdrop="close-edit-product">
+          <div class="product-modal" role="dialog" aria-modal="true" aria-labelledby="editProductTitle">
+            <div class="product-modal-head">
+              <div>
+                <div class="muted">Edit produk</div>
+                <div class="product-modal-title" id="editProductTitle">✏️ Edit Produk</div>
+              </div>
+              <button type="button" class="modal-close-btn" data-action="cancel-edit-product" aria-label="Tutup">✕</button>
+            </div>
+
+            <form id="editProductForm" class="product-form-v2">
+              <div class="form-grid">
+                <label class="form-field">
+                  <span class="form-label">Emoji</span>
+                  <input name="pemoji" maxlength="8" placeholder="😋" value="${esc(f.emoji)}" aria-label="Emoji produk" />
+                </label>
+                <label class="form-field">
+                  <span class="form-label">Nama Produk</span>
+                  <input name="pname" placeholder="Cari" value="${esc(f.name)}" aria-label="Nama produk" />
+                </label>
+                <label class="form-field">
+                  <span class="form-label">Kategori</span>
+                  <select name="pcat" aria-label="Kategori produk">
+                    ${CATEGORIES.map(c => `
+                      <option value="${c.key}" ${catKey(f.cat) === c.key ? "selected" : ""}>${c.emoji} ${c.label}</option>
+                    `).join("")}
+                  </select>
+                </label>
+                <label class="form-field">
+                  <span class="form-label">Harga</span>
+                  <div class="input-wrap">
+                    <span class="prefix">Rp</span>
+                    <input name="pprice" inputmode="numeric" placeholder="Contoh: 5.000" value="${price}" aria-label="Harga produk" />
+                  </div>
+                </label>
+                <div class="product-actions">
+                  <button class="product-primary-btn" type="submit">💾 Simpan Perubahan</button>
+                  <button type="button" class="btn btn-ghost" data-action="cancel-edit-product">Batal</button>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       `;
@@ -3634,6 +3720,44 @@
       `;
     }
 
+    function applyProductForm(fd, isEdit) {
+      const emoji = fd.get("pemoji");
+      const name = String(fd.get("pname") || "").trim();
+      let cat = catKey(fd.get("pcat")) || "makanan";
+      if (!CATEGORIES.some(c => c.key === cat)) cat = "makanan";
+      const price = Number(String(fd.get("pprice") || "").replace(/[^0-9]/g, "")) || 0;
+
+      if (!name || price <= 0) {
+        flash("Nama dan harga produk wajib diisi.", "err");
+        return false;
+      }
+
+      if (isEdit) {
+        const p = state.products.find(x => x.id === state.editingProductId);
+        if (p) { p.name = name; p.price = price; p.emoji = emoji || "📦"; p.cat = cat; }
+        state.editingProductId = null;
+      } else {
+        const newId = state.products.length ? Math.max(...state.products.map(p => p.id)) + 1 : 1;
+        state.products.push({ id: newId, name, price, emoji: emoji || "📦", cat });
+      }
+
+      state.productForm = { id: null, name: "", price: 0, emoji: "", cat: "" };
+      state.productSearch = "";
+      state.productCat = "all";
+      return true;
+    }
+
+    function renderKeepScroll() {
+      const scroller = document.querySelector(".main-scroll");
+      const top = scroller ? scroller.scrollTop : window.scrollY || 0;
+      render();
+      requestAnimationFrame(() => {
+        const el = document.querySelector(".main-scroll");
+        if (el) el.scrollTop = top;
+        else window.scrollTo(0, top);
+      });
+    }
+
     function render() {
       if (!state.loggedIn) {
         root.innerHTML = loginView();
@@ -3706,46 +3830,29 @@
         processRfidScan(val);
       } else if (e.target.id === "productForm") {
         const fd = new FormData(e.target);
-        const emoji = fd.get("pemoji");
-        const name = String(fd.get("pname") || "").trim();
-        let cat = catKey(fd.get("pcat")) || "makanan";
-        if (!CATEGORIES.some(c => c.key === cat)) cat = "makanan";
-        const price = Number(String(fd.get("pprice") || "").replace(/[^0-9]/g, "")) || 0;
-
-        if (!name || price <= 0) {
-          flash("Nama dan harga produk wajib diisi.", "err");
-          return;
-        }
-
-        if (state.editingProductId) {
-          const p = state.products.find(x => x.id === state.editingProductId);
-          if (p) {
-            p.name = name;
-            p.price = price;
-            p.emoji = emoji || "📦";
-            p.cat = cat;
-          }
-          state.editingProductId = null;
-          flash("Produk berhasil diperbarui.", "ok");
-        } else {
-          const newId = state.products.length ? Math.max(...state.products.map(p => p.id)) + 1 : 1;
-          state.products.push({
-            id: newId,
-            name,
-            price,
-            emoji: emoji || "📦",
-            cat: cat
-          });
+        if (applyProductForm(fd, false)) {
           flash("Produk baru berhasil ditambahkan.", "ok");
+          render();
         }
-        state.productForm = { id: null, name: "", price: 0, emoji: "", cat: "" };
-        state.productSearch = "";
-        state.productCat = "all";
-        render();
+      } else if (e.target.id === "editProductForm") {
+        const fd = new FormData(e.target);
+        if (applyProductForm(fd, true)) {
+          flash("Produk berhasil diperbarui.", "ok");
+          renderKeepScroll();
+        }
       }
     });
 
     document.addEventListener("click", async (e) => {
+      if (e.target && e.target.classList && e.target.classList.contains("product-modal-backdrop")) {
+        if (state.editingProductId) {
+          state.editingProductId = null;
+          state.productForm = { id: null, name: "", price: 0, emoji: "", cat: "" };
+          renderKeepScroll();
+        }
+        return;
+      }
+
       const btn = e.target.closest("[data-action]");
       if (!btn) return;
       const action = btn.dataset.action;
@@ -3828,18 +3935,45 @@
         if (p) {
           state.editingProductId = id;
           state.productForm = { ...p };
-          render();
+          renderKeepScroll();
         }
       } else if (action === "cancel-edit-product") {
         state.editingProductId = null;
         state.productForm = { id: null, name: "", price: 0, emoji: "", cat: "" };
-        render();
+        renderKeepScroll();
       } else if (action === "delete-product") {
         const id = Number(btn.dataset.id);
-        state.products = state.products.filter(x => x.id !== id);
-        delete state.cart[id];
-        flash("Produk berhasil dihapus.", "ok");
-        render();
+        const p = state.products.find(x => x.id === id);
+        if (p && window.Swal) {
+          Swal.fire({
+            title: "Hapus produk ini?",
+            html: `Yakin ingin menghapus <strong>${esc(p.name)}</strong> dari katalog?`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Ya, Hapus",
+            cancelButtonText: "Batal",
+            confirmButtonColor: "#c42b34",
+            cancelButtonColor: "#9f6a2b",
+            reverseButtons: true,
+            customClass: { popup: "simart-swal" }
+          }).then((result) => {
+            if (result.isConfirmed) {
+              if (state.editingProductId === id) {
+                state.editingProductId = null;
+                state.productForm = { id: null, name: "", price: 0, emoji: "", cat: "" };
+              }
+              state.products = state.products.filter(x => x.id !== id);
+              delete state.cart[id];
+              flash("Produk berhasil dihapus.", "ok");
+              renderKeepScroll();
+            }
+          });
+        } else {
+          state.products = state.products.filter(x => x.id !== id);
+          delete state.cart[id];
+          flash("Produk berhasil dihapus.", "ok");
+          renderKeepScroll();
+        }
       } else if (action === "history-detail") {
         state.historyDetailId = btn.dataset.id;
         state.activeTab = "history";
@@ -3945,6 +4079,12 @@
       }
 
       if (e.key === "Escape") {
+        if (state.editingProductId) {
+          state.editingProductId = null;
+          state.productForm = { id: null, name: "", price: 0, emoji: "", cat: "" };
+          renderKeepScroll();
+          return;
+        }
         if (state.paymentPhase === "pin") {
           state.paymentPhase = "none";
           state.pinValue = "";
