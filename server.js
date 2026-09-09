@@ -90,6 +90,12 @@ function safeAmount(value) {
   return Number.isInteger(amount) && amount > 0 ? amount : 0;
 }
 
+// Saldo awal seorang santri boleh 0 atau lebih (integer positif).
+function safeInitSaldo(value) {
+  const amount = Number(value);
+  return Number.isInteger(amount) && amount >= 0 ? amount : -1;
+}
+
 // Menyimpan hasil scan RFID terakhir di memori, supaya web bisa polling
 // dan tahu ada kartu baru yang ditap oleh alat ESP32.
 let lastScan = null; // { cardId, scanId, student|null, message, ok, timestamp }
@@ -115,6 +121,19 @@ async function initDb() {
         saldo INT DEFAULT 0
       ) ENGINE=InnoDB
     `);
+
+    // Migrasi: tambahkan kolom password jika belum ada
+    // (CREATE TABLE IF NOT EXISTS tidak menambah kolom pada tabel lama).
+    try {
+      const passwordCols = await query(
+        "SELECT COLUMN_NAME AS name FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'students' AND COLUMN_NAME = 'password'"
+      );
+      if (!passwordCols.length) {
+        await query("ALTER TABLE students ADD COLUMN password VARCHAR(255) NOT NULL DEFAULT ''");
+      }
+    } catch (error) {
+      console.error('Migrasi kolom password gagal:', error.message);
+    }
 
     await query(`
       CREATE TABLE IF NOT EXISTS payments (
@@ -171,7 +190,7 @@ app.get('/api/health', async (req, res) => {
 
 app.get('/api/students', async (req, res) => {
   try {
-    const rows = await query('SELECT id, card_id, name, kelas, saldo FROM students ORDER BY name ASC');
+    const rows = await query('SELECT id, card_id, name, kelas, saldo, password FROM students ORDER BY name ASC');
     res.json({ ok: true, data: rows });
   } catch (error) {
     res.status(500).json({ ok: false, message: 'Gagal mengambil data santri' });
@@ -194,6 +213,52 @@ app.get('/api/students/:cardId', async (req, res) => {
     res.json({ ok: true, data: rows[0] });
   } catch (error) {
     res.status(500).json({ ok: false, message: 'Gagal mencari santri' });
+  }
+});
+
+// Tambah santri baru oleh admin: nama, password, saldo awal (kelas & ID kartu opsional).
+app.post('/api/students', async (req, res) => {
+  const safeName = safeText(req.body.name, 120);
+  const safePassword = safeText(req.body.password, 50);
+  const safeKelas = (safeText(req.body.kelas, 100) || '-');
+  const safeSaldo = safeInitSaldo(req.body.saldo);
+  const providedCardId = safeCardId(req.body.cardId);
+
+  if (!safeName) {
+    return res.status(400).json({ ok: false, message: 'Nama santri wajib diisi' });
+  }
+  if (safePassword.length < 4) {
+    return res.status(400).json({ ok: false, message: 'Password santri wajib diisi minimal 4 karakter' });
+  }
+  if (safeSaldo < 0) {
+    return res.status(400).json({ ok: false, message: 'Saldo harus berupa angka bulat 0 atau lebih' });
+  }
+
+  const cardId = providedCardId || `ST${Date.now()}`;
+
+  try {
+    const exists = await query('SELECT id FROM students WHERE card_id = ?', [cardId]);
+    if (exists.length) {
+      return res.status(409).json({ ok: false, message: 'ID kartu sudah terdaftar. Gunakan ID lain.' });
+    }
+
+    await query(
+      'INSERT INTO students (card_id, name, kelas, saldo, password) VALUES (?, ?, ?, ?, ?)',
+      [cardId, safeName, safeKelas, safeSaldo, safePassword]
+    );
+
+    const rows = await query(
+      'SELECT id, card_id, name, kelas, saldo, password FROM students WHERE card_id = ?',
+      [cardId]
+    );
+
+    res.json({
+      ok: true,
+      message: 'Santri berhasil ditambahkan',
+      data: rows[0]
+    });
+  } catch (error) {
+    res.status(500).json({ ok: false, message: 'Gagal menambahkan santri' });
   }
 });
 
