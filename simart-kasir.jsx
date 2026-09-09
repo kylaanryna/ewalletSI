@@ -59,18 +59,18 @@ const CATEGORIES = [
 ];
 
 const PRODUCTS = [
-  { id: 1, name: "Roti Coklat", price: 4000, emoji: "🍞", cat: "Makanan" },
-  { id: 2, name: "Nasi Uduk", price: 8000, emoji: "🍚", cat: "Makanan" },
-  { id: 3, name: "Keripik Singkong", price: 3500, emoji: "🥔", cat: "Makanan" },
-  { id: 4, name: "Donat Gula", price: 3000, emoji: "🍩", cat: "Makanan" },
-  { id: 5, name: "Telur Gulung", price: 2500, emoji: "🍢", cat: "Makanan" },
-  { id: 6, name: "Air Mineral", price: 3000, emoji: "💧", cat: "Minuman" },
-  { id: 7, name: "Teh Kotak", price: 4000, emoji: "🧃", cat: "Minuman" },
-  { id: 8, name: "Susu Kotak", price: 5000, emoji: "🥛", cat: "Minuman" },
-  { id: 9, name: "Es Cincau", price: 4500, emoji: "🧋", cat: "Minuman" },
-  { id: 10, name: "Buku Tulis", price: 4500, emoji: "📓", cat: "Alat Tulis" },
-  { id: 11, name: "Pulpen", price: 2500, emoji: "🖊️", cat: "Alat Tulis" },
-  { id: 12, name: "Penghapus", price: 1500, emoji: "🧽", cat: "Alat Tulis" },
+  { id: 1, name: "Roti Coklat", price: 4000, emoji: "🥐", cat: "Makanan", stok: 15 },
+  { id: 2, name: "Nasi Uduk", price: 8000, emoji: "🍚", cat: "Makanan", stok: 10 },
+  { id: 3, name: "Keripik Singkong", price: 3500, emoji: "🍠", cat: "Makanan", stok: 20 },
+  { id: 4, name: "Donat Gula", price: 3000, emoji: "🍩", cat: "Makanan", stok: 8 },
+  { id: 5, name: "Telur Gulung", price: 2500, emoji: "🍡", cat: "Makanan", stok: 0 }, // contoh stok habis
+  { id: 6, name: "Air Mineral", price: 3000, emoji: "💧", cat: "Minuman", stok: 30 },
+  { id: 7, name: "Teh Kotak", price: 4000, emoji: "🧃", cat: "Minuman", stok: 12 },
+  { id: 8, name: "Susu Kotak", price: 5000, emoji: "🥛", cat: "Minuman", stok: 5 },
+  { id: 9, name: "Es Cincau", price: 4500, emoji: "🥤", cat: "Minuman", stok: 15 },
+  { id: 10, name: "Buku Tulis", price: 4500, emoji: "📓", cat: "Alat Tulis", stok: 25 },
+  { id: 11, name: "Pulpen", price: 2500, emoji: "🖊️", cat: "Alat Tulis", stok: 40 },
+  { id: 12, name: "Penghapus", price: 1500, emoji: "🧽", cat: "Alat Tulis", stok: 18 },
 ];
 
 const TOPUP_CHIPS = [10000, 20000, 50000, 100000, 200000];
@@ -647,9 +647,18 @@ function CatalogScreen({ student, cart, setCart, onBack, onCheckout, desktop }) 
   const change = (id, delta) => {
     setCart((prev) => {
       const next = { ...prev };
-      const qty = (next[id] || 0) + delta;
-      if (qty <= 0) delete next[id];
-      else next[id] = qty;
+      const p = PRODUCTS.find((pp) => pp.id === +id);
+      const currentQty = next[id] || 0;
+      const newQty = currentQty + delta;
+
+      // Cek apakah jumlah pembelian melebihi stok yang ada
+      if (p && delta > 0 && newQty > p.stok) {
+        alert(`Stok ${p.name} tidak mencukupi! Sisa stok: ${p.stok}`);
+        return prev;
+      }
+
+      if (newQty <= 0) delete next[id];
+      else next[id] = newQty;
       return next;
     });
   };
@@ -687,17 +696,29 @@ function CatalogScreen({ student, cart, setCart, onBack, onCheckout, desktop }) 
               {p.name}
             </p>
             <p className="text-[11px] font-semibold" style={{ color: C.ink2 }}>
-              {rupiah(p.price)}
-            </p>
+                {rupiah(p.price)}
+              </p>
+
+              {/* === KODE BARU DISISIPKAN DI SINI === */}
+              <p className="text-[10px] font-bold mt-0.5" style={{ color: p.stok <= 0 ? "red" : C.muted }}>
+                {p.stok <= 0 ? "❌ Stok Habis" : `Stok: ${p.stok}`}
+              </p>
+              {/* =================================== */}
 
             {qty === 0 ? (
-              <button
-                onClick={() => change(p.id, 1)}
-                className="absolute -bottom-3.5 right-3 w-9 h-9 rounded-full flex items-center justify-center active:scale-90 transition"
-                style={{ background: C.ink, boxShadow: "0 8px 16px -6px rgba(24,26,20,0.4)" }}
-              >
-                <Plus size={15} color="#fff" />
-              </button>
+            <button
+  disabled={p.stok <= 0}
+  onClick={() => change(p.id, 1)}
+  className="absolute -bottom-3.5 right-3 w-9 h-9 rounded-full flex items-center justify-center active:scale-95 transition"
+  style={{ 
+    background: p.stok <= 0 ? "#ccc" : C.ink, 
+    opacity: p.stok <= 0 ? 0.5 : 1,
+    cursor: p.stok <= 0 ? "not-allowed" : "pointer",
+    boxShadow: "0 8px 16px -6px rgba(24,26,20,0.4)" 
+  }}
+>
+  <Plus size={15} color="#fff" />
+</button>
             ) : (
               <div
                 className="absolute -bottom-3.5 right-3 flex items-center gap-2 rounded-full pl-2.5 pr-1 py-1"
@@ -976,7 +997,19 @@ function PaymentPinScreen({ student, cart, onBack, onSubmitPin, error, desktop }
       </div>
 
       <div className={desktop ? "mt-6 max-w-[280px] mx-auto" : "mt-5"}>
-        <PillButton onClick={() => onSubmitPin(pin, total)} disabled={pin.length < 6} tone="orange">
+        <PillButton 
+  onClick={() => {
+    Object.entries(cart).forEach(([id, qty]) => {
+      const p = PRODUCTS.find((item) => item.id === +id);
+      if (p) {
+        p.stok = Math.max(0, p.stok - qty);
+      }
+    });
+    onSubmitPin(pin, total);
+  }} 
+  disabled={pin.length < 6} 
+  tone="orange"
+>
           Konfirmasi Pembayaran
         </PillButton>
       </div>
