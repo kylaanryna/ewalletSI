@@ -3961,7 +3961,10 @@
           state.role = account.role;
           state.loginUsername = user;
           flash(`Berhasil masuk sebagai ${account.label}.`, "ok");
-          state.activeTab = "home";
+          
+          // JIKA KASIR MAKA LANGSUNG KE SCAN, JIKA ADMIN TETAP KE HOME (DASHBOARD)
+          state.activeTab = account.role === "kasir" ? "scan" : "home";
+          
           state.topupPhase = "none";
           state.paymentPhase = "none";
           await loadStudentsFromApi();
