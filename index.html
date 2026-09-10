@@ -1546,6 +1546,40 @@
       .santri-grid { grid-template-columns: 1fr; }
     }
 
+    /* ===== Data Santri: mode & edit ===== */
+    .santri-mode-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .santri-mode-btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink2);
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-size: 14px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease, color 0.16s ease, border-color 0.16s ease;
+    }
+    .santri-mode-btn:hover { transform: translateY(-1px); }
+    .santri-mode-btn.active {
+      background: linear-gradient(135deg, #f7b15d, #ea8d39);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 16px 26px -18px rgba(252, 143, 45, 0.82);
+    }
+    .santri-list-empty {
+      padding: 32px 16px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
 
     .pin-panel {
       padding: 24px;
@@ -2090,6 +2124,9 @@
       topupPinError: "",
       lastTopupAmount: 0,
       saldoSearch: "",
+      santriMode: "add",
+      editingStudentId: null,
+      santriSearch: "",
       chips: [10000, 20000, 50000, 100000, 200000],
       editingProductId: null,
       productForm: { id: null, name: "", price: 0, emoji: "", cat: "" },
@@ -2221,7 +2258,7 @@
       if (isAdmin()) {
         return [
           ["home", "Dashboard"],
-          ["santri", "Tambah Santri"],
+          ["santri", "Data Santri"],
           ["scan", "Scan"],
           ["saldo", "Cek Saldo"],
           ["topup", "Top Up"],
@@ -3073,22 +3110,13 @@
     }
 
 
-    function addSantriView() {
+    function addSantriFormView() {
       return `
-        <div class="page-grid">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;">
+        <section class="santri-form-card">
+          <div class="santri-form-head">
+            <div class="santri-form-icon">👤</div>
             <div>
-              <div class="muted">Data santri baru</div>
-              <h2 style="font-size:24px;letter-spacing:-0.04em;margin-top:4px;">+ Tambah Santri</h2>
-            </div>
-            <button class="btn btn-ghost" data-action="nav" data-tab="home">Kembali</button>
-          </div>
-
-          <section class="santri-form-card">
-            <div class="santri-form-head">
-              <div class="santri-form-icon">👤</div>
-              <div>
-                <div class="santri-form-title">Data Santri Baru</div>
+              <div class="santri-form-title">Tambah Data Santri</div>
                 <p class="muted" style="margin-top:4px;">Lengkapi informasi santri, lalu simpan untuk mendaftarkannya ke sistem.</p>
               </div>
             </div>
@@ -3132,9 +3160,131 @@
               </div>
             </form>
           </section>
+      `;
+    }
+
+    function editSantriListView() {
+      const q = String(state.santriSearch || "").trim().toLowerCase();
+      const list = state.students.filter((s) => {
+        if (!q) return true;
+        return String(s.name || "").toLowerCase().includes(q)
+          || String(s.kelas || "").toLowerCase().includes(q)
+          || String(s.card_id || s.cardId || "").toLowerCase().includes(q);
+      });
+      return `
+        <section class="santri-form-card">
+          <div class="santri-form-head">
+            <div class="santri-form-icon">✏️</div>
+            <div>
+              <div class="santri-form-title">Pilih Santri</div>
+              <p class="muted" style="margin-top:4px;">Klik salah satu santri untuk mengubah datanya.</p>
+            </div>
+          </div>
+
+          <div class="input-shell" style="margin-bottom:16px;">
+            <span class="input-icon">Q</span>
+            <input id="santriSearch" type="search" placeholder="Cari nama, kelas, atau ID kartu" value="${esc(state.santriSearch)}" autocomplete="off" />
+          </div>
+
+          ${list.length ? `
+            <div class="student-row">
+              ${list.map((s, i) => `
+                <button class="student-card" data-action="edit-student" data-id="${s.id}" style="animation-delay:${(i + 1) * 0.04}s;">
+                  <div class="student-name">${esc(s.name)}</div>
+                  <div class="student-sub">${esc(s.kelas)}${s.card_id || s.cardId ? ` • ${esc(s.card_id || s.cardId)}` : ""}</div>
+                  <div style="margin-top:12px;font-weight:800;color:var(--ink);">${rupiah(s.saldo)}</div>
+                  <div style="margin-top:10px;font-size:11px;font-weight:800;color:var(--tomato);">Ubah data →</div>
+                </button>
+              `).join("")}
+            </div>
+          ` : `
+            <div class="santri-list-empty">${state.students.length ? "Tidak ada santri yang cocok dengan pencarian." : "Data santri belum tersedia. Pastikan server API aktif atau tambahkan santri terlebih dahulu."}</div>
+          `}
+        </section>
+      `;
+    }
+
+    function editSantriFormView() {
+      const student = state.students.find((s) => s.id === state.editingStudentId);
+      if (!student) {
+        state.editingStudentId = null;
+        return editSantriListView();
+      }
+      return `
+        <section class="santri-form-card">
+          <div class="santri-form-head">
+            <div class="santri-form-icon">✏️</div>
+            <div>
+              <div class="santri-form-title">Edit Data Santri</div>
+              <p class="muted" style="margin-top:4px;">Ubah informasi ${esc(student.name)}, lalu simpan perubahannya.</p>
+            </div>
+          </div>
+
+          <form id="editStudentForm" class="santri-form">
+            <div class="santri-grid">
+              <label class="santri-field santri-field-full">
+                <span class="santri-label">Nama Santri <em>*</em></span>
+                <input name="sname" maxlength="120" placeholder="Contoh: Ahmad Fauzan" aria-label="Nama santri" value="${esc(student.name || "")}" required />
+              </label>
+            </div>
+
+            <div class="santri-grid">
+              <label class="santri-field">
+                <span class="santri-label">Password <em>*</em></span>
+                <input name="spass" type="text" maxlength="50" placeholder="Password / PIN santri" aria-label="Password santri" value="${esc(student.password || "")}" required />
+              </label>
+              <label class="santri-field">
+                <span class="santri-label">Kelas <small>(opsional)</small></span>
+                <input name="skelas" maxlength="100" placeholder="Contoh: VII-A" aria-label="Kelas santri" value="${esc(student.kelas === "-" ? "" : student.kelas || "")}" />
+              </label>
+            </div>
+
+            <div class="santri-grid">
+              <label class="santri-field">
+                <span class="santri-label">Saldo Saat Ini</span>
+                <div class="input-wrap">
+                  <span class="prefix">Rp</span>
+                  <input name="ssaldo" inputmode="numeric" placeholder="0" aria-label="Saldo santri" value="${student.saldo == null ? "0" : String(student.saldo)}" />
+                </div>
+              </label>
+              <label class="santri-field">
+                <span class="santri-label">ID Kartu RFID</span>
+                <input name="scard" maxlength="50" placeholder="Contoh: 212202299" aria-label="ID kartu santri" value="${esc(student.card_id || student.cardId || "")}" />
+              </label>
+            </div>
+
+            <div class="santri-form-actions">
+              <button type="button" class="btn btn-ghost" data-action="edit-student-back">Batal</button>
+              <button class="btn btn-orange" type="submit">Simpan Perubahan</button>
+            </div>
+          </form>
+        </section>
+      `;
+    }
+
+    function dataSantriView() {
+      const mode = state.santriMode === "edit" ? "edit" : "add";
+      const showEdit = mode === "edit";
+      return `
+        <div class="page-grid">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;">
+            <div>
+              <div class="muted">Data santri</div>
+              <h2 style="font-size:24px;letter-spacing:-0.04em;margin-top:4px;">Data Santri</h2>
+            </div>
+            <button class="btn btn-ghost" data-action="nav" data-tab="home">Kembali</button>
+          </div>
+
+          <div class="santri-mode-tabs">
+            <button class="santri-mode-btn ${mode === "add" ? "active" : ""}" data-action="santri-mode" data-mode="add">➕ Tambah Data Santri</button>
+            <button class="santri-mode-btn ${mode === "edit" ? "active" : ""}" data-action="santri-mode" data-mode="edit">✏️ Edit Data Santri</button>
+          </div>
+
+          ${showEdit && state.editingStudentId != null ? editSantriFormView() : (showEdit ? editSantriListView() : addSantriFormView())}
         </div>
       `;
     }
+
     function homeView() {
       if (isAdmin()) return adminHomeView();
       return kasirHomeView();
@@ -3921,7 +4071,7 @@
       else if (state.activeTab === "payment") content = paymentView();
       else if (state.activeTab === "products") content = productsView();
       else if (state.activeTab === "history") content = historyView();
-      else if (state.activeTab === "santri") content = addSantriView();
+      else if (state.activeTab === "santri") content = dataSantriView();
       else if (state.activeTab === "cart") content = cartView();
 
       root.innerHTML = `
@@ -4025,6 +4175,41 @@
         } catch (error) {
           flash(error.message || "Gagal menambahkan santri.", "err");
         }
+      } else if (e.target.id === "editStudentForm") {
+        if (!isAdmin() || state.editingStudentId == null) return;
+        const fd = new FormData(e.target);
+        const name = String(fd.get("sname") || "").trim();
+        const password = String(fd.get("spass") || "");
+        const kelas = String(fd.get("skelas") || "").trim() || "-";
+        const saldo = Number(String(fd.get("ssaldo") || "0").replace(/[^\d]/g, ""));
+        const cardId = String(fd.get("scard") || "").trim();
+
+        if (!name) {
+          flash("Nama santri wajib diisi.", "err");
+          return;
+        }
+        if (password.length < 4) {
+          flash("Password santri wajib diisi minimal 4 karakter.", "err");
+          return;
+        }
+
+        try {
+          const response = await fetch(`${API_BASE}/api/students/${state.editingStudentId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, password, kelas, saldo, cardId })
+          });
+          const result = await response.json();
+          if (!response.ok || !result.ok) {
+            throw new Error(result.message || "Gagal memperbarui data santri");
+          }
+          await loadStudentsFromApi();
+          flash(`Data santri "${result.data.name}" berhasil diperbarui.`, "ok");
+          state.editingStudentId = null;
+          render();
+        } catch (error) {
+          flash(error.message || "Gagal memperbarui data santri.", "err");
+        }
       }
     });
 
@@ -4073,6 +4258,17 @@
       } else if (action === "select-student") {
         state.selectedStudentId = Number(btn.dataset.id);
         render();
+      } else if (action === "santri-mode") {
+        state.santriMode = btn.dataset.mode === "edit" ? "edit" : "add";
+        state.editingStudentId = null;
+        state.santriSearch = "";
+        render();
+      } else if (action === "edit-student") {
+        state.editingStudentId = Number(btn.dataset.id);
+        renderKeepScroll();
+      } else if (action === "edit-student-back") {
+        state.editingStudentId = null;
+        renderKeepScroll();
       } else if (action === "add-product") {
         if (!isKasir()) return;
         const id = Number(btn.dataset.id);
@@ -4229,6 +4425,15 @@
         state.saldoSearch = t.value;
         render();
         const el = document.getElementById("saldoSearch");
+        if (el) {
+          el.focus();
+          try { el.setSelectionRange(pos, pos); } catch (_) {}
+        }
+      } else if (t.id === "santriSearch") {
+        const pos = t.selectionStart;
+        state.santriSearch = t.value;
+        render();
+        const el = document.getElementById("santriSearch");
         if (el) {
           el.focus();
           try { el.setSelectionRange(pos, pos); } catch (_) {}

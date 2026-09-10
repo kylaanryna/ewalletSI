@@ -44,7 +44,7 @@ app.use(cors({
     if (!origin || ALLOWED_ORIGINS.has(origin)) return cb(null, true);
     return cb(new Error('CORS blocked'));
   },
-  methods: ['GET', 'POST'],
+  methods: ['GET', 'POST', 'PUT'],
   allowedHeaders: ['Content-Type']
 }));
 
@@ -259,6 +259,60 @@ app.post('/api/students', async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ ok: false, message: 'Gagal menambahkan santri' });
+  }
+});
+
+// Ubah data santri oleh admin: nama, password, saldo (kelas & ID kartu opsional).
+app.put('/api/students/:id', async (req, res) => {
+  const id = Number(req.params.id);
+  const safeName = safeText(req.body.name, 120);
+  const safePassword = safeText(req.body.password, 50);
+  const safeKelas = (safeText(req.body.kelas, 100) || '-');
+  const safeSaldo = safeInitSaldo(req.body.saldo);
+  const providedCardId = safeCardId(req.body.cardId);
+
+  if (!Number.isInteger(id) || id <= 0) {
+    return res.status(400).json({ ok: false, message: 'id santri tidak valid' });
+  }
+  if (!safeName) {
+    return res.status(400).json({ ok: false, message: 'Nama santri wajib diisi' });
+  }
+  if (safePassword.length < 4) {
+    return res.status(400).json({ ok: false, message: 'Password santri wajib diisi minimal 4 karakter' });
+  }
+  if (safeSaldo < 0) {
+    return res.status(400).json({ ok: false, message: 'Saldo harus berupa angka bulat 0 atau lebih' });
+  }
+
+  try {
+    const existing = await query('SELECT id, card_id FROM students WHERE id = ?', [id]);
+    if (!existing.length) {
+      return res.status(404).json({ ok: false, message: 'Santri tidak ditemukan' });
+    }
+
+    const cardId = providedCardId || existing[0].card_id;
+    const dup = await query('SELECT id FROM students WHERE card_id = ? AND id <> ?', [cardId, id]);
+    if (dup.length) {
+      return res.status(409).json({ ok: false, message: 'ID kartu sudah terdaftar. Gunakan ID lain.' });
+    }
+
+    await query(
+      'UPDATE students SET card_id = ?, name = ?, kelas = ?, saldo = ?, password = ? WHERE id = ?',
+      [cardId, safeName, safeKelas, safeSaldo, safePassword, id]
+    );
+
+    const rows = await query(
+      'SELECT id, card_id, name, kelas, saldo, password FROM students WHERE id = ?',
+      [id]
+    );
+
+    res.json({
+      ok: true,
+      message: 'Data santri berhasil diperbarui',
+      data: rows[0]
+    });
+  } catch (error) {
+    res.status(500).json({ ok: false, message: 'Gagal memperbarui data santri' });
   }
 });
 
